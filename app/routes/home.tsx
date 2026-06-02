@@ -5,6 +5,8 @@ import { HeroSection } from "~/components/landing/hero-section";
 import { ServicesSection } from "~/components/landing/service-section";
 import { WhyChooseUsSection } from "~/components/landing/why-choose-use-section";
 import { TestimonialsSection } from "~/components/landing/testimonials-section";
+import { CTASection } from "~/components/landing/cta-section";
+import { Footer } from "~/components/layout/footer";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -21,6 +23,8 @@ export default function Home() {
       <ServicesSection />
       <WhyChooseUsSection />
       <TestimonialsSection />
+      <CTASection />
+      <Footer />
     </main>
   )
 }
