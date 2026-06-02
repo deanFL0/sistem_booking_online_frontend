@@ -3,6 +3,7 @@ import { Welcome } from "../welcome/welcome";
 import { Navbar } from "~/components/layout/navbar";
 import { HeroSection } from "~/components/landing/hero-section";
 import { ServicesSection } from "~/components/landing/service-section";
+import { WhyChooseUsSection } from "~/components/landing/why-choose-use-section";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <ServicesSection />
+      <WhyChooseUsSection />
     </main>
   )
 }
