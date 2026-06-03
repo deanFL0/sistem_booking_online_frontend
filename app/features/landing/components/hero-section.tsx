@@ -1,5 +1,5 @@
-import { Button } from "../ui/button"
-import { Container } from "../layout/container"
+import { Button } from "../../../components/ui/button"
+import { Container } from "../../../components/layout/container"
 import { Link } from "react-router"
 
 export function HeroSection() {

@@ -1,7 +1,7 @@
 import type { Service } from "~/features/service/service"
 
-import { Card, CardContent } from "../ui/card"
-import { Button } from "../ui/button"
+import { Card, CardContent } from "../../../components/ui/card"
+import { Button } from "../../../components/ui/button"
 import { Link } from "react-router"
 
 import { getServiceImage } from "~/lib/get-service-image"

@@ -5,7 +5,7 @@ import {
     Store,
 } from "lucide-react"
 
-import { Container } from "../layout/container"
+import { Container } from "../../../components/layout/container"
 
 const features = [
     {

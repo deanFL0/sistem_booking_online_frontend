@@ -4,10 +4,10 @@ import {
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
-} from "../ui/carousel"
-import { Skeleton } from "../ui/skeleton"
+} from "../../../components/ui/carousel"
+import { Skeleton } from "../../../components/ui/skeleton"
 
-import { Container } from "../layout/container"
+import { Container } from "../../../components/layout/container"
 import { ServiceCard } from "./service-card"
 import { useServices } from "~/features/landing/api/service"
 
