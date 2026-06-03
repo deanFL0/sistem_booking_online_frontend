@@ -1,5 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import axios from "axios";
 
 import {
     loginSchema,
@@ -10,6 +13,8 @@ import { login } from "~/features/auth/api/login";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { Separator } from "~/components/ui/separator";
+import { AuthLayout } from "~/features/auth/componenets/auth-layout";
 
 export default function LoginForm() {
     const {
@@ -24,52 +29,84 @@ export default function LoginForm() {
         },
     });
 
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
+
     async function onSubmit(data: LoginSchema) {
         try {
+            setError("");
+
             const response = await login(data);
 
-            console.log(response);
+            const role = response.user?.role
+
+            if (role === "admin") {
+                navigate("/admin/dashboard")
+            } else {
+                navigate("/services");
+            }
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error)) {
+                const serverMessage = error.response?.data?.message || error.response?.data?.error;
+                setError(serverMessage || "Gagal menghubungi server. Silakan coba lagi.");
+            } else {
+                setError("Terjadi kesalahan yang tidak diketahui.");
+            }
+            console.log(error);
         }
     }
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
+        <AuthLayout
+            title="Login"
+            description="Masukan email dan password Anda untuk masuk"
         >
-            <div>
-                <Input
-                    type="email"
-                    placeholder="Email"
-                    {...register("email")}
-                />
-
-                {errors.email && (
-                    <p className="text-sm text-red-500">
-                        {errors.email.message}
-                    </p>
+            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
+                {error && (
+                    <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm text-center font-medium">
+                        {error}
+                    </div>
                 )}
-            </div>
+                <div className="grid gap-2">
+                    <label htmlFor="email" className="text-sm font-medium leading-none">
+                        Email
+                    </label>
+                    <Input
+                        id="email"
+                        type="email"
+                        placeholder="name@example.com"
+                        {...register("email")}
+                    />
+                    {errors.email && (
+                        <span className="text-sm text-red-500">{errors.email.message}</span>
+                    )}
+                </div>
+                <div className="grid gap-2">
+                    <label htmlFor="password" className="text-sm font-medium leading-none">
+                        Password
+                    </label>
+                    <Input
+                        id="password"
+                        type="password"
+                        {...register("password")}
+                    />
+                    {errors.password && (
+                        <span className="text-sm text-red-500">{errors.password.message}</span>
+                    )}
+                </div>
+                <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
+                    {isSubmitting ? "Loading..." : "Login"}
+                </Button>
 
-            <div>
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    {...register("password")}
-                />
+                <Separator />
 
-                {errors.password && (
-                    <p className="text-sm text-red-500">
-                        {errors.password.message}
-                    </p>
-                )}
-            </div>
-
-            <Button disabled={isSubmitting}>
-                {isSubmitting ? "Loading..." : "Login"}
-            </Button>
-        </form>
+                <div className="grid gap-3">
+                    <span>
+                        Tidak punya akun?{" "}
+                        <a href="/auth/register" className="text-sm text-primary hover:underline">Daftar</a>
+                    </span>
+                </div>
+            </form>
+        </AuthLayout>
     );
 }
