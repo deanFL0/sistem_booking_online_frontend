@@ -24,10 +24,8 @@ export function HeroSection() {
                         </p>
 
                         <div className="mt-8 flex flex-wrap gap-4">
-                            <Button size="lg" asChild>
-                                <Link to={"/services"}>
-                                    Lihat Layanan
-                                </Link>
+                            <Button size="lg" render={<Link to={"/services"} />}>
+                                Lihat Layanan
                             </Button>
                         </div>
 

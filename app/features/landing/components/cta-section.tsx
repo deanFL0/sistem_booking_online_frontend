@@ -29,10 +29,8 @@ export function CTASection() {
                         </p>
 
                         <div className="mt-8">
-                            <Button size="lg" asChild>
-                                <Link to="/services">
-                                    Booking Sekarang
-                                </Link>
+                            <Button size="lg" render={<Link to="/services" />}>
+                                Booking Sekarang
                             </Button>
                         </div>
                     </div>

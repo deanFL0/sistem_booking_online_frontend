@@ -36,30 +36,27 @@ export function Navbar() {
                         </a>
                     ))}
                     <div className="flex gap-2">
-                        <Button size={"lg"} asChild>
-                            <Link to={"/auth/login"}>
-                                Masuk
-                            </Link>
+                        <Button size={"lg"} render={<Link to={"/auth/login"} />}>
+                            Masuk
                         </Button>
-                        <Button size={"lg"} variant={"outline"} asChild>
-                            <Link to={"/auth/register"}>
-                                Daftar
-                            </Link>
+                        <Button size={"lg"} variant={"outline"} render={<Link to={"/auth/register"} />}>
+                            Daftar
                         </Button>
                     </div>
                 </nav>
 
-                {/* Mobile Nav */}
-                {/* <Sheet>
-                    <SheetTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="md:hidden"
-                        >
-                            <Menu className="size-5" />
-                        </Button>
-                    </SheetTrigger>
+                <Sheet>
+                    <SheetTrigger
+                        render={
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="md:hidden"
+                            >
+                                <Menu className="size-5" />
+                            </Button>
+                        }
+                    />
 
                     <SheetContent side="right">
                         <div className="mt-8 flex flex-col gap-6">
@@ -73,17 +70,17 @@ export function Navbar() {
                                 </a>
                             ))}
 
-                            <div>
-                                <Button size={"lg"}>
+                            <div className="flex flex-col gap-2 mt-4">
+                                <Button size={"lg"} render={<Link to={"/auth/login"} />}>
                                     Masuk
                                 </Button>
-                                <Button size={"lg"} variant={"outline"}>
+                                <Button size={"lg"} variant={"outline"} render={<Link to={"/auth/register"} />}>
                                     Daftar
                                 </Button>
                             </div>
                         </div>
                     </SheetContent>
-                </Sheet> */}
+                </Sheet>
             </Container>
         </header>
     )

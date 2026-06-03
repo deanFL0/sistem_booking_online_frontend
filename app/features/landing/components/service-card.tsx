@@ -47,10 +47,8 @@ export function ServiceCard({
                         {service.duration} menit
                     </p>
 
-                    <Button size="sm" asChild>
-                        <Link to={`/booking?service=${service.id}`}>
-                            Booking
-                        </Link>
+                    <Button size="sm" render={<Link to={`/booking?service=${service.id}`} />}>
+                        Booking
                     </Button>
                 </div>
             </CardContent>
