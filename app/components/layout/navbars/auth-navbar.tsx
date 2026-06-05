@@ -1,27 +1,22 @@
 import { Menu } from "lucide-react";
-import { Button } from "../ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Button } from "../../ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Link } from "react-router";
+import { Bell, User } from "lucide-react";
 
-import { Container } from "./container";
+import { Container } from "../container";
 
 const navItems = [
     {
-        label: "Jasa",
-        href: "/services",
     },
 ];
 
-export function Navbar() {
+export function AuthNavbar() {
     return (
-        <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
-            <Container className="flex h-16 items-center justify-between">
-                {/* Logo */}
+        <header className="sticky top-0 z-50 flex h-16 items-center border-b px-4 bg-background/80 backdrop-blur">
+            <Container className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <div className="size-8 rounded-full bg-primary" />
-                    <span className="font-bold text-lg">
-                        Joe's Barber
-                    </span>
+                    Dashboard
                 </div>
 
                 {/* Desktop nav */}
@@ -36,11 +31,11 @@ export function Navbar() {
                         </a>
                     ))}
                     <div className="flex gap-2">
-                        <Button size={"lg"} render={<Link to={"/auth/login"} />}>
-                            Masuk
+                        <Button size={"icon-lg"}>
+                            <Bell className="size-5" />
                         </Button>
-                        <Button size={"lg"} variant={"outline"} render={<Link to={"/auth/register"} />}>
-                            Daftar
+                        <Button size={"icon-lg"} className={"rounded-full bg-primary"}>
+                            <User className="size-5" />
                         </Button>
                     </div>
                 </nav>
