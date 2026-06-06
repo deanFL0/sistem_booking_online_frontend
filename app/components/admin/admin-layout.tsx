@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AdminSidebar } from "~/features/admin/components/admin-sidebar";
+import { AdminSidebar } from "~/components/admin/admin-sidebar";
 import {
     SidebarProvider,
     SidebarInset,
