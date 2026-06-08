@@ -1,10 +1,9 @@
 import axios from "axios";
-import { getToken } from "./auth";
+import { getToken, logout } from "./auth";
 
 export const api = axios.create({
     baseURL: "http://127.0.0.1:8000/api/v1",
 });
-
 
 const isPublicRoute = (url: string | undefined, method: string | undefined) => {
     if (!url) return false;
@@ -36,3 +35,16 @@ api.interceptors.request.use((config) => {
 
     return config;
 });
+
+// return to login page when getting 401 response (token expired)
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            logout();
+
+            window.location.href = "/auth/login";
+        }
+        return Promise.reject(error);
+    }
+)
