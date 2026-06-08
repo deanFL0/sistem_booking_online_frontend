@@ -1,11 +1,14 @@
+"use client";
+
 import {
-    Bar,
     BarChart,
-    CartesianGrid,
-    ResponsiveContainer,
-    Tooltip,
+    Bar,
     XAxis,
     YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    Legend,
 } from "recharts";
 
 import {
@@ -15,144 +18,172 @@ import {
     CardHeader,
     CardTitle,
 } from "~/components/ui/card";
-
-import {
-    Tabs,
-    TabsList,
-    TabsTrigger,
-} from "~/components/ui/tabs";
-
-import type { BookingStatsItem } from "../api/geBookingStats";
 import { getNiceMax } from "../helper/get-nice-max";
+import { parseISO, format } from "date-fns";
+import { id } from "date-fns/locale";
+
+interface BookingStatsItem {
+    date: string;
+    pending: number;
+    confirmed: number;
+    completed: number;
+    cancelled: number;
+    no_show: number;
+}
 
 interface BookingStatsChartProps {
     data: BookingStatsItem[];
     range: "week" | "month" | "year";
-    onRangeChange: (
-        range: "week" | "month" | "year"
-    ) => void;
+    onRangeChange: (range: "week" | "month" | "year") => void;
+    isLoading?: boolean;
 }
 
 export function BookingStatsChart({
     data,
     range,
     onRangeChange,
+    isLoading,
 }: BookingStatsChartProps) {
+    // Format date label
+    const formattedData = data.map((item) => {
+        const date = parseISO(item.date);
 
+        return {
+            ...item,
+            label:
+                range === "week"
+                    ? format(date, "EEE", { locale: id })
+                    : range === "month"
+                        ? format(date, "d", { locale: id })
+                        : format(date, "MMM", { locale: id }),
+        };
+    });
+
+    // Calculate max value for Y axis
     const maxValue = Math.max(
-        ...data.map((item) =>
-            item.pending +
-            item.confirmed +
-            item.completed +
-            item.cancelled +
-            item.no_show
+        0,
+        ...data.map(
+            (item) =>
+                item.pending +
+                item.confirmed +
+                item.completed +
+                item.cancelled +
+                item.no_show
         )
-    )
+    );
 
-    const yAxisMax = getNiceMax(maxValue);
+    const yAxisMax = maxValue > 0 ? getNiceMax(maxValue) : 10;
+
+    if (isLoading) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Booking Overview</CardTitle>
+                    <CardDescription>
+                        Memuat data booking...
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                    <div className="h-[350px] flex items-center justify-center">
+                        Memuat...
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-                <div className="space-y-1">
-                    <CardTitle>
-                        Booking Overview
-                    </CardTitle>
+                <div>
+                    <CardTitle>Statistik Booking</CardTitle>
 
                     <CardDescription>
-                        Booking activity trends and cancellations
+                        Statistik booking berdasarkan {range}
                     </CardDescription>
                 </div>
 
-                <Tabs
-                    value={range}
-                    onValueChange={(value) =>
-                        onRangeChange(
-                            value as "week" | "month" | "year"
-                        )
-                    }
-                >
-                    <TabsList>
-                        <TabsTrigger value="week">
-                            Week
-                        </TabsTrigger>
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => onRangeChange("week")}
+                        className={`px-3 py-1 rounded border ${range === "week"
+                            ? "bg-black text-white"
+                            : ""
+                            }`}
+                    >
+                        Minggu ini
+                    </button>
 
-                        <TabsTrigger value="month">
-                            Month
-                        </TabsTrigger>
+                    <button
+                        onClick={() => onRangeChange("month")}
+                        className={`px-3 py-1 rounded border ${range === "month"
+                            ? "bg-black text-white"
+                            : ""
+                            }`}
+                    >
+                        Bulan ini
+                    </button>
 
-                        <TabsTrigger value="year">
-                            Year
-                        </TabsTrigger>
-                    </TabsList>
-                </Tabs>
+                    <button
+                        onClick={() => onRangeChange("year")}
+                        className={`px-3 py-1 rounded border ${range === "year"
+                            ? "bg-black text-white"
+                            : ""
+                            }`}
+                    >
+                        Tahun ini
+                    </button>
+                </div>
             </CardHeader>
 
             <CardContent>
                 <div className="h-[350px] w-full">
-                    <ResponsiveContainer
-                        width="100%"
-                        height="100%"
-                    >
-                        <BarChart data={data ?? []}>
-                            <CartesianGrid
-                                strokeDasharray="3 3"
-                                vertical={false}
-                            />
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={formattedData}>
+                            <CartesianGrid strokeDasharray="3 3" />
 
-                            <XAxis
-                                dataKey="date"
-                                tickLine={false}
-                                axisLine={false}
-                            />
+                            <XAxis dataKey="label" />
 
-                            <YAxis
-                                tickLine={false}
-                                axisLine={false}
-                                domain={[0, yAxisMax]}
-                            />
+                            <YAxis domain={[0, yAxisMax]} />
 
                             <Tooltip />
+
+                            <Legend />
 
                             <Bar
                                 dataKey="pending"
                                 stackId="a"
-                                fill="#f59e0b"
-                                barSize={40}
+                                fill="#facc15"
                             />
 
                             <Bar
                                 dataKey="confirmed"
                                 stackId="a"
-                                fill="#2563eb"
-                                barSize={40}
+                                fill="#3b82f6"
                             />
 
                             <Bar
                                 dataKey="completed"
                                 stackId="a"
-                                fill="#32a852"
-                                barSize={40}
+                                fill="#22c55e"
                             />
 
                             <Bar
                                 dataKey="cancelled"
                                 stackId="a"
-                                fill="#dc2626"
-                                barSize={40}
+                                fill="#ef4444"
                             />
 
                             <Bar
                                 dataKey="no_show"
                                 stackId="a"
                                 fill="#6b7280"
-                                barSize={40}
                             />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
             </CardContent>
-
         </Card>
     );
 }
