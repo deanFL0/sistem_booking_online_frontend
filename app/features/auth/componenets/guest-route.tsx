@@ -11,8 +11,9 @@ export function GuestRoute({ children }: GuestRouteProps) {
 
     useEffect(() => {
         const token = getToken();
-        if (token) {
-            const user = getUser();
+        const user = getUser()
+
+        if (token && user) {
             if (user?.role === "admin") {
                 navigate("/admin/dashboard", { replace: true });
             } else {

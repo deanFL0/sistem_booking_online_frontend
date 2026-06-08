@@ -40,11 +40,18 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        const status = error.response?.status;
+        const url = error.config?.url;
+
+        if (
+            status === 401 &&
+            !isPublicRoute(url, error.config?.method)
+        ) {
             logout();
 
-            window.location.href = "/auth/login";
+            window.dispatchEvent(new Event("unauthorized"));
         }
+
         return Promise.reject(error);
     }
-)
+);

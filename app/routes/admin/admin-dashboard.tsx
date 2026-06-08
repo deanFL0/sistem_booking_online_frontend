@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react"
-import { AdminLayout } from "~/components/admin/admin-layout"
+import { AdminLayout } from "~/components/admin/admin-layout";
 import { getDashboardData } from "~/features/dashboard/api/getDashboardData";
 import { BookingStatsChart } from "~/features/dashboard/components/booking-stats-chart";
 import { PopularServicesChart } from "~/features/dashboard/components/popular-services-chart";

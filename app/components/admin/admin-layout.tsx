@@ -9,7 +9,7 @@ import { AuthNavbar } from "~/components/layout/navbars/auth-navbar";
 import { getToken, getUser } from "~/lib/auth";
 import { Navigate } from "react-router";
 
-export default function AdminLayout({
+export function AdminLayout({
     children,
 }: {
     children: ReactNode;
