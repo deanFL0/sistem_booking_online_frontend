@@ -15,9 +15,16 @@ export type BookingStatsByRange = {
     year: BookingStatsItem[];
 };
 
+export type PopularServiceItem = {
+    service_id: string;
+    service_name: string;
+    booking_count: number;
+}
+
 export type DashboardResponse = {
     data: {
         booking_stats: BookingStatsByRange;
+        popular_services: PopularServiceItem[];
     };
 };
 
