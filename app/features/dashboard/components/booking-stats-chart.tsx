@@ -119,7 +119,6 @@ export function BookingStatsChart({
                                 stackId="a"
                                 fill="#f59e0b"
                                 barSize={40}
-                                radius={[0, 0, 4, 4]}
                             />
 
                             <Bar
@@ -127,7 +126,6 @@ export function BookingStatsChart({
                                 stackId="a"
                                 fill="#2563eb"
                                 barSize={40}
-                                radius={[0, 0, 4, 4]}
                             />
 
                             <Bar
@@ -135,7 +133,6 @@ export function BookingStatsChart({
                                 stackId="a"
                                 fill="#32a852"
                                 barSize={40}
-                                radius={[0, 0, 4, 4]}
                             />
 
                             <Bar
@@ -150,7 +147,6 @@ export function BookingStatsChart({
                                 stackId="a"
                                 fill="#6b7280"
                                 barSize={40}
-                                radius={[4, 4, 0, 0]}
                             />
                         </BarChart>
                     </ResponsiveContainer>
