@@ -3,6 +3,7 @@ import { useState } from "react"
 import { AdminLayout } from "~/components/admin/admin-layout";
 import { getDashboardData } from "~/features/dashboard/api/getDashboardData";
 import { BookingStatsChart } from "~/features/dashboard/components/booking-stats-chart";
+import { ConflictedBookingsTable } from "~/features/dashboard/components/conflicted-bookings-table";
 import { PopularServicesChart } from "~/features/dashboard/components/popular-services-chart";
 import { ResourceOverrideTable } from "~/features/dashboard/components/resource-override-table";
 
@@ -25,9 +26,11 @@ export default function AdminDashboard() {
     const popularServices =
         data?.data.popular_services ?? [];
 
-    const resourceOverride =
+    const resourceOverrides =
         data?.data.resource_availability_overrides ?? [];
-    console.log(resourceOverride)
+
+    const conflictedBookings =
+        data?.data.conflicted_bookings ?? [];
 
     return (
         <AdminLayout>
@@ -56,7 +59,10 @@ export default function AdminDashboard() {
                 {/* Popular Services Chart */}
                 <div className="grid grid-cols-2 gap-6">
                     <ResourceOverrideTable
-                        data={resourceOverride}
+                        data={resourceOverrides}
+                    />
+                    <ConflictedBookingsTable
+                        data={conflictedBookings}
                     />
                 </div>
             </div>

@@ -29,10 +29,18 @@ export type ResourceAvailabilityOverrideItem = {
     reason?: string;
 }
 
+export type ConflictedBookingsItem = {
+    id: string;
+    booking_code: string;
+    customer_name: string;
+    start_datetime: string;
+}
+
 export type DashboardResponse = {
     data: {
         booking_stats: BookingStatsByRange;
         popular_services: PopularServiceItem[];
         resource_availability_overrides: ResourceAvailabilityOverrideItem[];
+        conflicted_bookings: ConflictedBookingsItem[];
     };
 };
