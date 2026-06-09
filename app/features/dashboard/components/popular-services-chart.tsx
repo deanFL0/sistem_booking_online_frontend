@@ -18,7 +18,7 @@ import {
     CardHeader,
     CardTitle,
 } from "~/components/ui/card";
-import type { PopularServiceItem } from "../api/getDashboardData";
+import type { PopularServiceItem } from "../types/dashboard";
 
 interface PopularServicesChartProps {
     data: PopularServiceItem[];

@@ -1,6 +1,6 @@
 import { parseISO, format } from "date-fns";
 
-import type { BookingStatsItem } from "../api/getDashboardData";
+import type { BookingStatsItem } from "../types/dashboard";
 
 export default function formatDate(
     data: BookingStatsItem[],

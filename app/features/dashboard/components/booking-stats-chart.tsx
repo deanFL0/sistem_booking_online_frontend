@@ -74,6 +74,12 @@ export function BookingStatsChart({
 
     const yAxisMax = maxValue > 0 ? getNiceMax(maxValue) : 10;
 
+    const rangeLabel = {
+        week: "Minggu ini",
+        month: "Bulan ini",
+        year: "Tahun ini",
+    };
+
     if (isLoading) {
         return (
             <Card>
@@ -100,7 +106,7 @@ export function BookingStatsChart({
                     <CardTitle>Statistik Booking</CardTitle>
 
                     <CardDescription>
-                        Statistik booking berdasarkan {range}
+                        Statistik booking {rangeLabel[range]}
                     </CardDescription>
                 </div>
 
