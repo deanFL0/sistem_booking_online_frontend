@@ -1,15 +1,12 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { getServices } from "../api/getServices"
 import { DataTable } from "~/components/data-table/data-table"
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header"
 import type { ColumnDef, SortingState } from "@tanstack/react-table"
 import type { Service } from "../types/service"
 import { formatServicePrice } from "~/lib/format-service-price"
-import { Button } from "~/components/ui/button"
-import { Link } from "react-router"
-import { Pencil, Trash } from "lucide-react"
-import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip"
+import { useDebouncedValue } from "~/hooks/use-debounce"
 
 export const columns: ColumnDef<Service>[] = [
     {
@@ -92,20 +89,21 @@ export function ServiceTable() {
         setFilters,
     ] = useState<Record<string, unknown>>({})
 
-    const query = useQuery({
-        queryKey: [
-            "services",
+    const debouncedFilters = useDebouncedValue(filters, 500)
+
+    const queryParams = useMemo(
+        () => ({
             pagination,
             sorting,
-            filters,
-        ],
+            filters: debouncedFilters,
+        }),
+        [pagination, sorting, debouncedFilters]
+    )
 
-        queryFn: () =>
-            getServices({
-                pagination,
-                sorting,
-                filters,
-            }),
+    const query = useQuery({
+        queryKey: ["services", queryParams],
+
+        queryFn: () => getServices(queryParams),
 
         staleTime: 1000 * 30,
         refetchOnWindowFocus: false,

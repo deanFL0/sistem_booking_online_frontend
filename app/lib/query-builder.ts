@@ -8,12 +8,27 @@ type Pagination = {
     pageSize: number
 }
 
+type RangeValue = {
+    min?: unknown
+    max?: unknown
+}
+
 type Filters = Record<string, unknown>
 
 type BuildQueryParamsOptions = {
     pagination: Pagination
     sorting: Sort[]
     filters: Filters
+}
+
+function isRangeValue(
+    value: unknown
+): value is RangeValue {
+    return (
+        typeof value === "object" &&
+        value !== null &&
+        ("min" in value || "max" in value)
+    )
 }
 
 export function buildQueryParams({
@@ -79,11 +94,7 @@ export function buildQueryParams({
          |--------------------------------------------------------------------------
          */
 
-        if (
-            typeof value === "object" &&
-            value !== null &&
-            "min" in value
-        ) {
+        if (isRangeValue(value)) {
             if (value.min !== undefined) {
                 params.set(
                     `filter[min_${key}]`,
