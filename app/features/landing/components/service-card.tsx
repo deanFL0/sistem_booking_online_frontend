@@ -1,4 +1,4 @@
-import type { Service } from "~/features/service/service"
+import type { Service } from "~/features/service/types/service"
 
 import { Card, CardContent } from "../../../components/ui/card"
 import { Button } from "../../../components/ui/button"

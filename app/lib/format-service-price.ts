@@ -1,4 +1,4 @@
-import type { Service } from "~/features/service/service"
+import type { Service } from "~/features/service/types/service"
 
 export function formatServicePrice(service: Service) {
     const formattedPrice = new Intl.NumberFormat(
