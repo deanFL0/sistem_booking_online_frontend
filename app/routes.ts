@@ -7,5 +7,5 @@ export default [
 
     //admin routes
     route("admin/dashboard", "routes/admin/admin-dashboard.tsx"),
-    route("admin/services", "routes/admin/service/index.tsx"),
+    route("admin/services", "routes/admin/services/index.tsx"),
 ] satisfies RouteConfig;
