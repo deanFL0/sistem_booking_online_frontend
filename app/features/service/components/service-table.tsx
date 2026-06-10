@@ -6,6 +6,10 @@ import { DataTableColumnHeader } from "~/components/data-table/data-table-column
 import type { ColumnDef, SortingState } from "@tanstack/react-table"
 import type { Service } from "../types/service"
 import { formatServicePrice } from "~/lib/format-service-price"
+import { Button } from "~/components/ui/button"
+import { Link } from "react-router"
+import { Pencil, Trash } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip"
 
 export const columns: ColumnDef<Service>[] = [
     {
@@ -138,6 +142,16 @@ export function ServiceTable() {
             isLoading={
                 query.isLoading
             }
+
+            actions={{
+                editLink: (service: Service) => `/admin/services/${service.id}`,
+                onDelete: (service: Service) => {
+                },
+                canDelete: (service: Service) => {
+                    return true
+                },
+                deleteConfirmationMessage: (service: Service) => `Apakah Anda yakin ingin menghapus layanan "${service.name}"?`,
+            }}
         />
     )
 }

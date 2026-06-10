@@ -8,6 +8,7 @@ import type {
 import { DataTableFilters } from "./data-table-filters"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
 import { DataTablePagination } from "./data-table-pagination"
+import { createActionsColumn, type ActionColumnConfig } from "./action-column"
 
 declare module "@tanstack/react-table" {
     interface ColumnMeta<
@@ -51,6 +52,8 @@ type Props<TData> = {
     ) => void
 
     isLoading?: boolean
+
+    actions?: ActionColumnConfig<TData>
 }
 
 export function DataTable<TData>({
@@ -68,10 +71,16 @@ export function DataTable<TData>({
     onFiltersChange,
 
     isLoading,
+
+    actions,
 }: Props<TData>) {
+    const tableColumns = actions ?
+        [...columns, createActionsColumn(actions)]
+        : columns;
+
     const table = useReactTable({
         data,
-        columns,
+        columns: tableColumns,
 
         state: {
             pagination,
