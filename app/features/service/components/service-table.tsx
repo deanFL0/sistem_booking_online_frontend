@@ -7,6 +7,8 @@ import type { ColumnDef, SortingState } from "@tanstack/react-table"
 import type { Service } from "../types/service"
 import { formatServicePrice } from "~/lib/format-service-price"
 import { useDebouncedValue } from "~/hooks/use-debounce"
+import { toast } from "sonner"
+import { deleteService } from "../api/deleteService"
 
 export const columns: ColumnDef<Service>[] = [
     {
@@ -110,6 +112,18 @@ export function ServiceTable() {
         placeholderData: keepPreviousData,
     })
 
+    const handleDelete = async (service: any) => {
+        try {
+            await deleteService(service.id);
+            // Refresh data after successful deletion
+            await query.refetch();
+            toast.success("Service deleted successfully");
+        } catch (error) {
+            toast.error("Failed to delete service");
+            throw error; // Re-throw to handle in dialog
+        }
+    };
+
     return (
         <DataTable
             columns={columns}
@@ -142,12 +156,8 @@ export function ServiceTable() {
             }
 
             actions={{
-                editLink: (service: Service) => `/admin/services/${service.id}`,
-                onDelete: (service: Service) => {
-                },
-                canDelete: (service: Service) => {
-                    return true
-                },
+                editLink: (service: Service) => `/admin/services/${service.id}/edit`,
+                onDelete: (service: Service) => handleDelete(service),
                 deleteConfirmationMessage: (service: Service) => `Apakah Anda yakin ingin menghapus layanan "${service.name}"?`,
             }}
         />

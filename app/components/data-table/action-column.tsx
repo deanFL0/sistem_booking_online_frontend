@@ -4,17 +4,31 @@ import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { Pencil, Trash } from "lucide-react";
 
+type DeleteDialogState<TData> = {
+    isOpen: boolean;
+    data: TData | null;
+    message: string;
+};
+
 export interface ActionColumnConfig<TData> {
+    canEdit?: (row: TData) => boolean;
+    canDelete?: (row: TData) => boolean;
     onEdit?: (row: TData) => void;
     onDelete?: (row: TData) => void;
     editLink?: (row: TData) => string;
-    canEdit?: (row: TData) => boolean;
-    canDelete?: (row: TData) => boolean;
     deleteConfirmationMessage?: (row: TData) => string;
 }
 
+
 export function createActionsColumn<TData>(
-    config: ActionColumnConfig<TData>
+    config: ActionColumnConfig<TData>,
+    deleteDialogState: {
+        isOpen: boolean;
+        data: TData | null;
+        message: string;
+        openDialog: (data: TData, message: string) => void;
+        closeDialog: () => void;
+    }
 ): ColumnDef<TData> {
     return {
         id: "actions",
@@ -24,14 +38,11 @@ export function createActionsColumn<TData>(
             const canEdit = config.canEdit?.(data) ?? true;
             const canDelete = config.canDelete?.(data) ?? true;
 
-            const handleDelete = () => {
-                if (config.deleteConfirmationMessage) {
-                    if (confirm(config.deleteConfirmationMessage(data))) {
-                        config.onDelete?.(data);
-                    }
-                } else if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-                    config.onDelete?.(data);
-                }
+            const handleDeleteClick = () => {
+                const message = config.deleteConfirmationMessage?.(data)
+                    ?? "Apakah Anda yakin ingin menghapus data ini?";
+
+                deleteDialogState.openDialog(data, message);
             };
 
             return (
@@ -55,7 +66,11 @@ export function createActionsColumn<TData>(
                     {config.editLink && canEdit && (
                         <Tooltip>
                             <TooltipTrigger>
-                                <Button variant="link" size="sm" className="h-8 w-8 p-0">
+                                <Button
+                                    variant="link"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                >
                                     <Link to={config.editLink(data)}>
                                         <Pencil className="size-5" />
                                     </Link>
@@ -72,7 +87,7 @@ export function createActionsColumn<TData>(
                                     variant="link"
                                     size="sm"
                                     className="h-8 w-8 p-0"
-                                    onClick={handleDelete}
+                                    onClick={handleDeleteClick}
                                 >
                                     <Trash className="size-5" color="red" />
                                 </Button>
