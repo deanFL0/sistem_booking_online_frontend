@@ -1,13 +1,17 @@
-import { type RouteConfig, index, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, prefix, route } from "@react-router/dev/routes";
 
 export default [
     index("routes/home.tsx"),
     route("auth/login", "routes/auth/login.tsx"),
     route("auth/register", "routes/auth/register.tsx"),
 
-    //admin routes
+    // Admin Layout/Dashboard
     route("admin/dashboard", "routes/admin/admin-dashboard.tsx"),
-    //service routes
-    route("admin/services", "routes/admin/services/index.tsx"),
-    route("admin/services/:id", "routes/admin/services/show.tsx")
+
+    // Nested Service Routes
+    ...prefix("admin/services", [
+        index("routes/admin/services/index.tsx"),
+        route("create", "routes/admin/services/create.tsx"),
+        route(":id", "routes/admin/services/show.tsx"),
+    ]),
 ] satisfies RouteConfig;
