@@ -20,27 +20,25 @@ export function AdminPageHeader({
     return (
         <div
             className="
-        flex
-        flex-col
-        gap-4
+                flex
+                flex-col
+                gap-4
 
-        md:flex-row
-        md:items-start
-        md:justify-between
-      "
+                md:flex-row
+                md:items-start
+                md:justify-between
+            "
         >
             <div className="space-y-1">
                 {backHref && (
                     <Button
-                        variant="ghost"
-                        size="sm"
-                        className="-ml-3"
-                    >
-                        <Link to={backHref}>
-                            <ArrowLeft />
-                            Back
-                        </Link>
-                    </Button>
+                        render={
+                            <Link to={backHref}>
+                                <ArrowLeft />
+                                Back
+                            </Link>
+                        }
+                    />
                 )}
 
                 <div className="space-y-1">
