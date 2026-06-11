@@ -3,8 +3,6 @@ import { AdminLayout } from "~/components/admin/admin-layout";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
-import { createService } from "~/features/service/api/createService";
-import { serviceCreateSchema, type ServiceCreateSchema } from "~/features/service/schema/service-create-schema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -15,6 +13,8 @@ import { Input } from "~/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/input-group";
+import { serviceApi } from "~/features/service/api/service-api";
+import { serviceSchema, type ServiceSchema } from "~/features/service/schema/service-create-schema";
 
 type FieldErrorProps = {
     message?: string;
@@ -33,15 +33,15 @@ export function FieldError({ message }: FieldErrorProps) {
 export default function CreateServicePage() {
     const navigate = useNavigate();
 
-    const form = useForm<ServiceCreateSchema>({
-        resolver: zodResolver(serviceCreateSchema),
+    const form = useForm<ServiceSchema>({
+        resolver: zodResolver(serviceSchema),
     });
 
     const mutation = useMutation({
-        mutationFn: createService,
+        mutationFn: serviceApi.create,
     });
 
-    async function onSubmit(values: ServiceCreateSchema) {
+    async function onSubmit(values: ServiceSchema) {
         try {
             await toast.promise(
                 mutation.mutateAsync(values),
@@ -225,14 +225,6 @@ export default function CreateServicePage() {
                                 {mutation.isPending
                                     ? "Menyimpan..."
                                     : "Simpan"}
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    console.log("clicked");
-                                    toast.success("Hello");
-                                }}
-                            >
-                                Test Toast
                             </Button>
                         </form>
                     </CardContent>

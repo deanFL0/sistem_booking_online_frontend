@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const serviceCreateSchema = z.object({
+export const serviceSchema = z.object({
     name: z.string().min(1, "Nama layanan harus diisi"),
     description: z.string().optional(),
     price: z.number().min(1, "Harga layanan harus diisi"),
@@ -9,4 +9,4 @@ export const serviceCreateSchema = z.object({
     is_active: z.boolean(),
 });
 
-export type ServiceCreateSchema = z.infer<typeof serviceCreateSchema>;
+export type ServiceSchema = z.infer<typeof serviceSchema>;

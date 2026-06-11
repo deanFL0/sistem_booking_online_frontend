@@ -1,12 +1,12 @@
 import { AdminLayout } from "~/components/admin/admin-layout";
 import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
-import { getServiceDetail } from "~/features/service/api/getServiceDetail";
 import { useParams } from "react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
+import { serviceApi } from "~/features/service/api/service-api";
 
 export default function AdminServiceDetailPage() {
     const { id } = useParams();
@@ -14,7 +14,7 @@ export default function AdminServiceDetailPage() {
     const { data: service } = useQuery({
         queryKey: ["service", id],
         queryFn: async () => {
-            const res = await getServiceDetail(id!);
+            const res = await serviceApi.getById(id!);
             return res.data;
         },
         enabled: !!id,

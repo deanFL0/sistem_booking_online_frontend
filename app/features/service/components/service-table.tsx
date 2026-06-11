@@ -1,6 +1,5 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
-import { getServices } from "../api/getServices"
 import { DataTable } from "~/components/data-table/data-table"
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header"
 import type { ColumnDef, SortingState } from "@tanstack/react-table"
@@ -8,7 +7,7 @@ import type { Service } from "../types/service"
 import { formatServicePrice } from "~/lib/format-service-price"
 import { useDebouncedValue } from "~/hooks/use-debounce"
 import { toast } from "sonner"
-import { deleteService } from "../api/deleteService"
+import { serviceApi } from "../api/service-api"
 
 export const columns: ColumnDef<Service>[] = [
     {
@@ -105,7 +104,7 @@ export function ServiceTable() {
     const query = useQuery({
         queryKey: ["services", queryParams],
 
-        queryFn: () => getServices(queryParams),
+        queryFn: () => serviceApi.getAll(queryParams),
 
         staleTime: 1000 * 30,
         refetchOnWindowFocus: false,
@@ -114,7 +113,7 @@ export function ServiceTable() {
 
     const handleDelete = async (service: any) => {
         try {
-            await deleteService(service.id);
+            await serviceApi.delete(service.id);
             // Refresh data after successful deletion
             await query.refetch();
             toast.success("Service deleted successfully");
