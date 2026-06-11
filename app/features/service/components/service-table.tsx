@@ -156,6 +156,7 @@ export function ServiceTable() {
             }
 
             actions={{
+                viewLink: (service: Service) => `/admin/services/${service.id}`,
                 editLink: (service: Service) => `/admin/services/${service.id}/edit`,
                 onDelete: (service: Service) => handleDelete(service),
                 deleteConfirmationMessage: (service: Service) => `Apakah Anda yakin ingin menghapus layanan "${service.name}"?`,

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 import { Button } from "~/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { Pencil, Trash } from "lucide-react";
+import { Eye, Pencil, Trash } from "lucide-react";
 
 type DeleteDialogState<TData> = {
     isOpen: boolean;
@@ -11,10 +11,13 @@ type DeleteDialogState<TData> = {
 };
 
 export interface ActionColumnConfig<TData> {
+    canView?: (row: TData) => boolean;
     canEdit?: (row: TData) => boolean;
     canDelete?: (row: TData) => boolean;
+    onView?: (row: TData) => void;
     onEdit?: (row: TData) => void;
     onDelete?: (row: TData) => void;
+    viewLink?: (row: TData) => string;
     editLink?: (row: TData) => string;
     deleteConfirmationMessage?: (row: TData) => string;
 }
@@ -35,6 +38,7 @@ export function createActionsColumn<TData>(
         header: "Aksi",
         cell: ({ row }) => {
             const data = row.original;
+            const canView = config.canView?.(data) ?? true;
             const canEdit = config.canEdit?.(data) ?? true;
             const canDelete = config.canDelete?.(data) ?? true;
 
@@ -47,6 +51,39 @@ export function createActionsColumn<TData>(
 
             return (
                 <div className="flex items-center gap-2">
+                    {canView && config.onView && (
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button
+                                    variant="link"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                    onClick={() => config.onView?.(data)}
+                                >
+                                    <Eye className="size-5" color="green" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Lihat</TooltipContent>
+                        </Tooltip>
+                    )}
+
+                    {canView && config.viewLink && (
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button
+                                    variant="link"
+                                    size="sm"
+                                    className="h-8 w-8 p-0"
+                                >
+                                    <Link to={config.viewLink(data)}>
+                                        <Eye className="size-5" color="green" />
+                                    </Link>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Lihat</TooltipContent>
+                        </Tooltip>
+                    )}
+
                     {config.onEdit && canEdit && (
                         <Tooltip>
                             <TooltipTrigger>
