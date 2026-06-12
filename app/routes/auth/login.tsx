@@ -9,12 +9,11 @@ import {
     type LoginSchema,
 } from "~/features/auth/schemas/login-schema";
 
-import { login } from "~/features/auth/api/login";
-
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { AuthLayout } from "~/features/auth/componenets/auth-layout";
+import { authApi } from "~/features/auth/api/auth-api";
 
 export default function LoginForm() {
     const {
@@ -36,7 +35,7 @@ export default function LoginForm() {
         try {
             setError("");
 
-            const response = await login(data);
+            const response = await authApi.login(data);
 
             const role = response.user?.role
 

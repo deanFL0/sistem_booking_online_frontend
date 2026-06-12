@@ -4,13 +4,13 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
 import { registerSchema, type RegisterSchema } from "~/features/auth/schemas/register-schema";
-import { register as registerApi } from "~/features/auth/api/register";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { AuthLayout } from "~/features/auth/componenets/auth-layout";
 import { toast } from "sonner";
+import { authApi } from "~/features/auth/api/auth-api";
 
 export default function RegisterForm() {
     const {
@@ -35,7 +35,7 @@ export default function RegisterForm() {
         try {
             setError("");
 
-            await registerApi(data);
+            await authApi.register(data);
 
             // toast success
             toast.success("Akun berhasil dibuat");

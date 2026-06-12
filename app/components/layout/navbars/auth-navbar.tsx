@@ -1,22 +1,39 @@
-import { Menu } from "lucide-react";
+import { ChevronRight, LogOut, Menu } from "lucide-react";
 import { Button } from "../../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
-import { Link } from "react-router";
 import { Bell, User } from "lucide-react";
 
 import { Container } from "../container";
+import { Separator } from "~/components/ui/separator";
+import { Link } from "react-router";
+import { authApi } from "~/features/auth/api/auth-api";
 
 const navItems = [
     {
+        label: "Beranda",
+        href: "/",
+    },
+    {
+        label: "Layanan",
+        href: "/services",
     },
 ];
+
+const handleLogout = async () => {
+    await authApi.logout();
+    window.location.href = "/";
+}
 
 export function AuthNavbar() {
     return (
         <header className="sticky top-0 z-50 flex h-16 items-center border-b px-4 bg-background/80 backdrop-blur">
             <Container className="flex items-center justify-between">
+                {/* Logo */}
                 <div className="flex items-center gap-2">
-                    Dashboard
+                    <div className="size-8 rounded-full bg-primary" />
+                    <span className="font-bold text-lg">
+                        Joe's Barber
+                    </span>
                 </div>
 
                 {/* Desktop nav */}
@@ -25,7 +42,7 @@ export function AuthNavbar() {
                         <a
                             key={item.label}
                             href={item.href}
-                            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                            className="text-lg font-medium transition-colors hover:text-primary"
                         >
                             {item.label}
                         </a>
@@ -40,6 +57,7 @@ export function AuthNavbar() {
                     </div>
                 </nav>
 
+                {/* Mobile nav */}
                 <Sheet>
                     <SheetTrigger
                         render={
@@ -53,25 +71,68 @@ export function AuthNavbar() {
                         }
                     />
 
-                    <SheetContent side="right">
-                        <div className="mt-8 flex flex-col gap-6">
+                    <SheetContent side="right" className="w-80">
+                        <div className="mt-8 flex flex-col">
                             {navItems.map((item) => (
                                 <a
                                     key={item.label}
                                     href={item.href}
-                                    className="text-lg"
+                                    className="
+                                        flex items-center justify-between
+                                        rounded-lg px-4 py-4
+                                        text-base font-medium
+                                        transition-colors
+                                        hover:bg-accent
+                                        active:bg-accent
+                                        active:scale-[0.98]
+                                    "
                                 >
-                                    {item.label}
+                                    <span>{item.label}</span>
+                                    <ChevronRight className="size-4 text-muted-foreground" />
                                 </a>
                             ))}
 
-                            <div className="flex flex-col gap-2 mt-4">
-                                <Button size={"lg"} render={<Link to={"/auth/login"} />}>
-                                    Masuk
-                                </Button>
-                                <Button size={"lg"} variant={"outline"} render={<Link to={"/auth/register"} />}>
-                                    Daftar
-                                </Button>
+                            <Separator className="my-4" />
+
+                            <Link
+                                to={"notifications"}
+                                className="
+                                    flex items-center gap-3
+                                    rounded-lg px-4 py-4
+                                    hover:bg-accent
+                                    active:bg-accent
+                                "
+                            >
+                                <Bell className="size-5" />
+                                <span>Notifications</span>
+                            </Link>
+
+                            <Link
+                                to={"profile"}
+                                className="
+                                    flex items-center gap-3
+                                    rounded-lg px-4 py-4
+                                    hover:bg-accent
+                                    active:bg-accent
+                                "
+                            >
+                                <User className="size-5" />
+                                <span>Profile</span>
+                            </Link>
+
+                            {/* put logout on bottom */}
+                            <div className="absolute bottom-4 right-0 left-0">
+                                <Separator className="my-4" />
+                                <div className="w-full pr-4 pl-4">
+                                    <Button
+                                        className="w-full bg-red-600 text-black active:bg-red-800"
+                                        onClick={() => handleLogout()}
+                                    >
+                                        <LogOut className="size-4 mr-2" />
+                                        Keluar
+                                    </Button>
+                                </div>
+
                             </div>
                         </div>
                     </SheetContent>
