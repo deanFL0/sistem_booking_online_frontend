@@ -5,7 +5,6 @@ import {
     SidebarInset,
 } from "~/components/ui/sidebar";
 
-import { AuthNavbar } from "~/components/layout/navbars/auth-navbar";
 import { getToken, getUser } from "~/lib/auth";
 import { Navigate } from "react-router";
 import { TooltipProvider } from "../ui/tooltip";
@@ -30,7 +29,6 @@ export function AdminLayout({
         <SidebarProvider>
             <AdminSidebar />
             <SidebarInset>
-                <AuthNavbar />
                 <main className="p-6">
                     <TooltipProvider>
                         {children}

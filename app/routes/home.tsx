@@ -1,6 +1,4 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
-import { Navbar } from "~/components/layout/navbars/navbar";
 import { HeroSection } from "~/features/landing/components/hero-section";
 import { ServicesSection } from "~/features/landing/components/service-section";
 import { WhyChooseUsSection } from "~/features/landing/components/why-choose-use-section";
@@ -18,7 +16,6 @@ export function meta({ }: Route.MetaArgs) {
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-freground">
-      <Navbar />
       <HeroSection />
       <ServicesSection />
       <WhyChooseUsSection />

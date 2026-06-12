@@ -11,6 +11,9 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+import { AuthNavbar } from "./components/layout/navbars/auth-navbar";
+import { Navbar } from "./components/layout/navbars/navbar";
+import { getUser } from "./lib/auth";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,7 +28,10 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const user = getUser();
+
   return (
     <html lang="en">
       <head>
@@ -35,6 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        {user ? <AuthNavbar /> : <Navbar />}
         {children}
         <ScrollRestoration />
         <Scripts />
