@@ -9,7 +9,7 @@ import { Link } from "react-router";
 import { authApi } from "~/features/auth/api/auth-api";
 import { UserMenu } from "./user-menu";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
-import { getUser } from "~/lib/auth";
+import { SidebarTrigger } from "~/components/ui/sidebar";
 
 const navItems = [
     {
@@ -20,32 +20,36 @@ const navItems = [
         label: "Layanan",
         href: "/services",
     },
-];
-
-const user = getUser();
-
-if (user?.role == 'admin') {
-    navItems.push({
+    {
         label: "Dashboard",
         href: "/admin/dashboard",
-    });
-}
+    },
+];
 
 const handleLogout = async () => {
     await authApi.logout();
     window.location.href = "/";
 }
 
-export function AuthNavbar() {
+export function AdminNavbar() {
     return (
         <header className="sticky top-0 z-50 flex h-16 items-center border-b px-4 bg-background/80 backdrop-blur">
             <Container className="flex items-center justify-between">
-                {/* Logo */}
-                <div className="flex items-center gap-2">
-                    <div className="size-8 rounded-full bg-primary" />
-                    <span className="font-bold text-lg">
-                        Joe's Barber
-                    </span>
+                <div className="flex items-center gap-4 ml-[-16px]">
+                    <SidebarTrigger
+                        render={
+                            <Button size={"icon-lg"} className="rounded-full bg-transparent size-8 hover:cursor-pointer">
+                                <Menu className="size-5" color="black" />
+                            </Button>
+                        }
+                    />
+                    {/* Logo */}
+                    <div className="flex items-center gap-2">
+                        <div className="size-8 rounded-full bg-primary" />
+                        <span className="font-bold text-lg">
+                            Joe's Barber
+                        </span>
+                    </div>
                 </div>
 
                 {/* Desktop nav */}

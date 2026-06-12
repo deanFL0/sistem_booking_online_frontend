@@ -22,7 +22,6 @@ export default function Home() {
       <WhyChooseUsSection />
       <TestimonialsSection />
       <CTASection />
-      <Footer />
     </PublicLayout>
   )
 }

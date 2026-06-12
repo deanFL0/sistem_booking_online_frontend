@@ -10,7 +10,7 @@ export function PublicLayout({ children }: { children: ReactNode }) {
     return (
         <div>
             {user ? <AuthNavbar /> : <Navbar />}
-            <main className="min-h-screen bg-background text-freground">
+            <main className="min-h-screen bg-background text-freground px-4 py-4">
                 {children}
             </main>
             <Footer />

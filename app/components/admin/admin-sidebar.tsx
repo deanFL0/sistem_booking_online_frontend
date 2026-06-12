@@ -8,19 +8,35 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from "~/components/ui/sidebar";
 
 import { Link } from "react-router";
-import { Book, Gauge, HandPlatter, Package, StickyNote, StickyNotes, Users } from "lucide-react";
-import { AdminSidebarHeader } from "./admin-sisebar-header";
+import { Book, Gauge, HandPlatter, Package, StickyNotes, Users } from "lucide-react";
+import { getUser } from "~/lib/auth";
+
+const user = getUser();
 
 export function AdminSidebar() {
+    const { state } = useSidebar();
+
+    const collapsed = state === "collapsed";
+
     return (
         <Sidebar collapsible="icon">
-            <AdminSidebarHeader />
-
+            <SidebarHeader className="flex h-16 items-center justify-center border-b px-4 bg-sidebar-primary">
+                <div className="flex items-center gap-2">
+                    <div className="rounded-full bg-secondary size-8 flex items-center justify-center">
+                        <span className="font-bold text-secondary-foreground">{user?.name.substring(0, 1).toUpperCase()}</span>
+                    </div>
+                    {!collapsed && (
+                        <span className="text-xl font-semibold text-primary-foreground">
+                            {user?.name}
+                        </span>
+                    )}
+                </div>
+            </SidebarHeader>
             <SidebarContent>
-
                 <SidebarGroup>
                     <SidebarMenu>
                         <SidebarMenuItem>
@@ -105,7 +121,6 @@ export function AdminSidebar() {
             </SidebarContent>
 
             <SidebarFooter className="border-t p-4">
-                Admin
             </SidebarFooter>
         </Sidebar>
     );

@@ -9,6 +9,7 @@ import { getToken, getUser } from "~/lib/auth";
 import { Navigate } from "react-router";
 import { TooltipProvider } from "../ui/tooltip";
 import { AuthNavbar } from "./navbars/auth-navbar";
+import { AdminNavbar } from "./navbars/admin-navbar";
 
 export function AdminLayout({
     children,
@@ -30,8 +31,8 @@ export function AdminLayout({
         <SidebarProvider>
             <AdminSidebar />
             <SidebarInset>
-                <AuthNavbar />
-                <main className="min-h-screen bg-background text-freground">
+                <AdminNavbar />
+                <main className="min-h-screen bg-background text-freground px-4 py-4">
                     <TooltipProvider>
                         {children}
                     </TooltipProvider>
