@@ -13,5 +13,6 @@ export default [
         index("routes/admin/services/index.tsx"),
         route("create", "routes/admin/services/create.tsx"),
         route(":id", "routes/admin/services/show.tsx"),
+        route(":id/edit", "routes/admin/services/edit.tsx"),
     ]),
 ] satisfies RouteConfig;
