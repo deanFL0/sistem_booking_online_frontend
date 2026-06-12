@@ -5,6 +5,7 @@ import { WhyChooseUsSection } from "~/features/landing/components/why-choose-use
 import { TestimonialsSection } from "~/features/landing/components/testimonials-section";
 import { CTASection } from "~/features/landing/components/cta-section";
 import { Footer } from "~/components/layout/footer";
+import { PublicLayout } from "~/components/layout/public-layout";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -15,13 +16,13 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-freground">
+    <PublicLayout>
       <HeroSection />
       <ServicesSection />
       <WhyChooseUsSection />
       <TestimonialsSection />
       <CTASection />
       <Footer />
-    </main>
+    </PublicLayout>
   )
 }

@@ -1,4 +1,4 @@
-import { AdminLayout } from "~/components/admin/admin-layout";
+import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
 import { useParams } from "react-router";

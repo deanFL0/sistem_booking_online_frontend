@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
-import { AdminLayout } from "~/components/admin/admin-layout";
+import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
 import { ServiceTable } from "~/features/service/components/service-table";

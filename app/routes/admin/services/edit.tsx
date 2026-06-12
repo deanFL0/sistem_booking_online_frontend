@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { AdminLayout } from "~/components/admin/admin-layout";
+import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
 import { useNavigate, useParams } from "react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
