@@ -17,6 +17,66 @@ import { getUser } from "~/lib/auth";
 
 const user = getUser();
 
+const sidebarItem = [
+    {
+        group: "Umum",
+        items: [
+            {
+                label: "Dashboard",
+                href: "/admin/dashboard",
+                icon: Gauge,
+            },
+            {
+                label: "Booking",
+                href: "/admin/bookings",
+                icon: Book,
+            },
+        ]
+    },
+    {
+        group: "Sumber daya",
+        items: [
+            {
+                label: "Sumber Daya",
+                href: "/admin/resources",
+                icon: Package,
+            },
+            {
+                label: "Tipe Sumber Daya",
+                href: "/admin/resources-types",
+                icon: StickyNotes,
+            },
+        ]
+    },
+    {
+        group: "Layanan",
+        items: [
+            {
+                label: "Layanan",
+                href: "/admin/services",
+                icon: HandPlatter,
+            },
+        ]
+    },
+    {
+        group: "User",
+        items: [
+            {
+                label: "User",
+                href: "/admin/users",
+                icon: Users,
+            },
+        ]
+    }
+]
+
+function isActivePath(pathname: string, href: string) {
+    return (
+        pathname === href ||
+        pathname.startsWith(`${href}/`)
+    );
+}
+
 export function AdminSidebar() {
     const { state } = useSidebar();
 
@@ -36,88 +96,28 @@ export function AdminSidebar() {
                     )}
                 </div>
             </SidebarHeader>
+
             <SidebarContent>
-                <SidebarGroup>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton
-                                render={<Link to="/admin/dashboard" />}
-                            >
-                                <Gauge className="size-5" />
-                                <span>Dashboard</span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-
-                        <SidebarMenuItem>
-                            <SidebarMenuButton
-                                render={<Link to="/admin/bookings" />}
-                            >
-                                <Book className="size-5" />
-                                <span>Booking</span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>
-                        Sumber daya
-                    </SidebarGroupLabel>
-
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton
-                                render={<Link to="/admin/resources" />}
-                            >
-                                <Package className="size-5" />
-                                <span>Sumber Daya</span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-
-                        <SidebarMenuItem>
-                            <SidebarMenuButton
-                                render={<Link to="/admin/resources-types" />}
-                            >
-                                <StickyNotes className="size-5" />
-                                <span>Tipe Sumber Daya</span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>
-                        Layanan
-                    </SidebarGroupLabel>
-
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton render={<Link to="/admin/services" />}>
-                                <div className="flex gap-2">
-                                    <HandPlatter className="size-5" />
-                                    Layanan
-                                </div>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>
-                        User
-                    </SidebarGroupLabel>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton render={<Link to="/admin/users" />}>
-                                <div className="flex gap-2">
-                                    <Users className="size-5" />
-                                    User
-                                </div>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
-
+                {sidebarItem.map((group) => (
+                    <SidebarGroup key={group.group}>
+                        <SidebarGroupLabel>
+                            {group.group}
+                        </SidebarGroupLabel>
+                        <SidebarMenu>
+                            {group.items.map((item) => (
+                                <SidebarMenuItem key={item.label}>
+                                    <SidebarMenuButton
+                                        render={<Link to={item.href} />}
+                                        isActive={isActivePath(window.location.pathname, item.href)}
+                                    >
+                                        <item.icon className="size-5" />
+                                        <span>{item.label}</span>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroup>
+                ))}
             </SidebarContent>
 
             <SidebarFooter className="border-t p-4">
