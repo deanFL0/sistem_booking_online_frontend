@@ -7,6 +7,8 @@ import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import { serviceApi } from "~/features/service/api/service-api";
+import { formatDistanceToNow } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
 
 export default function AdminServiceDetailPage() {
     const { id } = useParams();
@@ -100,6 +102,53 @@ export default function AdminServiceDetailPage() {
                                 {service.description ||
                                     "Tidak ada deskripsi"}
                             </p>
+                        </div>
+
+                        <Separator />
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <Label>Dibuat</Label>
+                                <p>{new Date(service.created_at).toLocaleString("id-ID", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    timeZoneName: "short",
+                                })}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                    {formatDistanceToNow(
+                                        new Date(service.created_at),
+                                        {
+                                            addSuffix: true,
+                                            locale: idLocale,
+                                        }
+                                    )}
+                                </p>
+                            </div>
+
+                            <div>
+                                <Label>Terakhir Diperbarui</Label>
+                                <p>{new Date(service.updated_at).toLocaleString("id-ID", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    timeZoneName: "short",
+                                })}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                    {formatDistanceToNow(
+                                        new Date(service.updated_at),
+                                        {
+                                            addSuffix: true,
+                                            locale: idLocale,
+                                        }
+                                    )}
+                                </p>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>
