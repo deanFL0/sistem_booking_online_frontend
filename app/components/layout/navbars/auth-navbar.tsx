@@ -1,4 +1,4 @@
-import { ChevronRight, LogOut, Menu } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, LogOut, Menu } from "lucide-react";
 import { Button } from "../../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../../ui/sheet";
 import { Bell, User } from "lucide-react";
@@ -7,6 +7,8 @@ import { Container } from "../container";
 import { Separator } from "~/components/ui/separator";
 import { Link } from "react-router";
 import { authApi } from "~/features/auth/api/auth-api";
+import { UserMenu } from "./user-menu";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
 
 const navItems = [
     {
@@ -51,9 +53,7 @@ export function AuthNavbar() {
                         <Button size={"icon-lg"}>
                             <Bell className="size-5" />
                         </Button>
-                        <Button size={"icon-lg"} className={"rounded-full bg-primary"}>
-                            <User className="size-5" />
-                        </Button>
+                        <UserMenu />
                     </div>
                 </nav>
 
@@ -71,8 +71,8 @@ export function AuthNavbar() {
                         }
                     />
 
-                    <SheetContent side="right" className="w-80">
-                        <div className="mt-8 flex flex-col">
+                    <SheetContent side="right" className="w-80 flex flex-col">
+                        <div className="mt-8 flex-1">
                             {navItems.map((item) => (
                                 <a
                                     key={item.label}
@@ -99,40 +99,102 @@ export function AuthNavbar() {
                                 className="
                                     flex items-center gap-3
                                     rounded-lg px-4 py-4
+                                    text-base font-medium
                                     hover:bg-accent
                                     active:bg-accent
                                 "
                             >
                                 <Bell className="size-5" />
-                                <span>Notifications</span>
+                                <span>Pemberitahuan</span>
                             </Link>
 
-                            <Link
-                                to={"profile"}
-                                className="
-                                    flex items-center gap-3
-                                    rounded-lg px-4 py-4
-                                    hover:bg-accent
-                                    active:bg-accent
-                                "
-                            >
-                                <User className="size-5" />
-                                <span>Profile</span>
-                            </Link>
-
-                            {/* put logout on bottom */}
-                            <div className="absolute bottom-4 right-0 left-0">
-                                <Separator className="my-4" />
-                                <div className="w-full pr-4 pl-4">
-                                    <Button
-                                        className="w-full bg-red-600 text-black active:bg-red-800"
-                                        onClick={() => handleLogout()}
+                            <Collapsible>
+                                <CollapsibleTrigger className="w-full group">
+                                    <div
+                                        className="
+                                            flex items-center justify-between
+                                            rounded-lg px-4 py-4
+                                            text-base font-medium
+                                            transition-colors
+                                            hover:bg-accent
+                                            active:bg-accent
+                                        "
                                     >
-                                        <LogOut className="size-4 mr-2" />
-                                        Keluar
-                                    </Button>
-                                </div>
+                                        <div className="flex items-center gap-3">
+                                            <User className="size-5" />
+                                            <span>Akun Saya</span>
+                                        </div>
 
+                                        <ChevronLeft className="
+                                            size-4 text-muted-foreground 
+                                            transition-transform duration-200 
+                                            group-data-open:-rotate-90 group-data-[panel-open]:-rotate-90 
+                                            group-data-[state=open]:-rotate-90
+                                        "
+                                        />
+                                    </div>
+                                </CollapsibleTrigger>
+
+                                <CollapsibleContent className="space-y-1 pt-1">
+                                    <Link
+                                        to="/profile/bio"
+                                        className="
+                                            ml-4 flex items-center
+                                            rounded-lg px-4 py-3
+                                            text-sm 
+                                            transition-colors
+                                            hover:bg-accent
+                                            hover:text-foreground
+                                            active:bg-accent
+                                        "
+                                    >
+                                        Profil
+                                    </Link>
+
+                                    <Link
+                                        to="/my-bookings"
+                                        className="
+                                            ml-4 flex items-center
+                                            rounded-lg px-4 py-3
+                                            text-sm 
+                                            transition-colors
+                                            hover:bg-accent
+                                            hover:text-foreground
+                                            active:bg-accent
+                                        "
+                                    >
+                                        Booking Saya
+                                    </Link>
+
+                                    <Link
+                                        to="/profile/preferences"
+                                        className="
+                                            ml-4 flex items-center
+                                            rounded-lg px-4 py-3
+                                            text-sm 
+                                            transition-colors
+                                            hover:bg-accent
+                                            hover:text-foreground
+                                            active:bg-accent
+                                        "
+                                    >
+                                        Pengaturan
+                                    </Link>
+                                </CollapsibleContent>
+                            </Collapsible>
+
+                        </div>
+
+                        <div>
+                            <Separator />
+                            <div className="w-full px-4 py-4">
+                                <Button
+                                    className="w-full bg-red-600 text-black active:bg-red-800"
+                                    onClick={() => handleLogout()}
+                                >
+                                    <LogOut className="size-4 mr-2" />
+                                    Keluar
+                                </Button>
                             </div>
                         </div>
                     </SheetContent>
