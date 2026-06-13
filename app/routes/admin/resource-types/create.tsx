@@ -8,14 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { AdminPage } from "~/components/admin/admin-page";
-import { Field, FieldGroup, FieldLabel } from "~/components/ui/field";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { FieldGroup } from "~/components/ui/field";
 import { resourceTypeSchema, type ResourceTypeSchema } from "~/features/resource-types/schema/resource-types-schema";
-import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
-import { serviceApi } from "~/features/service/api/service-api";
 import { FormInputGroup } from "~/components/form-input/form-input-group";
 import { FormTextarea } from "~/components/form-input/form-textarea";
+import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
 
 type FieldErrorProps = {
     message?: string;
@@ -41,10 +38,10 @@ export default function CreateResourceTypePage() {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: serviceApi.create,
+        mutationFn: ResourceTypesApi.create,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["services"]
+                queryKey: ["resource-types"]
             });
         }
     });
