@@ -61,6 +61,7 @@ export const columns: ColumnDef<Service>[] = [
             </span>
         ),
         meta: {
+            sortable: true,
             filterVariant: "multi-choice",
             filterLabel: "Status",
             filterOptions: [
