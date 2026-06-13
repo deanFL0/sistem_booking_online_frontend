@@ -117,10 +117,10 @@ export function ResourceTypesTable() {
             showNumberColumn={true}
 
             actions={{
-                viewLink: (resourceTypes: ResourceTypes) => `/admin/resourceTypess/${resourceTypes.id}`,
-                editLink: (resourceTypes: ResourceTypes) => `/admin/resourceTypess/${resourceTypes.id}/edit`,
+                viewLink: (resourceTypes: ResourceTypes) => `/admin/resource-types/${resourceTypes.id}`,
+                editLink: (resourceTypes: ResourceTypes) => `/admin/resource-types/${resourceTypes.id}/edit`,
                 onDelete: (resourceTypes: ResourceTypes) => handleDelete(resourceTypes),
-                deleteConfirmationMessage: (resourceTypes: ResourceTypes) => `Apakah Anda yakin ingin menghapus layanan "${resourceTypes.name}"?`,
+                deleteConfirmationMessage: (resourceTypes: ResourceTypes) => `Apakah Anda yakin ingin menghapus tipe sumber daya "${resourceTypes.name}"?`,
             }}
         />
     )

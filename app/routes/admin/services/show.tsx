@@ -32,8 +32,6 @@ export default function AdminServiceDetailPage() {
         )
     }
 
-    console.log(service)
-
     return (
         <AdminLayout>
             <AdminPage>
@@ -52,12 +50,12 @@ export default function AdminServiceDetailPage() {
 
                     <CardContent className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Nama Layanan</Label>
                                 <p>{service.name}</p>
                             </div>
 
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Status</Label>
                                 <span
                                     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${service.is_active
@@ -69,7 +67,7 @@ export default function AdminServiceDetailPage() {
                                 </span>
                             </div>
 
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Harga</Label>
                                 <p>
                                     {new Intl.NumberFormat("id-ID", {
@@ -79,7 +77,7 @@ export default function AdminServiceDetailPage() {
                                 </p>
                             </div>
 
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Tipe Harga</Label>
                                 <span
                                     className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800"
@@ -90,7 +88,7 @@ export default function AdminServiceDetailPage() {
                                 </span>
                             </div>
 
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Durasi</Label>
                                 <p>{service.duration} menit</p>
                             </div>
@@ -98,58 +96,63 @@ export default function AdminServiceDetailPage() {
 
                         <Separator />
 
-                        <div>
+                        <div className="space-y-2">
                             <Label>Deskripsi</Label>
-                            <p className="mt-2 text-muted-foreground">
+                            <p className="text-muted-foreground">
                                 {service.description ||
                                     "Tidak ada deskripsi"}
                             </p>
                         </div>
 
                         <Separator />
+
                         <div className="grid grid-cols-2 gap-4">
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Dibuat</Label>
-                                <p>{new Date(service.created_at).toLocaleString("id-ID", {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    timeZoneName: "short",
-                                })}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                    {formatDistanceToNow(
-                                        new Date(service.created_at),
-                                        {
-                                            addSuffix: true,
-                                            locale: idLocale,
-                                        }
-                                    )}
-                                </p>
+                                <div>
+                                    <p>{new Date(service.created_at).toLocaleString("id-ID", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        timeZoneName: "short",
+                                    })}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {formatDistanceToNow(
+                                            new Date(service.created_at),
+                                            {
+                                                addSuffix: true,
+                                                locale: idLocale,
+                                            }
+                                        )}
+                                    </p>
+                                </div>
                             </div>
 
-                            <div>
+                            <div className="space-y-2">
                                 <Label>Terakhir Diperbarui</Label>
-                                <p>{new Date(service.updated_at).toLocaleString("id-ID", {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    timeZoneName: "short",
-                                })}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                    {formatDistanceToNow(
-                                        new Date(service.updated_at),
-                                        {
-                                            addSuffix: true,
-                                            locale: idLocale,
-                                        }
-                                    )}
-                                </p>
+                                <div>
+                                    <p>{new Date(service.updated_at).toLocaleString("id-ID", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        timeZoneName: "short",
+                                    })}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {formatDistanceToNow(
+                                            new Date(service.updated_at),
+                                            {
+                                                addSuffix: true,
+                                                locale: idLocale,
+                                            }
+                                        )}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </CardContent>
