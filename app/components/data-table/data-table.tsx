@@ -45,9 +45,23 @@ type Props<TData> = {
     onSortingChange?: OnChangeFn<SortingState>;
     filters?: any;
     onFiltersChange?: any;
+    showNumberColumn?: boolean;
     isLoading?: boolean;
     actions?: ActionColumnConfig<TData>;
 };
+
+function createNumberColumn<TData>(): ColumnDef<TData> {
+    return {
+        id: "rowNumber",
+        header: "No.",
+        cell: ({ row, table }) => {
+            const { pageIndex, pageSize } =
+                table.getState().pagination;
+
+            return pageIndex * pageSize + row.index + 1;
+        },
+    };
+}
 
 export function DataTable<TData>({
     columns,
@@ -59,6 +73,7 @@ export function DataTable<TData>({
     onSortingChange,
     filters,
     onFiltersChange,
+    showNumberColumn,
     isLoading,
     actions,
 }: Props<TData>) {
@@ -116,6 +131,10 @@ export function DataTable<TData>({
             closeDialog: closeDeleteDialog,
         })]
         : columns;
+
+    if (showNumberColumn) {
+        tableColumns.unshift(createNumberColumn());
+    }
 
     const table = useReactTable({
         data,

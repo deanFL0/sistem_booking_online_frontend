@@ -150,6 +150,8 @@ export function ServiceTable() {
                 setFilters
             }
 
+            showNumberColumn={true}
+
             isLoading={
                 query.isLoading
             }

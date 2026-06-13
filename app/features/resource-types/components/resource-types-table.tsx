@@ -114,6 +114,8 @@ export function ResourceTypesTable() {
                 query.isLoading
             }
 
+            showNumberColumn={true}
+
             actions={{
                 viewLink: (resourceTypes: ResourceTypes) => `/admin/resourceTypess/${resourceTypes.id}`,
                 editLink: (resourceTypes: ResourceTypes) => `/admin/resourceTypess/${resourceTypes.id}/edit`,
