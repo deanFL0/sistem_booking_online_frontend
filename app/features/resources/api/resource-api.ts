@@ -1,8 +1,8 @@
-import { api } from "~/lib/axios"
-import { buildQueryParams } from "~/lib/query-builder"
-import type { ResourceTypeSchema } from "../schema/resource-types-schema"
+import { api } from "~/lib/axios";
+import { buildQueryParams } from "~/lib/query-builder";
+import type { ResourceSchema } from "../schema/resource-schema";
 
-type GetResourceTypesParams = {
+type GetResourcesParams = {
     pagination: {
         pageIndex: number
         pageSize: number
@@ -14,14 +14,16 @@ type GetResourceTypesParams = {
     }[]
 
     filters: Record<string, unknown>
+
+    includes?: string[]
 }
 
-export const ResourceTypesApi = {
-    getAll: async (params: GetResourceTypesParams) => {
+export const resourceApi = {
+    getAll: async (params: GetResourcesParams) => {
         const query = buildQueryParams(params);
 
         const response = await api.get(
-            `/resource-types?${query.toString()}`
+            `/resources?${query.toString()}`
         );
 
         return response.data;
@@ -29,23 +31,15 @@ export const ResourceTypesApi = {
 
     getById: async (id: string) => {
         const response = await api.get(
-            `/resource-types/${id}`
+            `/resources/${id}`
         );
 
         return response.data.data;
     },
 
-    getAllResourceTypes: async () => {
-        const response = await api.get(
-            `/resource-types/options`
-        );
-
-        return response.data;
-    },
-
-    create: async (data: ResourceTypeSchema) => {
+    create: async (data: ResourceSchema) => {
         const response = await api.post(
-            "/resource-types",
+            "/resources",
             data
         );
 
@@ -54,10 +48,10 @@ export const ResourceTypesApi = {
 
     update: async (
         id: string,
-        data: ResourceTypeSchema
+        data: ResourceSchema
     ) => {
         const response = await api.put(
-            `/resource-types/${id}`,
+            `/resources/${id}`,
             data
         );
 
@@ -66,7 +60,7 @@ export const ResourceTypesApi = {
 
     delete: async (id: string) => {
         const response = await api.delete(
-            `/resource-types/${id}`
+            `/resources/${id}`
         );
 
         return response.data;

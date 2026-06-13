@@ -1,5 +1,5 @@
 import { api } from "~/lib/axios";
-import { type Service } from "../../service/types/service";
+import { type Service } from "../../services/types/service";
 import { useQuery } from "@tanstack/react-query";
 
 type GetServicesResponse = {

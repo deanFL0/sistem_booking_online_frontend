@@ -19,6 +19,7 @@ type BuildQueryParamsOptions = {
     pagination: Pagination
     sorting: Sort[]
     filters: Filters
+    includes?: string[]
 }
 
 function isRangeValue(
@@ -35,6 +36,7 @@ export function buildQueryParams({
     pagination,
     sorting,
     filters,
+    includes = []
 }: BuildQueryParamsOptions) {
     const params = new URLSearchParams()
 
@@ -120,6 +122,16 @@ export function buildQueryParams({
 
         params.set(`filter[${key}]`, String(value))
     })
+
+    /*
+     |--------------------------------------------------------------------------
+     | Includes
+     |--------------------------------------------------------------------------
+     */
+
+    if (includes.length > 0) {
+        params.set("include", includes.join(","))
+    }
 
     return params
 }
