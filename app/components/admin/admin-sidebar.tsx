@@ -43,7 +43,7 @@ const sidebarItem = [
             },
             {
                 label: "Tipe Sumber Daya",
-                href: "/admin/resources-types",
+                href: "/admin/resource-types",
                 icon: StickyNotes,
             },
         ]

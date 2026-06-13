@@ -6,4 +6,6 @@ export interface Service {
     pricing_type: "one_time" | "hourly";
     duration: number;
     is_active: boolean;
+    created_at: string;
+    updated_at: string;
 }
