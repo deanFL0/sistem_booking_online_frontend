@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/com
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
-import { serviceApi } from "~/features/service/api/service-api";
+import { serviceApi } from "~/features/services/api/service-api";
 import { formatDistanceToNow } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 

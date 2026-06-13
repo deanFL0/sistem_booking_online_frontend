@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
-import { ServiceTable } from "~/features/service/components/service-table";
+import { ServiceTable } from "~/features/services/components/service-table";
 import { ResourceTypesTable } from "~/features/resource-types/components/resource-types-table";
 
 export default function AdminResourceTypesPage() {
