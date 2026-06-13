@@ -14,6 +14,8 @@ import { Textarea } from "~/components/ui/textarea";
 import { useEffect } from "react";
 import { resourceTypeSchema, type ResourceTypeSchema } from "~/features/resource-types/schema/resource-types-schema";
 import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
+import { FormInputGroup } from "~/components/form-input/form-input-group";
+import { FormTextarea } from "~/components/form-input/form-textarea";
 
 type FieldErrorProps = {
     message?: string;
@@ -147,27 +149,16 @@ export default function EditResourceTypePage() {
                             className="space-y-6"
                         >
                             <FieldGroup>
-                                <Field>
-                                    <FieldLabel>
-                                        Nama Tipe Sumber Daya
-                                    </FieldLabel>
-                                    <Input
-                                        {...form.register("name")}
-                                        aria-invalid={!!form.formState.errors.name}
-                                    />
-                                    <FieldError
-                                        message={form.formState.errors.name?.message}
-                                    />
-                                </Field>
-                                <Field>
-                                    <FieldLabel>
-                                        Deskripsi
-                                    </FieldLabel>
-                                    <Textarea {...form.register("description")} />
-                                    <FieldError
-                                        message={form.formState.errors.description?.message}
-                                    />
-                                </Field>
+                                <FormInputGroup
+                                    form={form}
+                                    name="name"
+                                    label="Nama Tipe Sumber Daya"
+                                />
+                                <FormTextarea
+                                    form={form}
+                                    name="description"
+                                    label="Deskripsi"
+                                />
                             </FieldGroup>
 
                             <div className="flex gap-2">

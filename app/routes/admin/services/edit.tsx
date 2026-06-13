@@ -16,6 +16,9 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "~/components/ui/in
 import { serviceApi } from "~/features/service/api/service-api";
 import { serviceSchema, type ServiceSchema } from "~/features/service/schema/service-create-schema";
 import { useEffect } from "react";
+import { FormInputGroup } from "~/components/form-input/form-input-group";
+import { FormSelect } from "~/components/form-input/form-select";
+import { FormTextarea } from "~/components/form-input/form-textarea";
 
 type FieldErrorProps = {
     message?: string;
@@ -153,135 +156,68 @@ export default function EditServicePage() {
                             className="space-y-6"
                         >
                             <FieldGroup>
-                                <Field>
-                                    <FieldLabel>
-                                        Nama Layanan
-                                    </FieldLabel>
-                                    <Input
-                                        {...form.register("name")}
-                                        aria-invalid={!!form.formState.errors.name}
-                                    />
-                                    <FieldError
-                                        message={form.formState.errors.name?.message}
-                                    />
-                                </Field>
-                                <Field>
-                                    <FieldLabel>
-                                        Deskripsi
-                                    </FieldLabel>
-                                    <Textarea {...form.register("description")} />
-                                    <FieldError
-                                        message={form.formState.errors.description?.message}
-                                    />
-                                </Field>
+                                <FormInputGroup
+                                    form={form}
+                                    name="name"
+                                    label="Nama Layanan"
+                                />
+                                <FormTextarea
+                                    form={form}
+                                    name="description"
+                                    label="Deskripsi"
+                                />
                                 <div className="flex items-center justify-between gap-2">
-                                    <Field>
-                                        <FieldLabel>
-                                            Harga
-                                        </FieldLabel>
-                                        <InputGroup>
-                                            <InputGroupAddon align={"inline-start"}>Rp</InputGroupAddon>
-                                            <InputGroupInput
-                                                type="number"
-                                                {...form.register("price", { valueAsNumber: true })}
-                                                aria-invalid={!!form.formState.errors.price}
-                                            />
-                                        </InputGroup>
-                                        <FieldError
-                                            message={form.formState.errors.price?.message}
-                                        />
-                                    </Field>
-                                    <Field>
-                                        <FieldLabel>Tipe Harga</FieldLabel>
-                                        <Controller
-                                            name="pricing_type"
-                                            control={form.control}
-                                            render={({ field }) => {
-                                                const getCurrentLabel = () => {
-                                                    switch (field.value) {
-                                                        case "one_time": return "Sekali Bayar";
-                                                        case "hourly": return "Per Jam";
-                                                        default: return "Pilih Tipe Harga";
-                                                    }
-                                                };
-
-                                                return (
-                                                    <Select onValueChange={field.onChange} value={field.value}>
-                                                        <SelectTrigger className="w-full">
-                                                            <span>
-                                                                {getCurrentLabel()}
-                                                            </span>
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="one_time">Sekali Bayar</SelectItem>
-                                                            <SelectItem value="hourly">Per Jam</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                );
-                                            }}
-                                        />
-                                        <FieldError
-                                            message={form.formState.errors.pricing_type?.message}
-                                        />
-                                    </Field>
+                                    <FormInputGroup
+                                        form={form}
+                                        name="price"
+                                        label="Harga"
+                                        type="number"
+                                        addon
+                                        addonText="Rp"
+                                    />
+                                    <FormSelect
+                                        form={form}
+                                        name="pricing_type"
+                                        label="Tipe Harga"
+                                        placeholder="Pilih Tipe Harga"
+                                        options={[
+                                            {
+                                                value: "one_time",
+                                                label: "Sekali Bayar",
+                                            },
+                                            {
+                                                value: "hourly",
+                                                label: "Per Jam",
+                                            },
+                                        ]}
+                                    />
                                 </div>
                                 <div className="flex items-center justify-between gap-2">
-                                    <Field>
-                                        <FieldLabel>
-                                            Durasi
-                                        </FieldLabel>
-                                        <InputGroup>
-                                            <InputGroupInput
-                                                type="number"
-                                                {...form.register("duration", { valueAsNumber: true })}
-                                                aria-invalid={!!form.formState.errors.duration}
-                                            />
-                                            <InputGroupAddon align={"inline-end"}>
-                                                Menit
-                                            </InputGroupAddon>
-                                        </InputGroup>
-                                        <FieldError
-                                            message={form.formState.errors.duration?.message}
-                                        />
-                                    </Field>
-                                    <Field>
-                                        <FieldLabel>
-                                            Apakah Layanan Aktif?
-                                        </FieldLabel>
-                                        <Controller
-                                            name="is_active"
-                                            control={form.control}
-                                            render={({ field }) => {
-                                                const getCurrentLabel = () => {
-                                                    switch (field.value) {
-                                                        case true: return "Aktif";
-                                                        case false: return "Nonaktif";
-                                                        default: return "Pilih Status";
-                                                    }
-                                                };
-
-                                                return (
-                                                    <Select
-                                                        onValueChange={(value) => field.onChange(value === "true")}
-                                                        value={String(field.value)}
-                                                    >
-                                                        <SelectTrigger className="w-full">
-                                                            <span>
-                                                                {getCurrentLabel()}
-                                                            </span>
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            <SelectItem value="true">Aktif</SelectItem>
-                                                            <SelectItem value="false">Nonaktif</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                );
-                                            }}
-                                        />
-                                        <FieldError
-                                            message={form.formState.errors.is_active?.message}
-                                        />
-                                    </Field>
+                                    <FormInputGroup
+                                        form={form}
+                                        name="duration"
+                                        label="Durasi"
+                                        type="number"
+                                        addon
+                                        addonText="Menit"
+                                        addonPosition="inline-end"
+                                    />
+                                    <FormSelect
+                                        form={form}
+                                        name="is_active"
+                                        label="Status Layanan"
+                                        placeholder="Pilih Status"
+                                        options={[
+                                            {
+                                                value: true,
+                                                label: "Aktif",
+                                            },
+                                            {
+                                                value: false,
+                                                label: "Nonaktif",
+                                            },
+                                        ]}
+                                    />
                                 </div>
                             </FieldGroup>
 

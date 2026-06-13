@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
 import { useNavigate } from "react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -13,6 +13,9 @@ import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { resourceTypeSchema, type ResourceTypeSchema } from "~/features/resource-types/schema/resource-types-schema";
 import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
+import { serviceApi } from "~/features/service/api/service-api";
+import { FormInputGroup } from "~/components/form-input/form-input-group";
+import { FormTextarea } from "~/components/form-input/form-textarea";
 
 type FieldErrorProps = {
     message?: string;
@@ -35,8 +38,15 @@ export default function CreateResourceTypePage() {
         resolver: zodResolver(resourceTypeSchema),
     });
 
+    const queryClient = useQueryClient();
+
     const mutation = useMutation({
-        mutationFn: ResourceTypesApi.create,
+        mutationFn: serviceApi.create,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["services"]
+            });
+        }
     });
 
     async function onSubmit(values: ResourceTypeSchema) {
@@ -60,11 +70,6 @@ export default function CreateResourceTypePage() {
         }
     }
 
-    const pricingTypeLabel = {
-        one_time: "Sekali Bayar",
-        hourly: "Per Jam",
-    };
-
     return (
         <AdminLayout>
             <AdminPage>
@@ -87,23 +92,16 @@ export default function CreateResourceTypePage() {
                             className="space-y-6"
                         >
                             <FieldGroup>
-                                <Field>
-                                    <FieldLabel>
-                                        Nama Tipe Sumber Daya
-                                    </FieldLabel>
-                                    <Input {...form.register("name")}
-                                        aria-invalid={!!form.formState.errors.name}
-                                    />
-                                    <FieldError
-                                        message={form.formState.errors.name?.message}
-                                    />
-                                </Field>
-                                <Field>
-                                    <FieldLabel>
-                                        Deskripsi
-                                    </FieldLabel>
-                                    <Textarea {...form.register("description")} />
-                                </Field>
+                                <FormInputGroup
+                                    form={form}
+                                    name="name"
+                                    label="Nama Tipe Sumber Daya"
+                                />
+                                <FormTextarea
+                                    form={form}
+                                    name="description"
+                                    label="Deskripsi"
+                                />
                             </FieldGroup>
 
                             <Button
