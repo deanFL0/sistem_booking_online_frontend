@@ -31,4 +31,12 @@ export default [
         route(":id", "routes/admin/resources/show.tsx"),
         route(":id/edit", "routes/admin/resources/edit.tsx"),
     ]),
+
+    // User Routes
+    ...prefix("admin/users", [
+        index("routes/admin/users/index.tsx"),
+        route("create", "routes/admin/users/create.tsx"),
+        route(":id", "routes/admin/users/show.tsx"),
+        route(":id/edit", "routes/admin/users/edit.tsx"),
+    ]),
 ] satisfies RouteConfig;
