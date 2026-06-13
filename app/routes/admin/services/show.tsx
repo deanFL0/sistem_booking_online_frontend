@@ -17,7 +17,7 @@ export default function AdminServiceDetailPage() {
         queryKey: ["service", id],
         queryFn: async () => {
             const res = await serviceApi.getById(id!);
-            return res.data;
+            return res;
         },
         enabled: !!id,
     });
@@ -31,6 +31,8 @@ export default function AdminServiceDetailPage() {
             </AdminLayout>
         )
     }
+
+    console.log(service)
 
     return (
         <AdminLayout>

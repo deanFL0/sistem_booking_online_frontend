@@ -32,7 +32,7 @@ export const serviceApi = {
             `/services/${id}`
         );
 
-        return response.data;
+        return response.data.data;
     },
 
     create: async (data: ServiceSchema) => {

@@ -32,7 +32,7 @@ export const ResourceTypesApi = {
             `/resource-types/${id}`
         );
 
-        return response.data;
+        return response.data.data;
     },
 
     create: async (data: ResourceTypeSchema) => {

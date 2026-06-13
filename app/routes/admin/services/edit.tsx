@@ -51,12 +51,12 @@ export default function EditServicePage() {
     useEffect(() => {
         if (service) {
             form.reset({
-                name: service.data.name,
-                description: service.data.description,
-                price: service.data.price,
-                pricing_type: service.data.pricing_type,
-                duration: service.data.duration,
-                is_active: service.data.is_active,
+                name: service.name,
+                description: service.description,
+                price: service.price,
+                pricing_type: service.pricing_type,
+                duration: service.duration,
+                is_active: service.is_active,
             });
         }
     }, [service, form]);
