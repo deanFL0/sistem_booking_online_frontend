@@ -25,20 +25,20 @@ export function DeleteConfirmationDialog<TData>({
         <AlertDialog open={isOpen} onOpenChange={onClose}>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>Apakah Anda Yakin?</AlertDialogTitle>
                     <AlertDialogDescription>
                         {message}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel disabled={isLoading}>Batal</AlertDialogCancel>
                     {(
                         <AlertDialogAction
-                            variant="destructive"
+                            className={"bg-destructive hover:bg-destructive/60 text-black"}
                             onClick={handleConfirm}
                             disabled={isLoading}
                         >
-                            {isLoading ? "Deleting..." : "Delete"}
+                            {isLoading ? "Menghapus..." : "Hapus"}
                         </AlertDialogAction>
                     )}
                 </AlertDialogFooter>
