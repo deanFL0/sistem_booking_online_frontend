@@ -1,3 +1,7 @@
+import type { Resource } from "~/features/resources/types/resource";
+import type { Service } from "~/features/services/types/service";
+import type { User } from "~/features/users/types/user";
+
 export interface Booking {
     id: string | number;
     user_id?: string | number;
@@ -5,14 +9,18 @@ export interface Booking {
     booking_code: string;
     customer_name: string;
     customer_email: string;
-    customer_phone: string;
+    customer_phone?: string;
     start_datetime: string;
     end_datetime: string;
     duration_minutes: number;
     total_price: number;
-    status: "pending" | "active" | "completed" | "cancelled";
+    status: "pending" | "confirmed" | "ongoing" | "completed" | "cancelled" | "no_show";
     completion_notified_at?: string;
     manage_token?: string;
     created_at: string;
     updated_at: string;
+
+    service?: Service;
+    resources?: Resource[];
+    user?: User;
 }
