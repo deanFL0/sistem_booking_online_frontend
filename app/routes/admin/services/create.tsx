@@ -48,23 +48,47 @@ export default function CreateServicePage() {
     });
 
     async function onSubmit(values: ServiceSchema) {
-        try {
-            await toast.promise(
-                mutation.mutateAsync(values),
-                {
-                    loading: "Menyimpan layanan...",
+        // Create a promise that handles the mutation
+        const mutationPromise = mutation.mutateAsync(values);
+
+        toast.promise(mutationPromise, {
+            loading: "Menyimpan Layanan...",
+            success: () => {
+                setTimeout(() => {
+                    navigate("/admin/services");
+                }, 1000);
+                return `Layanan ${values.name} berhasil dibuat`;
+            },
+            error: (error: any) => {
+                // Extract error message
+                if (error.response?.data?.message) {
+                    return error.response.data.message;
                 }
-            );
+                if (error.response?.data?.errors) {
+                    const errors = error.response.data.errors;
+                    const firstError = Object.values(errors)[0];
+                    if (Array.isArray(firstError)) {
+                        return firstError[0];
+                    }
+                    return String(firstError);
+                }
+                return "Gagal membuat Layanan";
+            }
+        });
 
-            toast.success("Layanan berhasil dibuat", {
-                description: `${values.name} telah ditambahkan`,
-            });
-
-            setTimeout(() => {
-                navigate("/admin/services");
-            }, 1000);
-        } catch (error) {
-            toast.error("Gagal membuat layanan");
+        // Set field errors from server
+        try {
+            await mutationPromise;
+        } catch (error: any) {
+            if (error.response?.data?.errors) {
+                const serverErrors = error.response.data.errors;
+                Object.entries(serverErrors).forEach(([field, messages]) => {
+                    form.setError(field as keyof ServiceSchema, {
+                        type: "server",
+                        message: Array.isArray(messages) ? messages[0] : messages as string
+                    });
+                });
+            }
         }
     }
 

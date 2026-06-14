@@ -8,9 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { AdminPage } from "~/components/admin/admin-page";
-import { Field, FieldGroup, FieldLabel } from "~/components/ui/field";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { FieldGroup } from "~/components/ui/field";
 import { useEffect } from "react";
 import { resourceTypeSchema, type ResourceTypeSchema } from "~/features/resource-types/schema/resource-types-schema";
 import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
@@ -67,23 +65,47 @@ export default function EditResourceTypePage() {
     });
 
     async function onSubmit(values: ResourceTypeSchema) {
-        try {
-            await toast.promise(
-                updateMutation.mutateAsync(values),
-                {
-                    loading: "Menyimpan perubahan...",
+        // Create a promise that handles the mutation
+        const mutationPromise = updateMutation.mutateAsync(values);
+
+        toast.promise(mutationPromise, {
+            loading: "Menyimpan Tipe Sumber Daya...",
+            success: () => {
+                setTimeout(() => {
+                    navigate("/admin/resource-types");
+                }, 1000);
+                return `Tipe Sumber Daya ${values.name} berhasil diubah`;
+            },
+            error: (error: any) => {
+                // Extract error message
+                if (error.response?.data?.message) {
+                    return error.response.data.message;
                 }
-            );
+                if (error.response?.data?.errors) {
+                    const errors = error.response.data.errors;
+                    const firstError = Object.values(errors)[0];
+                    if (Array.isArray(firstError)) {
+                        return firstError[0];
+                    }
+                    return String(firstError);
+                }
+                return "Gagal mengubah Tipe Sumber Daya";
+            }
+        });
 
-            toast.success("Tipe Sumber Daya berhasil diperbarui", {
-                description: `${values.name} telah diperbarui`,
-            });
-
-            setTimeout(() => {
-                navigate("/admin/resource-types");
-            }, 1000);
-        } catch (error) {
-            toast.error("Gagal memperbarui Tipe Sumber Daya");
+        // Set field errors from server
+        try {
+            await mutationPromise;
+        } catch (error: any) {
+            if (error.response?.data?.errors) {
+                const serverErrors = error.response.data.errors;
+                Object.entries(serverErrors).forEach(([field, messages]) => {
+                    form.setError(field as keyof ResourceTypeSchema, {
+                        type: "server",
+                        message: Array.isArray(messages) ? messages[0] : messages as string
+                    });
+                });
+            }
         }
     }
 

@@ -50,23 +50,47 @@ export default function CreateResourcePage() {
     });
 
     async function onSubmit(values: ResourceSchema) {
-        try {
-            await toast.promise(
-                mutation.mutateAsync(values),
-                {
-                    loading: "Menyimpan Sumber Daya...",
+        // Create a promise that handles the mutation
+        const mutationPromise = mutation.mutateAsync(values);
+
+        toast.promise(mutationPromise, {
+            loading: "Menyimpan Sumber Daya...",
+            success: () => {
+                setTimeout(() => {
+                    navigate("/admin/resources");
+                }, 1000);
+                return `Sumber Daya ${values.name} berhasil dibuat`;
+            },
+            error: (error: any) => {
+                // Extract error message
+                if (error.response?.data?.message) {
+                    return error.response.data.message;
                 }
-            );
+                if (error.response?.data?.errors) {
+                    const errors = error.response.data.errors;
+                    const firstError = Object.values(errors)[0];
+                    if (Array.isArray(firstError)) {
+                        return firstError[0];
+                    }
+                    return String(firstError);
+                }
+                return "Gagal membuat Sumber Daya";
+            }
+        });
 
-            toast.success("Sumber Daya berhasil dibuat", {
-                description: `${values.name} telah ditambahkan`,
-            });
-
-            setTimeout(() => {
-                navigate("/admin/resources");
-            }, 1000);
-        } catch (error) {
-            toast.error("Gagal membuat Sumber Daya");
+        // Set field errors from server
+        try {
+            await mutationPromise;
+        } catch (error: any) {
+            if (error.response?.data?.errors) {
+                const serverErrors = error.response.data.errors;
+                Object.entries(serverErrors).forEach(([field, messages]) => {
+                    form.setError(field as keyof ResourceSchema, {
+                        type: "server",
+                        message: Array.isArray(messages) ? messages[0] : messages as string
+                    });
+                });
+            }
         }
     }
 
