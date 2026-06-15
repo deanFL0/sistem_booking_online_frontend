@@ -10,10 +10,8 @@ import { Button } from "~/components/ui/button";
 import { AdminPage } from "~/components/admin/admin-page";
 import { FieldGroup } from "~/components/ui/field";
 import { FormInputGroup } from "~/components/form-input/form-input-group";
-import { FormSelect } from "~/components/form-input/form-select";
 import { bookingApi } from "~/features/bookings/api/booking-api";
 import { bookingSchema, type BookingSchema } from "~/features/bookings/schema/booking-schema";
-import { FormDatePicker } from "~/components/form-input/form-date-picker";
 import { serviceApi } from "~/features/services/api/service-api";
 import { FormSearchableSelect } from "~/components/form-input/form-searchable-select";
 import { FormDateTimePicker } from "~/components/form-input/form-datetime-picker";
@@ -60,7 +58,7 @@ export default function CreateBookingPage() {
                 setTimeout(() => {
                     navigate("/admin/bookings");
                 }, 1000);
-                return `Booking ${data.booking_code} berhasil dibuat`;
+                return `Booking ${data.data?.booking_code} berhasil dibuat`;
             },
             error: (error: any) => {
                 // Extract error message

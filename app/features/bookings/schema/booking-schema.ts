@@ -1,7 +1,7 @@
 import z from "zod";
 
 const phoneRegex =
-    /^\+?[1-9]\d{1,14}$/;
+    /^\+?[0-9]\d{1,14}$/;
 
 export const bookingSchema = z.object({
     service_id: z.string().min(1, "Service wajib dipilih"),
