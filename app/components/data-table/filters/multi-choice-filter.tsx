@@ -40,7 +40,7 @@ export function MultiChoiceFilter({
     value = [],
     onChange,
     options,
-    placeholder = "Select options",
+    placeholder = "Pilih Opsi",
 }: Props) {
     function toggleOption(
         optionValue: string

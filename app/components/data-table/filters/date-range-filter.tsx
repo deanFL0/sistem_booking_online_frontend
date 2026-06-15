@@ -56,7 +56,7 @@ export function DateRangeFilter({
                             format(new Date(value.min), "LLL dd, yyyy")
                         )
                     ) : (
-                        <span>Pick a date range</span>
+                        <span>Pilih Tanggal</span>
                     )}
                 </Button>
             </PopoverTrigger>

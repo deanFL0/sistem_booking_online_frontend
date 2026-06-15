@@ -71,7 +71,7 @@ export const columns: ColumnDef<Booking>[] = [
         meta: {
             sortable: true,
             filterVariant: "date-range",
-            filterLabel: "Tanggal & Jam",
+            filterLabel: "Tanggal mulai",
         },
     },
     {

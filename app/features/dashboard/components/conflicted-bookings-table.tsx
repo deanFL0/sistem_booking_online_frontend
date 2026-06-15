@@ -24,10 +24,11 @@ const columns = [
                     <Button
                         variant="outline"
                         size="sm"
-                        render={<Link to={`/admin/bookings/${row.id}/review`}>
+                    >
+                        <Link to={`/admin/bookings/${row.id}/review`}>
                             Review
-                        </Link>}
-                    />
+                        </Link>
+                    </Button>
                 </div>
             );
         },
