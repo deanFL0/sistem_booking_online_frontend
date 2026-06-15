@@ -37,7 +37,7 @@ export const ResourceTypesApi = {
 
     getAllResourceTypes: async () => {
         const response = await api.get(
-            `/resource-types/options`
+            `/options/resource-types`
         );
 
         return response.data;

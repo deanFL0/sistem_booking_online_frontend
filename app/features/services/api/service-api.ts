@@ -27,6 +27,14 @@ export const serviceApi = {
         return response.data;
     },
 
+    getAllServiceOption: async () => {
+        const response = await api.get(
+            "/options/services"
+        );
+
+        return response.data;
+    },
+
     getById: async (id: string) => {
         const response = await api.get(
             `/services/${id}`
