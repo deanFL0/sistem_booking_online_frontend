@@ -30,7 +30,7 @@ export function AdminLayout({
     return (
         <SidebarProvider>
             <AdminSidebar />
-            <SidebarInset>
+            <SidebarInset className="min-w-0">
                 <AdminNavbar />
                 <main className="min-h-screen bg-background text-freground px-4 py-4">
                     <TooltipProvider>
