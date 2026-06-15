@@ -11,11 +11,12 @@ import { AdminPage } from "~/components/admin/admin-page";
 import { FieldGroup } from "~/components/ui/field";
 import { FormInputGroup } from "~/components/form-input/form-input-group";
 import { bookingApi } from "~/features/bookings/api/booking-api";
-import { bookingSchema, type BookingSchema } from "~/features/bookings/schema/booking-schema";
 import { serviceApi } from "~/features/services/api/service-api";
 import { FormSearchableSelect } from "~/components/form-input/form-searchable-select";
 import { FormDateTimePicker } from "~/components/form-input/form-datetime-picker";
 import { useEffect } from "react";
+import { FormSelect } from "~/components/form-input/form-select";
+import { updateBookingSchema, type UpdateBookingSchema } from "~/features/bookings/schema/booking-schema";
 
 type FieldErrorProps = {
     message?: string;
@@ -36,8 +37,8 @@ export default function EditBookingPage() {
     const { id } = useParams<{ id: string }>();
     const queryClient = useQueryClient();
 
-    const form = useForm<BookingSchema>({
-        resolver: zodResolver(bookingSchema),
+    const form = useForm<UpdateBookingSchema>({
+        resolver: zodResolver(updateBookingSchema),
     });
 
     // Fetch booking data
@@ -71,14 +72,14 @@ export default function EditBookingPage() {
     }, [booking, form]);
 
     const updateMutation = useMutation({
-        mutationFn: (data: BookingSchema) => bookingApi.update(id!, data),
+        mutationFn: (data: UpdateBookingSchema) => bookingApi.update(id!, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["bookings"] });
             queryClient.invalidateQueries({ queryKey: ["booking", id] });
         },
     });
 
-    async function onSubmit(values: BookingSchema) {
+    async function onSubmit(values: UpdateBookingSchema) {
         // Create a promise that handles the mutation
         const mutationPromise = updateMutation.mutateAsync(values);
 
@@ -88,7 +89,7 @@ export default function EditBookingPage() {
                 setTimeout(() => {
                     navigate("/admin/bookings");
                 }, 1000);
-                return `Booking ${data.data?.booking_code} berhasil dibuat`;
+                return `Booking ${data.data?.booking_code} berhasil diubah`;
             },
             error: (error: any) => {
                 // Extract error message
@@ -103,7 +104,7 @@ export default function EditBookingPage() {
                     }
                     return String(firstError);
                 }
-                return "Gagal membuat Booking";
+                return "Gagal mengubah Booking";
             }
         });
 
@@ -114,7 +115,7 @@ export default function EditBookingPage() {
             if (error.response?.data?.errors) {
                 const serverErrors = error.response.data.errors;
                 Object.entries(serverErrors).forEach(([field, messages]) => {
-                    form.setError(field as keyof BookingSchema, {
+                    form.setError(field as keyof UpdateBookingSchema, {
                         type: "server",
                         message: Array.isArray(messages) ? messages[0] : messages as string
                     });
@@ -231,6 +232,20 @@ export default function EditBookingPage() {
                                     form={form}
                                     name="start_datetime"
                                     label="Tanggal Mulai Booking"
+                                />
+
+                                <FormSelect
+                                    form={form}
+                                    name="status"
+                                    label="Status"
+                                    options={[
+                                        { value: "pending", label: "Menunggu Konfirmasi" },
+                                        { value: "confirmed", label: "Terkonfirmasi" },
+                                        { value: "ongoing", label: "Sedang Berlangsung" },
+                                        { value: "completed", label: "Selesai" },
+                                        { value: "cancelled", label: "Dibatalkan" },
+                                        { value: "no_show", label: "Tidak Datang" },
+                                    ]}
                                 />
                             </FieldGroup>
 

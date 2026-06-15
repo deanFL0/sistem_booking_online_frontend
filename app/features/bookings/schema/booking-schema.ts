@@ -23,4 +23,11 @@ export const bookingSchema = z.object({
     start_datetime: z.string().min(1, "Tanggal & Jam booking wajib diisi"),
 })
 
+export const updateBookingSchema = bookingSchema.extend({
+    status: z.enum(["pending", "confirmed", "ongoing", "completed", "cancelled", "no_show"], {
+        required_error: "Status wajib diisi",
+    }),
+});
+
 export type BookingSchema = z.infer<typeof bookingSchema>;
+export type UpdateBookingSchema = z.infer<typeof updateBookingSchema>;
