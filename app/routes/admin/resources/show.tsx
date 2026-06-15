@@ -31,7 +31,7 @@ export default function AdminResourceDetailPage() {
             </AdminLayout>
         )
     }
-
+    console.log(resource.data)
     return (
         <AdminLayout>
             <AdminPage>
@@ -81,6 +81,13 @@ export default function AdminResourceDetailPage() {
                                 {resource.description ||
                                     "Tidak ada deskripsi"}
                             </p>
+                        </div>
+
+                        <Separator />
+
+                        <div className="space-y-2">
+                            <Label>Jam Operasi</Label>
+
                         </div>
 
                         <Separator />
