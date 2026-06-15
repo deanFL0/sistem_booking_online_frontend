@@ -16,7 +16,6 @@ export const columns: ColumnDef<Booking>[] = [
             <DataTableColumnHeader column={column} title="Kode Booking" />
         ),
         meta: {
-            sortable: true,
             filterVariant: "text",
             filterLabel: "Kode Booking",
         },
@@ -172,35 +171,23 @@ export function BookingTable() {
     return (
         <DataTable
             columns={columns}
-            data={
-                query.data?.data ?? []
-            }
+            data={query.data?.data ?? []}
 
-            pageCount={
-                query.data?.meta
-                    ?.last_page ?? 0
-            }
+            pageCount={query.data?.meta?.last_page ?? 0}
 
             pagination={pagination}
-            onPaginationChange={
-                setPagination
-            }
+            onPaginationChange={setPagination}
 
             sorting={sorting}
-            onSortingChange={
-                setSorting
-            }
+            onSortingChange={setSorting}
 
             filters={filters}
-            onFiltersChange={
-                setFilters
-            }
+            onFiltersChange={setFilters}
 
             showNumberColumn={true}
 
-            isLoading={
-                query.isLoading
-            }
+            isLoading={query.isLoading}
+            isFetching={query.isFetching}
 
             actions={{
                 viewLink: (booking: Booking) => `/admin/bookings/${booking.id}`,

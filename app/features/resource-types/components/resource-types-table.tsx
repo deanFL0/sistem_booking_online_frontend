@@ -86,34 +86,16 @@ export function ResourceTypesTable() {
     return (
         <DataTable
             columns={columns}
-            data={
-                query.data?.data ?? []
-            }
-
-            pageCount={
-                query.data?.meta
-                    ?.last_page ?? 0
-            }
-
+            data={query.data?.data ?? []}
+            pageCount={query.data?.meta?.last_page ?? 0}
             pagination={pagination}
-            onPaginationChange={
-                setPagination
-            }
-
+            onPaginationChange={setPagination}
             sorting={sorting}
-            onSortingChange={
-                setSorting
-            }
-
+            onSortingChange={setSorting}
             filters={filters}
-            onFiltersChange={
-                setFilters
-            }
-
-            isLoading={
-                query.isLoading
-            }
-
+            onFiltersChange={setFilters}
+            isLoading={query.isLoading}
+            isFetching={query.isFetching}
             showNumberColumn={true}
 
             actions={{

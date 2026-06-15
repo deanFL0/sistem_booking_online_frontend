@@ -127,36 +127,17 @@ export function ServiceTable() {
     return (
         <DataTable
             columns={columns}
-            data={
-                query.data?.data ?? []
-            }
-
-            pageCount={
-                query.data?.meta
-                    ?.last_page ?? 0
-            }
-
+            data={query.data?.data ?? []}
+            pageCount={query.data?.meta?.last_page ?? 0}
             pagination={pagination}
-            onPaginationChange={
-                setPagination
-            }
-
+            onPaginationChange={setPagination}
             sorting={sorting}
-            onSortingChange={
-                setSorting
-            }
-
+            onSortingChange={setSorting}
             filters={filters}
-            onFiltersChange={
-                setFilters
-            }
-
+            onFiltersChange={setFilters}
             showNumberColumn={true}
-
-            isLoading={
-                query.isLoading
-            }
-
+            isLoading={query.isLoading}
+            isFetching={query.isFetching}
             actions={{
                 viewLink: (service: Service) => `/admin/services/${service.id}`,
                 editLink: (service: Service) => `/admin/services/${service.id}/edit`,

@@ -11,6 +11,8 @@ import { DataTablePagination } from "./data-table-pagination"
 import { createActionsColumn, type ActionColumnConfig } from "./action-column"
 import { useState } from "react"
 import { DeleteConfirmationDialog } from "./delete-confirmation-dialog"
+import { Skeleton } from "../ui/skeleton"
+import { Loader2 } from "lucide-react"
 
 declare module "@tanstack/react-table" {
     interface ColumnMeta<
@@ -48,6 +50,7 @@ type Props<TData> = {
     onFiltersChange?: any;
     showNumberColumn?: boolean;
     isLoading?: boolean;
+    isFetching?: boolean;
     actions?: ActionColumnConfig<TData>;
 };
 
@@ -64,6 +67,26 @@ function createNumberColumn<TData>(): ColumnDef<TData> {
     };
 }
 
+interface SkeletonRowProps {
+    columnCount: number;
+    hasNumberColumn: boolean;
+    hasActions: boolean;
+}
+
+function SkeletonRow({ columnCount, hasNumberColumn, hasActions }: SkeletonRowProps) {
+    const totalColumns = columnCount + (hasNumberColumn ? 1 : 0) + (hasActions ? 1 : 0);
+
+    return (
+        <TableRow>
+            {Array.from({ length: totalColumns }).map((_, index) => (
+                <TableCell key={index} className="py-4">
+                    <Skeleton className="h-6 w-full" />
+                </TableCell>
+            ))}
+        </TableRow>
+    );
+}
+
 export function DataTable<TData>({
     columns,
     data,
@@ -76,6 +99,7 @@ export function DataTable<TData>({
     onFiltersChange,
     showNumberColumn,
     isLoading,
+    isFetching,
     actions,
 }: Props<TData>) {
     const [deleteDialog, setDeleteDialog] = useState<{
@@ -153,98 +177,104 @@ export function DataTable<TData>({
         getCoreRowModel: getCoreRowModel(),
     });
 
+    // Show skeleton only on initial load
+    const showSkeletonRows = isLoading && data.length === 0;
+    // Show overlay when fetching (including filter/sort operations) and we already have data
+    const showOverlay = isFetching && data.length > 0;
+
     return (
         <>
             <div className="space-y-4">
-                <DataTableFilters
-                    table={table}
-                    filters={filters}
-                    onFiltersChange={
-                        onFiltersChange
-                    }
-                />
+                {/* Make filters clickable but show loading state visually */}
+                <div className="relative">
+                    {isFetching && data.length > 0 && (
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                        </div>
+                    )}
+                    <DataTableFilters
+                        table={table}
+                        filters={filters}
+                        onFiltersChange={onFiltersChange}
+                    />
+                </div>
 
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            {table
-                                .getHeaderGroups()
-                                .map((headerGroup) => (
-                                    <TableRow
-                                        key={headerGroup.id}
-                                    >
-                                        {headerGroup.headers.map(
-                                            (header) => (
-                                                <TableHead
-                                                    key={header.id}
-                                                >
+                <div className="rounded-md border relative">
+                    {/* Show loading overlay during fetch operations */}
+                    {showOverlay && (
+                        <div className="absolute inset-0 bg-background/50 backdrop-blur-[1px] rounded-md z-10 flex items-center justify-center">
+                            <div className="flex flex-col items-center gap-2">
+                                <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary"></div>
+                                <p className="text-sm text-muted-foreground">Memuat data...</p>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className={showOverlay ? "pointer-events-none opacity-60 transition-opacity" : ""}>
+                        <Table>
+                            <TableHeader>
+                                {table
+                                    .getHeaderGroups()
+                                    .map((headerGroup) => (
+                                        <TableRow key={headerGroup.id}>
+                                            {headerGroup.headers.map((header) => (
+                                                <TableHead key={header.id}>
                                                     {header.isPlaceholder
                                                         ? null
                                                         : flexRender(
-                                                            header.column
-                                                                .columnDef
-                                                                .header,
+                                                            header.column.columnDef.header,
                                                             header.getContext()
                                                         )}
                                                 </TableHead>
-                                            )
-                                        )}
-                                    </TableRow>
-                                ))}
-                        </TableHeader>
-
-                        <TableBody>
-                            {isLoading ? (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={
-                                            columns.length
-                                        }
-                                    >
-                                        Loading...
-                                    </TableCell>
-                                </TableRow>
-                            ) : table.getRowModel()
-                                .rows.length ? (
-                                table
-                                    .getRowModel()
-                                    .rows.map((row) => (
-                                        <TableRow
-                                            key={row.id}
-                                        >
-                                            {row
-                                                .getVisibleCells()
-                                                .map((cell) => (
-                                                    <TableCell
-                                                        key={cell.id}
-                                                    >
-                                                        {flexRender(
-                                                            cell.column
-                                                                .columnDef.cell,
-                                                            cell.getContext()
-                                                        )}
-                                                    </TableCell>
-                                                ))}
+                                            ))}
                                         </TableRow>
-                                    ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={
-                                            columns.length
-                                        }
-                                    >
-                                        Hasil tidak ditemukan.
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
+                                    ))}
+                            </TableHeader>
 
-                <DataTablePagination
-                    table={table}
-                />
+                            <TableBody>
+                                {showSkeletonRows ? (
+                                    Array.from({
+                                        length: pagination?.pageSize || 10,
+                                    }).map((_, index) => (
+                                        <SkeletonRow
+                                            key={index}
+                                            columnCount={columns.length}
+                                            hasNumberColumn={showNumberColumn || false}
+                                            hasActions={!!actions}
+                                        />
+                                    ))
+                                ) : table.getRowModel().rows.length ? (
+                                    table
+                                        .getRowModel()
+                                        .rows.map((row) => (
+                                            <TableRow key={row.id}>
+                                                {row
+                                                    .getVisibleCells()
+                                                    .map((cell) => (
+                                                        <TableCell key={cell.id}>
+                                                            {flexRender(
+                                                                cell.column.columnDef.cell,
+                                                                cell.getContext()
+                                                            )}
+                                                        </TableCell>
+                                                    ))}
+                                            </TableRow>
+                                        ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={columns.length}>
+                                            Hasil tidak ditemukan.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
+
+                    <div className={showOverlay ? "opacity-60 pointer-events-none" : ""}>
+                        <DataTablePagination table={table} />
+                    </div>
+                </div>
             </div>
 
             {/* Delete Confirmation Dialog */}
@@ -258,5 +288,5 @@ export function DataTable<TData>({
                 />
             )}
         </>
-    )
+    );
 }

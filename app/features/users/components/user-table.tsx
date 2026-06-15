@@ -124,9 +124,7 @@ export function UserTable() {
 
     const query = useQuery({
         queryKey: ["users", queryParams],
-
         queryFn: () => userApi.getAll(queryParams),
-
         staleTime: 1000 * 30,
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
@@ -135,48 +133,28 @@ export function UserTable() {
     const handleDelete = async (user: any) => {
         try {
             await userApi.delete(user.id);
-            // Refresh data after successful deletion
             await query.refetch();
             toast.success("User deleted successfully");
         } catch (error) {
             toast.error("Failed to delete user");
-            throw error; // Re-throw to handle in dialog
+            throw error;
         }
     };
 
     return (
         <DataTable
             columns={columns}
-            data={
-                query.data?.data ?? []
-            }
-
-            pageCount={
-                query.data?.meta
-                    ?.last_page ?? 0
-            }
-
+            data={query.data?.data ?? []}
+            pageCount={query.data?.meta?.last_page ?? 0}
             pagination={pagination}
-            onPaginationChange={
-                setPagination
-            }
-
+            onPaginationChange={setPagination}
             sorting={sorting}
-            onSortingChange={
-                setSorting
-            }
-
+            onSortingChange={setSorting}
             filters={filters}
-            onFiltersChange={
-                setFilters
-            }
-
+            onFiltersChange={setFilters}
             showNumberColumn={true}
-
-            isLoading={
-                query.isLoading
-            }
-
+            isLoading={query.isLoading}
+            isFetching={query.isFetching}
             actions={{
                 viewLink: (user: User) => `/admin/users/${user.id}`,
                 editLink: (user: User) => `/admin/users/${user.id}/edit`,
