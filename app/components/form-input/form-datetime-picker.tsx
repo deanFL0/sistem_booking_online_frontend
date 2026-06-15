@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type {
     FieldValues,
     Path,
     UseFormReturn,
 } from "react-hook-form";
 import { format, parse } from "date-fns";
+import { toZonedTime, fromZonedTime } from "date-fns-tz";
 import { ChevronDownIcon } from "lucide-react";
 
 import {
@@ -28,8 +29,54 @@ type FormDateTimePickerProps<
     form: UseFormReturn<T>;
     name: Path<T>;
     label: string;
-
     disablePastDates?: boolean;
+    timezone?: string; // Add timezone prop
+};
+
+// Default timezone (Asia/Jakarta UTC+7)
+const DEFAULT_TIMEZONE = "Asia/Jakarta";
+
+// Helper to convert Date to local time string for display
+const toLocalTimeString = (date: Date, timezone: string): string => {
+    const zonedDate = toZonedTime(date, timezone);
+    return format(zonedDate, "HH:mm");
+};
+
+// Helper to convert local date and time to UTC for storage
+const toUTCString = (date: Date, timeString: string, timezone: string): string => {
+    const [hours, minutes] = timeString.split(":");
+    const localDate = new Date(date);
+    localDate.setHours(Number(hours), Number(minutes), 0, 0);
+
+    // Convert local time to UTC
+    const utcDate = fromZonedTime(localDate, timezone);
+    return format(utcDate, "yyyy-MM-dd HH:mm:ss");
+};
+
+// Helper to parse stored UTC value to local Date for display
+const parseStoredValue = (value: string | undefined, timezone: string): Date | undefined => {
+    if (!value) return undefined;
+
+    let utcDate: Date;
+
+    // Check if it's ISO format
+    if (value.includes('T')) {
+        utcDate = new Date(value);
+    } else {
+        // PostgreSQL format - treat as UTC
+        utcDate = parse(value, "yyyy-MM-dd HH:mm:ss", new Date());
+    }
+
+    if (isNaN(utcDate.getTime())) return undefined;
+
+    // Convert UTC to local timezone for display
+    return toZonedTime(utcDate, timezone);
+};
+
+// Helper to get current local date in the specified timezone
+const getCurrentLocalDate = (timezone: string): Date => {
+    const now = new Date();
+    return fromZonedTime(now, timezone);
 };
 
 export function FormDateTimePicker<
@@ -39,70 +86,63 @@ export function FormDateTimePicker<
     name,
     label,
     disablePastDates = false,
+    timezone = DEFAULT_TIMEZONE,
 }: FormDateTimePickerProps<T>) {
     const [open, setOpen] = useState(false);
 
-    const value = form.watch(name) as
-        | string
-        | undefined;
+    const value = form.watch(name) as string | undefined;
 
-    // Parse string to Date for display
-    const selectedDate = value
-        ? parse(value, "yyyy-MM-dd HH:mm:ss", new Date())
-        : undefined;
+    // Parse stored UTC value to local date for display
+    const localDate = parseStoredValue(value, timezone);
 
     const updateDate = (
         datePart: Date | undefined,
         timePart?: string
     ) => {
         if (!datePart) {
-            form.setValue(
-                name,
-                "" as any
-            );
+            form.setValue(name, "" as any);
             return;
         }
 
-        const date = new Date(datePart);
+        let finalTimePart = timePart;
 
-        if (timePart) {
-            const [hours, minutes] =
-                timePart.split(":");
-
-            date.setHours(
-                Number(hours),
-                Number(minutes),
-                0,
-                0
-            );
-        } else if (selectedDate) {
-            date.setHours(
-                selectedDate.getHours(),
-                selectedDate.getMinutes(),
-                0,
-                0
-            );
+        // If no time provided, try to preserve existing time or default to 00:00
+        if (!finalTimePart) {
+            if (localDate) {
+                finalTimePart = format(localDate, "HH:mm");
+            } else {
+                finalTimePart = "00:00";
+            }
         }
 
-        // Format as PostgreSQL timestamp without timezone
-        const formattedDate = format(date, "yyyy-MM-dd HH:mm:ss");
+        // Convert local date+time to UTC for storage
+        const utcString = toUTCString(datePart, finalTimePart, timezone);
 
-        form.setValue(
-            name,
-            formattedDate as any,
-            {
-                shouldDirty: true,
-                shouldTouch: true,
-                shouldValidate: true,
-            }
-        );
+        form.setValue(name, utcString as any, {
+            shouldDirty: true,
+            shouldTouch: true,
+            shouldValidate: true,
+        });
     };
 
     const getCurrentTimeString = () => {
-        if (selectedDate) {
-            return `${String(selectedDate.getHours()).padStart(2, "0")}:${String(selectedDate.getMinutes()).padStart(2, "0")}`;
+        if (localDate && !isNaN(localDate.getTime())) {
+            return format(localDate, "HH:mm");
         }
         return "00:00";
+    };
+
+    // Disable past dates based on local timezone
+    const isPastDate = (date: Date) => {
+        if (!disablePastDates) return false;
+
+        const today = getCurrentLocalDate(timezone);
+        today.setHours(0, 0, 0, 0);
+
+        const compareDate = toZonedTime(date, timezone);
+        compareDate.setHours(0, 0, 0, 0);
+
+        return compareDate < today;
     };
 
     return (
@@ -121,8 +161,8 @@ export function FormDateTimePicker<
                                     variant="outline"
                                     className="w-full justify-between font-normal"
                                 >
-                                    {selectedDate
-                                        ? format(selectedDate, "PPP")
+                                    {localDate && !isNaN(localDate.getTime())
+                                        ? format(localDate, "PPP")
                                         : "Pilih tanggal"}
 
                                     <ChevronDownIcon />
@@ -136,25 +176,14 @@ export function FormDateTimePicker<
                         >
                             <Calendar
                                 mode="single"
-                                selected={selectedDate}
-                                defaultMonth={selectedDate}
+                                selected={localDate && !isNaN(localDate.getTime()) ? localDate : undefined}
+                                defaultMonth={localDate && !isNaN(localDate.getTime()) ? localDate : getCurrentLocalDate(timezone)}
                                 captionLayout="dropdown"
-                                disabled={
-                                    disablePastDates
-                                        ? (date) =>
-                                            date <
-                                            new Date(
-                                                new Date().setHours(
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    0
-                                                )
-                                            )
-                                        : undefined
-                                }
+                                disabled={isPastDate}
                                 onSelect={(date) => {
-                                    updateDate(date);
+                                    if (date) {
+                                        updateDate(date);
+                                    }
                                     setOpen(false);
                                 }}
                             />
@@ -167,8 +196,9 @@ export function FormDateTimePicker<
                         type="time"
                         value={getCurrentTimeString()}
                         onChange={(e) => {
-                            // If no date is selected, use today's date
-                            const baseDate = selectedDate ?? new Date();
+                            const baseDate = localDate && !isNaN(localDate.getTime())
+                                ? localDate
+                                : getCurrentLocalDate(timezone);
                             updateDate(baseDate, e.target.value);
                         }}
                     />

@@ -101,7 +101,7 @@ export default function CreateBookingPage() {
         staleTime: 1000 * 60 * 10,
         refetchOnWindowFocus: false,
     });
-    console.log(serviceOptionsQuery.data);
+
     return (
         <AdminLayout>
             <AdminPage>

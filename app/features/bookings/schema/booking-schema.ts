@@ -10,6 +10,7 @@ export const bookingSchema = z.object({
     customer_phone: z
         .string()
         .trim()
+        .nullable()
         .optional()
         .transform(val => val === "" ? undefined : val)
         .refine(

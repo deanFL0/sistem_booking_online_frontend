@@ -21,6 +21,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.21",
     "embla-carousel-react": "^8.6.0",
     "isbot": "^5.1.36",
