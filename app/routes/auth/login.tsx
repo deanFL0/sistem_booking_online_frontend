@@ -51,7 +51,6 @@ export default function LoginForm() {
             } else {
                 setError("Terjadi kesalahan yang tidak diketahui.");
             }
-            console.log(error);
         }
     }
 

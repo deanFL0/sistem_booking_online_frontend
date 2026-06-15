@@ -111,7 +111,6 @@ export function ResourceTable() {
             throw error; // Re-throw to handle in dialog
         }
     };
-    console.log(query.data)
 
     return (
         <DataTable

@@ -167,7 +167,7 @@ export function BookingTable() {
             throw error; // Re-throw to handle in dialog
         }
     };
-    console.log(query.data?.data);
+
     return (
         <DataTable
             columns={columns}
