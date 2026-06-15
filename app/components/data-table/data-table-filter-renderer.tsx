@@ -4,6 +4,7 @@ import { MultiChoiceFilter } from "./filters/multi-choice-filter"
 import { NumberRangeFilter } from "./filters/number-range-filter"
 import { TextFilter } from "./filters/text-filter"
 import { TimeRangeFilter } from "./filters/time-range-filter"
+import { DateRangeFilter } from "./filters/date-range-filter"
 
 type Props<TData, TValue> = {
     column: Column<TData, TValue>
@@ -66,6 +67,16 @@ export function DataTableFilterRenderer<TData, TValue>({
         case "time-range":
             return (
                 <TimeRangeFilter
+                    value={
+                        (value as { min?: string; max?: string }) ?? {}
+                    }
+                    onChange={onChange}
+                />
+            )
+
+        case "date-range":
+            return (
+                <DateRangeFilter
                     value={
                         (value as { min?: string; max?: string }) ?? {}
                     }

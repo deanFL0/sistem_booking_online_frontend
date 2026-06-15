@@ -27,6 +27,7 @@ declare module "@tanstack/react-table" {
         | "number-range"
         | "datetime-range"
         | "time-range"
+        | "date-range"
 
         filterOptions?: {
             label: string
