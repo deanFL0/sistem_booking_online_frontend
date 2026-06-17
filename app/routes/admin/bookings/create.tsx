@@ -15,6 +15,7 @@ import { bookingSchema, type BookingSchema } from "~/features/bookings/schema/bo
 import { serviceApi } from "~/features/services/api/service-api";
 import { FormSearchableSelect } from "~/components/form-input/form-searchable-select";
 import { FormDateTimePicker } from "~/components/form-input/form-datetime-picker";
+import { useServiceAvailability } from "~/features/services/hooks/useServiceAvailability";
 
 type FieldErrorProps = {
     message?: string;
@@ -32,12 +33,27 @@ export function FieldError({ message }: FieldErrorProps) {
 
 export default function CreateBookingPage() {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const form = useForm<BookingSchema>({
         resolver: zodResolver(bookingSchema),
     });
 
-    const queryClient = useQueryClient();
+    // Watch service_id to fetch availability
+    const selectedServiceId = form.watch('service_id');
+
+    const {
+        availableDates,
+        availableTimes,
+        selectedDate,
+        isLoading: datesLoading,
+        isTimesLoading,
+        error: availabilityError,
+        selectDate,
+    } = useServiceAvailability({
+        serviceId: selectedServiceId,
+        initialDate: null,
+    });
 
     const mutation = useMutation({
         mutationFn: bookingApi.create,
@@ -49,7 +65,6 @@ export default function CreateBookingPage() {
     });
 
     async function onSubmit(values: BookingSchema) {
-        // Create a promise that handles the mutation
         const mutationPromise = mutation.mutateAsync(values);
 
         toast.promise(mutationPromise, {
@@ -61,7 +76,6 @@ export default function CreateBookingPage() {
                 return `Booking ${data.data?.booking_code} berhasil dibuat`;
             },
             error: (error: any) => {
-                // Extract error message
                 if (error.response?.data?.message) {
                     return error.response.data.message;
                 }
@@ -77,7 +91,6 @@ export default function CreateBookingPage() {
             }
         });
 
-        // Set field errors from server
         try {
             await mutationPromise;
         } catch (error: any) {
@@ -116,13 +129,10 @@ export default function CreateBookingPage() {
 
                     <CardContent>
                         <form
-                            onSubmit={form.handleSubmit(
-                                onSubmit
-                            )}
+                            onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6"
                         >
                             <FieldGroup>
-
                                 <FormSearchableSelect
                                     form={form}
                                     name="service_id"
@@ -159,18 +169,23 @@ export default function CreateBookingPage() {
                                     form={form}
                                     name="start_datetime"
                                     label="Tanggal Mulai Booking"
+                                    availableDates={availableDates}
+                                    availableTimes={availableTimes}
+                                    selectedDate={selectedDate}
+                                    onDateSelect={selectDate}
+                                    isLoading={datesLoading}
+                                    isTimesLoading={isTimesLoading}
+                                    error={availabilityError}
+                                    disablePastDates={true}
+                                    timezone="Asia/Jakarta"
                                 />
                             </FieldGroup>
 
                             <Button
                                 type="submit"
-                                disabled={
-                                    mutation.isPending
-                                }
+                                disabled={mutation.isPending}
                             >
-                                {mutation.isPending
-                                    ? "Menyimpan..."
-                                    : "Simpan"}
+                                {mutation.isPending ? "Menyimpan..." : "Simpan"}
                             </Button>
                         </form>
                     </CardContent>

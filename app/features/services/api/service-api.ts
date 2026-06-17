@@ -43,6 +43,27 @@ export const serviceApi = {
         return response.data.data;
     },
 
+    getAvailableDates: async (id: string) => {
+        const response = await api.get(
+            `/services/${id}/available-dates`
+        );
+
+        return response.data;
+    },
+
+    getAvailableTimes: async (id: string, date: string) => {
+        const response = await api.get(
+            `/services/${id}/available-time-slots`,
+            {
+                params: {
+                    date
+                }
+            }
+        );
+
+        return response.data;
+    },
+
     create: async (data: ServiceSchema) => {
         const response = await api.post(
             "/services",
