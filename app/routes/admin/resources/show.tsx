@@ -111,7 +111,7 @@ export default function AdminResourceDetailPage() {
 
                             <Button
                                 render={
-                                    <Link to={`/admin/resources/${resource.id}/availability-override/create`}>
+                                    <Link to={`/admin/resources/${resource.id}/availability-overrides/create`}>
                                         <Plus />
                                         Tambah Override Jam Operasi
                                     </Link>

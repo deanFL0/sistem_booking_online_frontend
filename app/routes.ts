@@ -35,6 +35,11 @@ export default [
             route("create", "routes/admin/resources/operational-hours/create.tsx"),
             route(":operationalHourId/edit", "routes/admin/resources/operational-hours/edit.tsx"),
         ]),
+        // Resource Availability Overrides
+        ...prefix(":resourceId/availability-overrides", [
+            route("create", "routes/admin/resources/res-avail-overrides/create.tsx"),
+            route(":overrideId/edit", "routes/admin/resources/res-avail-overrides/edit.tsx"),
+        ]),
     ]),
 
     // User Routes
