@@ -20,7 +20,7 @@ export const operationalHourApi = {
             `/resources/${resourceId}/operational-hours/${operationalHourId}`
         )
 
-        return response.data
+        return response.data.data
     },
 
     create: async (

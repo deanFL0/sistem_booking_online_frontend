@@ -10,9 +10,7 @@ import { Button } from "~/components/ui/button";
 import { AdminPage } from "~/components/admin/admin-page";
 import { FieldGroup } from "~/components/ui/field";
 import { FormInputGroup } from "~/components/form-input/form-input-group";
-import { FormTextarea } from "~/components/form-input/form-textarea";
 import { FormSelect } from "~/components/form-input/form-select";
-import { FormSearchableSelect } from "~/components/form-input/form-searchable-select";
 import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
 import { operationalHoursSchema, type OperationalHoursSchema } from "~/features/resources/schema/operational-hours-schema";
 import { operationalHourApi } from "~/features/resources/api/operational-hours-api";
@@ -32,8 +30,7 @@ export function FieldError({ message }: FieldErrorProps) {
 }
 
 export default function CreateResourcePage() {
-    const params = useParams();
-    const resourceId = params.id;
+    const { resourceId } = useParams();
 
     const navigate = useNavigate();
 
@@ -58,12 +55,12 @@ export default function CreateResourcePage() {
         const mutationPromise = mutation.mutateAsync(values);
 
         toast.promise(mutationPromise, {
-            loading: "Menyimpan Jam Operasi...",
+            loading: "Menyimpan Jam Operasional...",
             success: () => {
                 setTimeout(() => {
                     navigate(`/admin/resources/${resourceId}`);
                 }, 1000);
-                return `Jam Operasi berhasil dibuat`;
+                return `Jam Operasional berhasil dibuat`;
             },
             error: (error: any) => {
                 // Extract error message
@@ -78,7 +75,7 @@ export default function CreateResourcePage() {
                     }
                     return String(firstError);
                 }
-                return "Gagal membuat Sumber Daya";
+                return "Gagal membuat Jam Operasional";
             }
         });
 
@@ -109,14 +106,14 @@ export default function CreateResourcePage() {
         <AdminLayout>
             <AdminPage>
                 <AdminPageHeader
-                    title="Buat Jam Operasi Baru"
-                    description="Form untuk membuat Jam Operasi baru"
+                    title="Buat Jam Operasional Baru"
+                    description="Form untuk membuat Jam Operasional baru"
                     backHref={`/admin/resources/${resourceId}`}
                 />
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Informasi Jam Operasi</CardTitle>
+                        <CardTitle>Informasi Jam Operasional</CardTitle>
                     </CardHeader>
 
                     <CardContent>

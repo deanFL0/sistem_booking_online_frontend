@@ -14,15 +14,15 @@ import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
 
 export default function AdminResourceDetailPage() {
-    const { id } = useParams();
+    const { resourceId } = useParams();
 
     const { data: resource } = useQuery({
-        queryKey: ["resource", id],
+        queryKey: ["resource", resourceId],
         queryFn: async () => {
-            const res = await resourceApi.getById(id!);
+            const res = await resourceApi.getById(resourceId!);
             return res;
         },
-        enabled: !!id,
+        enabled: !!resourceId,
     });
 
     if (!resource) {

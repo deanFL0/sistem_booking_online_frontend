@@ -68,7 +68,7 @@ export function OperationalHourTable({ resourceId, operationalHours }: { resourc
             isLoading={false}
             isFetching={false}
             actions={{
-                editLink: (operational_hour: OperationalHour) => `/admin/operational_hours/${operational_hour.id}/edit`,
+                editLink: (operational_hour: OperationalHour) => `/admin/resources/${resourceId}/operational-hours/${operational_hour.id}/edit`,
                 onDelete: (operational_hour: OperationalHour) => handleDelete(operational_hour),
                 deleteConfirmationMessage: (operational_hour: OperationalHour) => `Apakah Anda yakin ingin menghapus jam operasional pada hari "${operational_hour.day_name}"?`,
             }}

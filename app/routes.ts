@@ -28,12 +28,12 @@ export default [
     ...prefix("admin/resources", [
         index("routes/admin/resources/index.tsx"),
         route("create", "routes/admin/resources/create.tsx"),
-        route(":id", "routes/admin/resources/show.tsx"),
+        route(":resourceId", "routes/admin/resources/show.tsx"),
         route(":id/edit", "routes/admin/resources/edit.tsx"),
         // Operational Hours
-        ...prefix(":id/operational-hours", [
+        ...prefix(":resourceId/operational-hours", [
             route("create", "routes/admin/resources/operational-hours/create.tsx"),
-            route(":id/edit", "routes/admin/resources/operational-hours/edit.tsx"),
+            route(":operationalHourId/edit", "routes/admin/resources/operational-hours/edit.tsx"),
         ]),
     ]),
 
