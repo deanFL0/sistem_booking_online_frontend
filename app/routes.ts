@@ -30,6 +30,11 @@ export default [
         route("create", "routes/admin/resources/create.tsx"),
         route(":id", "routes/admin/resources/show.tsx"),
         route(":id/edit", "routes/admin/resources/edit.tsx"),
+        // Operational Hours
+        ...prefix(":id/operational-hours", [
+            route("create", "routes/admin/resources/operational-hours/create.tsx"),
+            route(":id/edit", "routes/admin/resources/operational-hours/edit.tsx"),
+        ]),
     ]),
 
     // User Routes

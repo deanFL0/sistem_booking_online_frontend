@@ -1,7 +1,6 @@
 import z from "zod";
 
 export const operationalHoursSchema = z.object({
-    resource_id: z.string(),
     day_of_week: z.number().min(0).max(6),
     open_time: z.string(),
     close_time: z.string(),

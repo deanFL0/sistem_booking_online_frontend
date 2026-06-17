@@ -1,7 +1,7 @@
 import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
@@ -10,6 +10,8 @@ import { formatDistanceToNow } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import { resourceApi } from "~/features/resources/api/resource-api";
 import { OperationalHourTable } from "~/features/resources/components/operational-hour-table";
+import { Button } from "~/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function AdminResourceDetailPage() {
     const { id } = useParams();
@@ -86,8 +88,17 @@ export default function AdminResourceDetailPage() {
 
                         <Separator />
 
-                        <div className="space-y-2">
+                        <div className="flex justify-between">
                             <Label>Jam Operasi</Label>
+
+                            <Button
+                                render={
+                                    <Link to={`/admin/resources/${resource.id}/operational-hours/create`}>
+                                        <Plus />
+                                        Tambah Jam Operasi
+                                    </Link>
+                                }
+                            />
                         </div>
 
                         <OperationalHourTable resourceId={String(resource.id)} operationalHours={resource.operational_hours} />
