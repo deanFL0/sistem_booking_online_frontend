@@ -3,8 +3,6 @@ import { buildQueryParams } from "~/lib/query-builder";
 import type { ResourceSchema } from "../schema/resource-schema";
 
 type GetResAvailOverridesParams = {
-    resourceId: string
-
     pagination: {
         pageIndex: number
         pageSize: number
@@ -16,8 +14,6 @@ type GetResAvailOverridesParams = {
     }[]
 
     filters: Record<string, unknown>
-
-    includes?: string[]
 }
 
 export const resAvailOverrideApi = {

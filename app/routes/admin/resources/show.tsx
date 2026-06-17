@@ -12,6 +12,7 @@ import { resourceApi } from "~/features/resources/api/resource-api";
 import { OperationalHourTable } from "~/features/resources/components/operational-hour-table";
 import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
+import { ResAvailOverrideTable } from "~/features/resources/components/res-avail-override-table";
 
 export default function AdminResourceDetailPage() {
     const { resourceId } = useParams();
@@ -102,6 +103,23 @@ export default function AdminResourceDetailPage() {
                         </div>
 
                         <OperationalHourTable resourceId={String(resource.id)} operationalHours={resource.operational_hours} />
+
+                        <Separator />
+
+                        <div className="flex justify-between">
+                            <Label>Override Jam Operasi</Label>
+
+                            <Button
+                                render={
+                                    <Link to={`/admin/resources/${resource.id}/availability-override/create`}>
+                                        <Plus />
+                                        Tambah Override Jam Operasi
+                                    </Link>
+                                }
+                            />
+                        </div>
+
+                        <ResAvailOverrideTable resourceId={String(resource.id)} />
 
                         <Separator />
 
