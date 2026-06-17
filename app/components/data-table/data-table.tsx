@@ -192,11 +192,13 @@ export function DataTable<TData>({
                             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                         </div>
                     )}
-                    <DataTableFilters
-                        table={table}
-                        filters={filters}
-                        onFiltersChange={onFiltersChange}
-                    />
+                    {filters && onFiltersChange && (
+                        <DataTableFilters
+                            table={table}
+                            filters={filters}
+                            onFiltersChange={onFiltersChange}
+                        />
+                    )}
                 </div>
 
                 <div className="rounded-md border relative">
@@ -271,9 +273,11 @@ export function DataTable<TData>({
                         </Table>
                     </div>
 
-                    <div className={showOverlay ? "opacity-60 pointer-events-none" : ""}>
-                        <DataTablePagination table={table} />
-                    </div>
+                    {pagination && (
+                        <div className={showOverlay ? "opacity-60 pointer-events-none" : ""}>
+                            <DataTablePagination table={table} />
+                        </div>
+                    )}
                 </div>
             </div>
 

@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import { resourceApi } from "~/features/resources/api/resource-api";
+import { OperationalHourTable } from "~/features/resources/components/operational-hour-table";
 
 export default function AdminResourceDetailPage() {
     const { id } = useParams();
@@ -31,7 +32,7 @@ export default function AdminResourceDetailPage() {
             </AdminLayout>
         )
     }
-    console.log(resource.data)
+
     return (
         <AdminLayout>
             <AdminPage>
@@ -87,8 +88,9 @@ export default function AdminResourceDetailPage() {
 
                         <div className="space-y-2">
                             <Label>Jam Operasi</Label>
-
                         </div>
+
+                        <OperationalHourTable resourceId={String(resource.id)} operationalHours={resource.operational_hours} />
 
                         <Separator />
 
