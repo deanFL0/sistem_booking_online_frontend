@@ -31,9 +31,9 @@ export function ServiceResourceTypeTable({ serviceId, resourceTypes }: { service
             await queryClient.invalidateQueries({
                 queryKey: ["service", serviceId],
             })
-            toast.success("Jam operasional berhasil dihapus");
+            toast.success(`Tipe sumber daya "${service_resource_type.name}" berhasil diputuskan dari layanan`);
         } catch (error) {
-            toast.error("Gagal menghapus jam operasional");
+            toast.error("Gagal memutus tipe sumber daya dari layanan");
             throw error; // Re-throw to handle in dialog
         }
     }

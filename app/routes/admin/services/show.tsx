@@ -121,7 +121,7 @@ export default function AdminServiceDetailPage() {
                                 }
                             />
                         </div>
-                        <ServiceResourceTypeTable serviceId={service.id} resourceTypes={service.resource_types || []} />
+                        <ServiceResourceTypeTable serviceId={serviceId as string} resourceTypes={service.resource_types || []} />
 
                         <Separator />
 
