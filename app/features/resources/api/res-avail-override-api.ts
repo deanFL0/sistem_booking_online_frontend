@@ -29,7 +29,7 @@ export const resAvailOverrideApi = {
 
     getById: async (resourceId: string, overrideId: string) => {
         const response = await api.get(
-            `/resources/${resourceId}/availability-overrides${overrideId}`
+            `/resources/${resourceId}/availability-overrides/${overrideId}`
         );
 
         return response.data.data;
@@ -50,7 +50,7 @@ export const resAvailOverrideApi = {
         data: ResourceSchema
     ) => {
         const response = await api.put(
-            `/resources/${resourceId}/availability-overrides${overrideId}`,
+            `/resources/${resourceId}/availability-overrides/${overrideId}`,
             data
         );
 
@@ -59,7 +59,7 @@ export const resAvailOverrideApi = {
 
     delete: async (resourceId: string, overrideId: string) => {
         const response = await api.delete(
-            `/resources/${resourceId}/availability-overrides${overrideId}`
+            `/resources/${resourceId}/availability-overrides/${overrideId}`
         );
 
         return response.data;

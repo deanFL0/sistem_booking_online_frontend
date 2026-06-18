@@ -43,7 +43,7 @@ export default function CreateResAvailOverridesPage() {
         mutationFn: (values: ResAvailOverrideSchema) => resAvailOverrideApi.create(resourceId!, values),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["res-avail-override"]
+                queryKey: ["res-avail-overrides"]
             });
         }
     });

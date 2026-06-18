@@ -139,7 +139,7 @@ export function ResAvailOverrideTable(
     )
 
     const query = useQuery({
-        queryKey: ["res-avail-override", resourceId, queryParams],
+        queryKey: ["res-avail-overrides", resourceId, queryParams],
 
         queryFn: () => resAvailOverrideApi.getAll(resourceId, queryParams),
 
@@ -175,7 +175,7 @@ export function ResAvailOverrideTable(
             isLoading={query.isLoading}
             isFetching={query.isFetching}
             actions={{
-                editLink: (override: ResAvailOverride) => `/admin/resources/${resourceId}/availability-override/${override.id}/edit`,
+                editLink: (override: ResAvailOverride) => `/admin/resources/${resourceId}/availability-overrides/${override.id}/edit`,
                 onDelete: (override: ResAvailOverride) => handleDelete(override),
                 deleteConfirmationMessage: (override: ResAvailOverride) => `Apakah Anda yakin ingin menghapus override tanggal ${override.start_datetime} - ${override.end_datetime}?`,
             }}
