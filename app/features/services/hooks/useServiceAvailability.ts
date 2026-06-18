@@ -128,19 +128,13 @@ export const useServiceAvailability = ({
 
     // Fetch dates when serviceId changes
     useEffect(() => {
-        if (serviceId !== serviceIdRef.current) {
-            serviceIdRef.current = serviceId;
-            if (serviceId) {
-                fetchDates();
-                // Reset selected date when service changes
-                setSelectedDate(null);
-                setAvailableTimes([]);
-            } else {
-                setAvailableDates([]);
-                setSelectedDate(null);
-                setAvailableTimes([]);
-                setError(null);
-            }
+        if (serviceId) {
+            fetchDates();
+        } else {
+            setAvailableDates([]);
+            setSelectedDate(null);
+            setAvailableTimes([]);
+            setError(null);
         }
     }, [serviceId, fetchDates]);
 

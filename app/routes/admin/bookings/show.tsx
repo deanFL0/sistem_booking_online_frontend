@@ -13,10 +13,15 @@ import { ArrowUpRight, Calendar, X } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { CancelBookingDialog } from "~/features/bookings/components/cancel-booking-dialog";
 import { useState } from "react";
+import { RescheduleBookingDialog } from "~/features/bookings/components/reschedule-booking-dialog";
+import type { Booking } from "~/features/bookings/type/booking";
 
 export default function BookingDetailPage() {
     const { bookingId } = useParams<{ bookingId: string }>();
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
+    const [isOpenRescheduleDialog, setIsOpenRescheduleDialog] = useState(false);
+    const [rescheduleBooking, setRescheduleBooking] =
+        useState<Booking | null>(null);
 
     const { data: booking } = useQuery({
         queryKey: ["booking", bookingId],
@@ -36,7 +41,7 @@ export default function BookingDetailPage() {
             </AdminLayout>
         )
     }
-    console.log(booking)
+
     return (
         <AdminLayout>
             <AdminPage>
@@ -183,13 +188,14 @@ export default function BookingDetailPage() {
                                     <CancelBookingDialog booking={booking} />
                                     <Button
                                         className={"bg-yellow-400 text-black hover:bg-yellow-300"}
-                                        render={
-                                            <Link to={`/admin/bookings/${booking.id}/reschedule`}>
-                                                Jadwalkan ulang Booking
-                                                <Calendar />
-                                            </Link>
-                                        }
-                                    />
+                                        onClick={() => {
+                                            setIsOpenRescheduleDialog(true);
+                                            setRescheduleBooking(booking);
+                                        }}
+                                    >
+                                        Jadwalkan ulang Booking
+                                        <Calendar />
+                                    </Button>
                                     <Button
                                         className={"bg-yellow-400 text-black hover:bg-yellow-300"}
                                         render={
@@ -255,9 +261,13 @@ export default function BookingDetailPage() {
                             </div>
                         </div>
 
-                        {
-
-                        }
+                        {isOpenRescheduleDialog && rescheduleBooking && (
+                            <RescheduleBookingDialog
+                                booking={rescheduleBooking}
+                                open={isOpenRescheduleDialog}
+                                onOpenChange={setIsOpenRescheduleDialog}
+                            />
+                        )}
                     </CardContent>
                 </Card>
             </AdminPage>

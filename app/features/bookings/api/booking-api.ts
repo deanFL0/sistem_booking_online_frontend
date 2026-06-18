@@ -72,9 +72,10 @@ export const bookingApi = {
         return response.data;
     },
 
-    reschedule: async (id: string) => {
+    reschedule: async (id: string, data: BookingSchema) => {
         const response = await api.patch(
-            `/bookings/${id}/reschedule`
+            `/bookings/${id}/reschedule`,
+            data
         );
 
         return response.data;
@@ -97,7 +98,7 @@ export const bookingApi = {
         return response.data;
     },
 
-    guestReschedule: async (token: string) => {
+    guestReschedule: async (token: string, data: BookingSchema) => {
         const response = await api.patch(
             `/guest-booking/${token}/reschedule`
         );
