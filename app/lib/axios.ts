@@ -17,7 +17,9 @@ const isPublicRoute = (url: string | undefined, method: string | undefined) => {
     if (url.startsWith('/services') && methodLower === 'get') return true;
 
     // Bookings creation
-    if (url.startsWith('/bookings') && methodLower === 'post') return true;
+    if (url === '/bookings' && methodLower === 'post') {
+        return true;
+    }
 
     // Guest bookings operations
     if (url.startsWith('/guest-bookings')) return true;

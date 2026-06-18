@@ -11,9 +11,12 @@ import { id as idLocale } from "date-fns/locale";
 import { bookingApi } from "~/features/bookings/api/booking-api";
 import { ArrowUpRight, Calendar, X } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { CancelBookingDialog } from "~/features/bookings/components/cancel-booking-dialog";
+import { useState } from "react";
 
 export default function BookingDetailPage() {
     const { bookingId } = useParams<{ bookingId: string }>();
+    const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
 
     const { data: booking } = useQuery({
         queryKey: ["booking", bookingId],
@@ -177,15 +180,7 @@ export default function BookingDetailPage() {
                                     <p>{booking.conflict_details}</p>
                                 </div>
                                 <div className="flex gap-2">
-                                    <Button
-                                        className={"bg-red-500 text-black hover:bg-red-400"}
-                                        render={
-                                            <Link to={`/admin/bookings/${booking.id}/cancel`}>
-                                                Batalkan Booking
-                                                <X />
-                                            </Link>
-                                        }
-                                    />
+                                    <CancelBookingDialog booking={booking} />
                                     <Button
                                         className={"bg-yellow-400 text-black hover:bg-yellow-300"}
                                         render={
@@ -259,6 +254,10 @@ export default function BookingDetailPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {
+
+                        }
                     </CardContent>
                 </Card>
             </AdminPage>

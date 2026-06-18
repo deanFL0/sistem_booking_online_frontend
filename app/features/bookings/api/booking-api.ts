@@ -63,4 +63,45 @@ export const bookingApi = {
 
         return response.data;
     },
+
+    cancel: async (id: string) => {
+        const response = await api.post(
+            `/bookings/${id}/cancel`
+        );
+
+        return response.data;
+    },
+
+    reschedule: async (id: string) => {
+        const response = await api.patch(
+            `/bookings/${id}/reschedule`
+        );
+
+        return response.data;
+    },
+
+    // guest booking endpoint
+    guestBooking: async (token: string) => {
+        const response = await api.get(
+            `/guest-booking/${token}`
+        );
+
+        return response.data.data;
+    },
+
+    guestCancel: async (token: string) => {
+        const response = await api.post(
+            `/guest-booking/${token}/cancel`
+        );
+
+        return response.data;
+    },
+
+    guestReschedule: async (token: string) => {
+        const response = await api.patch(
+            `/guest-booking/${token}/reschedule`
+        );
+
+        return response.data;
+    },
 };
