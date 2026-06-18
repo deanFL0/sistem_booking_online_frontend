@@ -22,6 +22,7 @@ import {
     PopoverTrigger,
 } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 // Props interface
 type FormDateTimePickerProps<T extends FieldValues> = {
@@ -330,33 +331,36 @@ export function FormDateTimePicker<T extends FieldValues>({
                     ) : isAvailabilityMode && availableTimes && availableTimes.length === 0 && selectedDate ? (
                         <Input disabled placeholder="No times" />
                     ) : (
-                        <select
-                            className="w-full px-3 py-2 border rounded-md bg-background text-foreground"
+                        <Select
                             value={getCurrentTimeString()}
-                            onChange={(e) => handleTimeChange(e.target.value)}
+                            onValueChange={handleTimeChange}
                             disabled={isTimePickerDisabled}
                         >
-                            <option value="">Select time</option>
-                            {isAvailabilityMode && availableTimes ? (
-                                availableTimes.map((time) => (
-                                    <option key={time} value={time}>
-                                        {time}
-                                    </option>
-                                ))
-                            ) : (
-                                // If not in availability mode, show default time options
-                                Array.from({ length: 24 * 4 }, (_, i) => {
-                                    const hours = Math.floor(i / 4);
-                                    const minutes = (i % 4) * 15;
-                                    const time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-                                    return (
-                                        <option key={time} value={time}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select time" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {isAvailabilityMode && availableTimes ? (
+                                    availableTimes.map((time) => (
+                                        <SelectItem key={time} value={time}>
                                             {time}
-                                        </option>
-                                    );
-                                })
-                            )}
-                        </select>
+                                        </SelectItem>
+                                    ))
+                                ) : (
+                                    // If not in availability mode, show default time options
+                                    Array.from({ length: 24 * 4 }, (_, i) => {
+                                        const hours = Math.floor(i / 4);
+                                        const minutes = (i % 4) * 15;
+                                        const time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                                        return (
+                                            <SelectItem key={time} value={time}>
+                                                {time}
+                                            </SelectItem>
+                                        );
+                                    })
+                                )}
+                            </SelectContent>
+                        </Select>
                     )}
                 </Field>
             </FieldGroup>
