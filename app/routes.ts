@@ -15,10 +15,10 @@ export default [
         route(":serviceId", "routes/admin/services/show.tsx"),
         route(":serviceId/edit", "routes/admin/services/edit.tsx"),
         // Service Resource Types Routes
-        // ...prefix(":serviceId/resource-types", [
-        //     route("create", "routes/admin/services/resource-types/create.tsx"),
-        //     route("edit", "routes/admin/services/resource-types/edit.tsx"),
-        // ]),
+        ...prefix(":serviceId/resource-types", [
+            route("create", "routes/admin/services/resource-types/create.tsx"),
+            route("edit", "routes/admin/services/resource-types/edit.tsx"),
+        ]),
     ]),
 
     // Resource Type Routes

@@ -35,15 +35,15 @@ export const serviceResourceTypeApi = {
         return response.data;
     },
 
-    getById: async (serviceId: string, serviceResourceTypeId: string) => {
+    getById: async (serviceId: string, resourceTypeId: string) => {
         const response = await api.get(
-            `/services/${serviceId}/resource-types/${serviceResourceTypeId}`
+            `/services/${serviceId}/resource-types/${resourceTypeId}`
         );
 
         return response.data.data;
     },
 
-    create: async (data: ServiceResourceTypeSchema, serviceId: string) => {
+    create: async (serviceId: string, data: ServiceResourceTypeSchema) => {
         const response = await api.post(
             `/services/${serviceId}/resource-types`,
             data
@@ -54,20 +54,20 @@ export const serviceResourceTypeApi = {
 
     update: async (
         serviceId: string,
-        serviceResourceTypeId: string,
+        resourceTypeId: string,
         data: ServiceResourceTypeSchema
     ) => {
         const response = await api.put(
-            `/services/${serviceId}/resource-types/${serviceResourceTypeId}`,
+            `/services/${serviceId}/resource-types/${resourceTypeId}`,
             data
         );
 
         return response.data;
     },
 
-    delete: async (serviceId: string, serviceResourceTypeId: string) => {
+    delete: async (serviceId: string, resourceTypeId: string) => {
         const response = await api.delete(
-            `/services/${serviceId}/resource-types/${serviceResourceTypeId}`
+            `/services/${serviceId}/resource-types/${resourceTypeId}`
         );
 
         return response.data;
