@@ -192,7 +192,11 @@ export function FormDateTimePicker<T extends FieldValues>({
     }, [isAvailabilityMode, onDateSelect, availableTimes, updateDate, getCurrentTimeString]);
 
     // Handle time selection
-    const handleTimeChange = useCallback((time: string) => {
+    const handleTimeChange = useCallback((time: string | null) => {
+        if (!time) {
+            return;
+        }
+
         // Check if time is available (only in availability mode)
         if (isAvailabilityMode && availableTimes && !availableTimes.includes(time)) {
             form.setError(name, {
