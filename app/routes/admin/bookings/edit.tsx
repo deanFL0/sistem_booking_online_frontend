@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { AdminPage } from "~/components/admin/admin-page";
-import { FieldGroup } from "~/components/ui/field";
+import { Field, FieldGroup, FieldLabel } from "~/components/ui/field";
 import { FormInputGroup } from "~/components/form-input/form-input-group";
 import { bookingApi } from "~/features/bookings/api/booking-api";
 import { serviceApi } from "~/features/services/api/service-api";
@@ -17,6 +17,9 @@ import { FormDateTimePicker } from "~/components/form-input/form-datetime-picker
 import { useEffect } from "react";
 import { FormSelect } from "~/components/form-input/form-select";
 import { updateBookingSchema, type UpdateBookingSchema } from "~/features/bookings/schema/booking-schema";
+import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
+import { TriangleAlert } from "lucide-react";
+import { Checkbox } from "~/components/ui/checkbox";
 
 type FieldErrorProps = {
     message?: string;
@@ -181,6 +184,15 @@ export default function EditBookingPage() {
                     </CardHeader>
 
                     <CardContent>
+                        {booking.conflict_details ? (
+                            <div className="mb-4 rounded-md border-l-4 border-yellow-500 bg-yellow-50 p-4">
+                                <p className="text-base font-semibold">Booking ini memiliki konflik</p>
+                                <p>
+                                    Detail konflik: <br />
+                                    {booking.conflict_details}
+                                </p>
+                            </div>
+                        ) : null}
                         <form
                             onSubmit={form.handleSubmit(
                                 onSubmit
@@ -247,6 +259,33 @@ export default function EditBookingPage() {
                                         { value: "no_show", label: "Tidak Datang" },
                                     ]}
                                 />
+
+                                {booking.conflict_details ? (
+                                    <Field>
+                                        <FieldLabel>Tandai konflik selesai</FieldLabel>
+                                        <Tooltip>
+                                            <TooltipTrigger>
+                                                <Checkbox
+                                                    name="has_conflict"
+                                                    checked={form.watch("has_conflict")}
+                                                    onCheckedChange={(value) => {
+                                                        if (value === true) {
+                                                            form.setValue("has_conflict", true)
+                                                            form.setValue("conflict_details", null)
+                                                        } else {
+                                                            form.setValue("has_conflict", false)
+                                                            form.setValue("conflict_details", booking.conflict_details)
+                                                        }
+                                                    }}
+                                                />
+                                            </TooltipTrigger>
+                                            <TooltipContent className={"bg-yellow-400 text-black border-2 border-yellow-600"}>
+                                                <TriangleAlert />
+                                                Harap pastikan konflik telah ditangani sebelum menandai konflik selesai
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </Field>
+                                ) : null}
                             </FieldGroup>
 
                             <Button

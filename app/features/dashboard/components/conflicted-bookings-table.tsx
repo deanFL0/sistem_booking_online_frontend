@@ -25,7 +25,7 @@ const columns = [
                         variant="outline"
                         size="sm"
                     >
-                        <Link to={`/admin/bookings/${row.id}/review`}>
+                        <Link to={`/admin/bookings/${row.id}`}>
                             Review
                         </Link>
                     </Button>

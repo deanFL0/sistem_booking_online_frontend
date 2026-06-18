@@ -27,6 +27,8 @@ export const updateBookingSchema = bookingSchema.extend({
     status: z.enum(["pending", "confirmed", "ongoing", "completed", "cancelled", "no_show"], {
         required_error: "Status wajib diisi",
     }),
+    has_conflict: z.boolean().optional(),
+    conflict_details: z.string().optional(),
 });
 
 export type BookingSchema = z.infer<typeof bookingSchema>;
