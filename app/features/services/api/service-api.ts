@@ -14,6 +14,8 @@ type GetServicesParams = {
     }[]
 
     filters: Record<string, unknown>
+
+    includes?: string[]
 }
 
 export const serviceApi = {

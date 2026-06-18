@@ -1,7 +1,7 @@
 import { AdminLayout } from "~/components/layout/admin-layout";
 import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
-import { useParams } from "react-router";
+import { data, Link, useParams } from "react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
@@ -9,6 +9,9 @@ import { useQuery } from "@tanstack/react-query";
 import { serviceApi } from "~/features/services/api/service-api";
 import { formatDistanceToNow } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
+import { ServiceResourceTypeTable } from "~/features/services/components/service-resource-type-table";
+import { Button } from "~/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function AdminServiceDetailPage() {
     const { id } = useParams();
@@ -103,6 +106,22 @@ export default function AdminServiceDetailPage() {
                                     "Tidak ada deskripsi"}
                             </p>
                         </div>
+
+                        <Separator />
+
+                        <div className="flex justify-between">
+                            <Label>Tipe Sumber Daya yang ditetapkan untuk Layanan Ini</Label>
+
+                            <Button
+                                render={
+                                    <Link to={`/admin/services/${service.id}/resource-types/create`}>
+                                        <Plus />
+                                        Tambah Tipe Sumber Daya
+                                    </Link>
+                                }
+                            />
+                        </div>
+                        <ServiceResourceTypeTable serviceId={service.id} resourceTypes={service.resource_types || []} />
 
                         <Separator />
 

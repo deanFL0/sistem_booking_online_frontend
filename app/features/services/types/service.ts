@@ -1,3 +1,5 @@
+import type { ServiceResourceType } from "./service-resource-type";
+
 export interface Service {
     id: string | number;
     name: string;
@@ -8,6 +10,8 @@ export interface Service {
     is_active: boolean;
     created_at: string;
     updated_at: string;
+
+    resource_types?: ServiceResourceType[];
 }
 
 export type AvailableDatesResponse = {
