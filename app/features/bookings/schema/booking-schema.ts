@@ -28,7 +28,7 @@ export const updateBookingSchema = bookingSchema.extend({
         required_error: "Status wajib diisi",
     }),
     has_conflict: z.boolean().optional(),
-    conflict_details: z.string().optional(),
+    conflict_details: z.string().nullable(),
 });
 
 export type BookingSchema = z.infer<typeof bookingSchema>;

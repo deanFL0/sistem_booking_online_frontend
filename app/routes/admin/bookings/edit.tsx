@@ -70,6 +70,8 @@ export default function EditBookingPage() {
                 service_id: String(booking.service_id),
                 start_datetime: booking.start_datetime,
                 status: booking.status,
+                has_conflict: booking.has_conflict,
+                conflict_details: booking.conflict_details,
             });
         }
     }, [booking, form]);
