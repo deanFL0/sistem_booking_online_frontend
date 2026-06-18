@@ -5,6 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { ServiceResourceType } from "../types/service-resource-type";
 import { serviceResourceTypeApi } from "../api/service-resource-type-api";
+import { useState } from "react";
+import { EditServiceResourceTypeDialog } from "./edit-service-resource-type-dialog";
 
 export const columns: ColumnDef<ServiceResourceType>[] = [
     {
@@ -22,6 +24,11 @@ export const columns: ColumnDef<ServiceResourceType>[] = [
 ]
 
 export function ServiceResourceTypeTable({ serviceId, resourceTypes }: { serviceId: string, resourceTypes: ServiceResourceType[] }) {
+    const [selected, setSelected] =
+        useState<ServiceResourceType | null>(null);
+
+    const [open, setOpen] = useState(false);
+
     const queryClient = useQueryClient();
 
     const handleDelete = async (service_resource_type: ServiceResourceType) => {
@@ -38,18 +45,36 @@ export function ServiceResourceTypeTable({ serviceId, resourceTypes }: { service
         }
     }
 
+    const handleEdit = (
+        resourceType: ServiceResourceType
+    ) => {
+        setSelected(resourceType);
+        setOpen(true);
+    };
+
     return (
-        <DataTable
-            columns={columns}
-            data={resourceTypes}
-            showNumberColumn={false}
-            isLoading={false}
-            isFetching={false}
-            actions={{
-                editLink: (service_resource_type: ServiceResourceType) => `/admin/services/${serviceId}/resource-types/${service_resource_type.id}/edit`,
-                onDelete: (service_resource_type: ServiceResourceType) => handleDelete(service_resource_type),
-                deleteConfirmationMessage: (service_resource_type: ServiceResourceType) => `Apakah Anda yakin ingin menghapus tipe sumber daya "${service_resource_type.name}"?`,
-            }}
-        />
+        <>
+            <DataTable
+                columns={columns}
+                data={resourceTypes}
+                showNumberColumn={false}
+                isLoading={false}
+                isFetching={false}
+                actions={{
+                    onEdit: handleEdit,
+                    onDelete: (service_resource_type: ServiceResourceType) => handleDelete(service_resource_type),
+                    deleteConfirmationMessage: (service_resource_type: ServiceResourceType) => `Apakah Anda yakin ingin menghapus tipe sumber daya "${service_resource_type.name}"?`,
+                }}
+            />
+
+            {open && selected && (
+                <EditServiceResourceTypeDialog
+                    serviceId={serviceId}
+                    resourceType={selected}
+                    open={open}
+                    onOpenChange={setOpen}
+                />
+            )}
+        </>
     )
 }

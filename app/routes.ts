@@ -17,7 +17,6 @@ export default [
         // Service Resource Types Routes
         ...prefix(":serviceId/resource-types", [
             route("create", "routes/admin/services/resource-types/create.tsx"),
-            route("edit", "routes/admin/services/resource-types/edit.tsx"),
         ]),
     ]),
 
