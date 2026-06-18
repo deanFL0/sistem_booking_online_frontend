@@ -11,15 +11,15 @@ import { id as idLocale } from "date-fns/locale";
 import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
 
 export default function AdminServiceDetailPage() {
-    const { id } = useParams();
+    const { serviceId } = useParams<{ serviceId: string }>();
 
     const { data: resourceType } = useQuery({
-        queryKey: ["resource-type", id],
+        queryKey: ["resource-type", serviceId],
         queryFn: async () => {
-            const res = await ResourceTypesApi.getById(id!);
+            const res = await ResourceTypesApi.getById(serviceId!);
             return res;
         },
-        enabled: !!id,
+        enabled: !!serviceId,
     });
 
     if (!resourceType) {
@@ -44,7 +44,7 @@ export default function AdminServiceDetailPage() {
                     <CardHeader>
                         <CardTitle>{resourceType.name}</CardTitle>
                         <CardDescription>
-                            ID: {resourceType.id}
+                            ID: {resourceType.serviceId}
                         </CardDescription>
                     </CardHeader>
 

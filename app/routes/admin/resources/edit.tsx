@@ -34,7 +34,7 @@ export function FieldError({ message }: FieldErrorProps) {
 
 export default function EditResourcePage() {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>();
+    const { resourceId } = useParams<{ resourceId: string }>();
     const queryClient = useQueryClient();
 
     const form = useForm<ResourceSchema>({
@@ -43,9 +43,9 @@ export default function EditResourcePage() {
 
     // Fetch resource data
     const { data: resource, isLoading: isLoadingResource } = useQuery({
-        queryKey: ["resource", id],
-        queryFn: () => resourceApi.getById(id!),
-        enabled: !!id,
+        queryKey: ["resource", resourceId],
+        queryFn: () => resourceApi.getById(resourceId!),
+        enabled: !!resourceId,
     });
 
     // Fetch resource types options
@@ -69,10 +69,10 @@ export default function EditResourcePage() {
     }, [resource, form]);
 
     const updateMutation = useMutation({
-        mutationFn: (data: ResourceSchema) => resourceApi.update(id!, data),
+        mutationFn: (data: ResourceSchema) => resourceApi.update(resourceId!, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["resources"] });
-            queryClient.invalidateQueries({ queryKey: ["resource", id] });
+            queryClient.invalidateQueries({ queryKey: ["resource", resourceId] });
         },
     });
 

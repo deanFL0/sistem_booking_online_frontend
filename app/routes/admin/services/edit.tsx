@@ -32,7 +32,7 @@ export function FieldError({ message }: FieldErrorProps) {
 
 export default function EditServicePage() {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>();
+    const { serviceId } = useParams<{ serviceId: string }>();
     const queryClient = useQueryClient();
 
     const form = useForm<ServiceSchema>({
@@ -41,9 +41,9 @@ export default function EditServicePage() {
 
     // Fetch service data
     const { data: service, isLoading: isLoadingService } = useQuery({
-        queryKey: ["service", id],
-        queryFn: () => serviceApi.getById(id!),
-        enabled: !!id,
+        queryKey: ["service", serviceId],
+        queryFn: () => serviceApi.getById(serviceId!),
+        enabled: !!serviceId,
     });
 
     // Populate form when data is loaded
@@ -61,11 +61,11 @@ export default function EditServicePage() {
     }, [service, form]);
 
     const updateMutation = useMutation({
-        mutationFn: (data: ServiceSchema) => serviceApi.update(id!, data),
+        mutationFn: (data: ServiceSchema) => serviceApi.update(serviceId!, data),
         onSuccess: () => {
             // Invalidate and refetch both the list and the individual service
             queryClient.invalidateQueries({ queryKey: ["services"] });
-            queryClient.invalidateQueries({ queryKey: ["service", id] });
+            queryClient.invalidateQueries({ queryKey: ["service", serviceId] });
         },
     });
 

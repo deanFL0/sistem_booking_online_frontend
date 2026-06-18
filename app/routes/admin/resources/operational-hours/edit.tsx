@@ -30,7 +30,7 @@ export function FieldError({ message }: FieldErrorProps) {
 }
 
 export default function EditResourcePage() {
-    const { resourceId, operationalHourId } = useParams();
+    const { resourceId, operationalHourId } = useParams<{ resourceId: string, operationalHourId: string }>();
 
     const navigate = useNavigate();
     const queryClient = useQueryClient();

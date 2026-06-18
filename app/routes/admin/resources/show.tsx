@@ -15,7 +15,7 @@ import { Plus } from "lucide-react";
 import { ResAvailOverrideTable } from "~/features/resources/components/res-avail-override-table";
 
 export default function AdminResourceDetailPage() {
-    const { resourceId } = useParams();
+    const { resourceId } = useParams<{ resourceId: string }>();
 
     const { data: resource } = useQuery({
         queryKey: ["resource", resourceId],

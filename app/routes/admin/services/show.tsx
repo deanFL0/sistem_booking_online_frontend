@@ -14,15 +14,15 @@ import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
 
 export default function AdminServiceDetailPage() {
-    const { id } = useParams();
+    const { serviceId } = useParams<{ serviceId: string }>();
 
     const { data: service } = useQuery({
-        queryKey: ["service", id],
+        queryKey: ["service", serviceId],
         queryFn: async () => {
-            const res = await serviceApi.getById(id!);
+            const res = await serviceApi.getById(serviceId!);
             return res;
         },
-        enabled: !!id,
+        enabled: !!serviceId,
     });
 
     if (!service) {

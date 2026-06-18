@@ -34,7 +34,7 @@ export function FieldError({ message }: FieldErrorProps) {
 
 export default function EditBookingPage() {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>();
+    const { bookingId } = useParams<{ bookingId: string }>();
     const queryClient = useQueryClient();
 
     const form = useForm<UpdateBookingSchema>({
@@ -43,9 +43,9 @@ export default function EditBookingPage() {
 
     // Fetch booking data
     const { data: booking, isLoading: isLoadingBooking } = useQuery({
-        queryKey: ["booking", id],
-        queryFn: () => bookingApi.getById(id!),
-        enabled: !!id,
+        queryKey: ["booking", bookingId],
+        queryFn: () => bookingApi.getById(bookingId!),
+        enabled: !!bookingId,
     });
 
     // Fetch service options data
@@ -72,10 +72,10 @@ export default function EditBookingPage() {
     }, [booking, form]);
 
     const updateMutation = useMutation({
-        mutationFn: (data: UpdateBookingSchema) => bookingApi.update(id!, data),
+        mutationFn: (data: UpdateBookingSchema) => bookingApi.update(bookingId!, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["bookings"] });
-            queryClient.invalidateQueries({ queryKey: ["booking", id] });
+            queryClient.invalidateQueries({ queryKey: ["booking", bookingId] });
         },
     });
 

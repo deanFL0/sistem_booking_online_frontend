@@ -30,7 +30,7 @@ export function FieldError({ message }: FieldErrorProps) {
 }
 
 export default function CreateResourcePage() {
-    const { resourceId } = useParams();
+    const { resourceId } = useParams<{ resourceId: string }>();
 
     const navigate = useNavigate();
 

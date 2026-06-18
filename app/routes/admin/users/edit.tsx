@@ -31,7 +31,7 @@ export function FieldError({ message }: FieldErrorProps) {
 
 export default function EditUserPage() {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>();
+    const { userId } = useParams<{ userId: string }>();
     const queryClient = useQueryClient();
 
     const form = useForm<UpdateUserSchema>({
@@ -40,9 +40,9 @@ export default function EditUserPage() {
 
     // Fetch user data
     const { data: user, isLoading: isLoadingUser } = useQuery({
-        queryKey: ["user", id],
-        queryFn: () => userApi.getById(id!),
-        enabled: !!id,
+        queryKey: ["user", userId],
+        queryFn: () => userApi.getById(userId!),
+        enabled: !!userId,
     });
 
     // Populate form when data is loaded
@@ -58,11 +58,11 @@ export default function EditUserPage() {
     }, [user, form]);
 
     const updateMutation = useMutation({
-        mutationFn: (data: UpdateUserSchema) => userApi.update(id!, data),
+        mutationFn: (data: UpdateUserSchema) => userApi.update(userId!, data),
         onSuccess: () => {
             // Invalidate and refetch both the list and the individual user
             queryClient.invalidateQueries({ queryKey: ["users"] });
-            queryClient.invalidateQueries({ queryKey: ["user", id] });
+            queryClient.invalidateQueries({ queryKey: ["user", userId] });
         },
     });
 

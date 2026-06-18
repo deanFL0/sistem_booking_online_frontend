@@ -30,7 +30,7 @@ export function FieldError({ message }: FieldErrorProps) {
 }
 
 export default function CreateResAvailOverridesPage() {
-    const { resourceId, overrideId } = useParams();
+    const { resourceId, overrideId } = useParams<{ resourceId: string, overrideId: string }>();
     const navigate = useNavigate();
 
     const form = useForm<ResAvailOverrideSchema>({

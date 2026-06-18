@@ -11,15 +11,15 @@ import { id as idLocale } from "date-fns/locale";
 import { userApi } from "~/features/users/api/user-api";
 
 export default function AdminUserDetailPage() {
-    const { id } = useParams();
+    const { userId } = useParams<{ userId: string }>();
 
     const { data: user } = useQuery({
-        queryKey: ["user", id],
+        queryKey: ["user", userId],
         queryFn: async () => {
-            const res = await userApi.getById(id!);
+            const res = await userApi.getById(userId!);
             return res;
         },
-        enabled: !!id,
+        enabled: !!userId,
     });
 
     if (!user) {

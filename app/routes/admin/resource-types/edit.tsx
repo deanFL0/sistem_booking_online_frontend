@@ -31,7 +31,7 @@ export function FieldError({ message }: FieldErrorProps) {
 
 export default function EditResourceTypePage() {
     const navigate = useNavigate();
-    const { id } = useParams<{ id: string }>();
+    const { resourceTypeId } = useParams<{ resourceTypeId: string }>();
     const queryClient = useQueryClient();
 
     const form = useForm<ResourceTypeSchema>({
@@ -40,9 +40,9 @@ export default function EditResourceTypePage() {
 
     // Fetch resource types data
     const { data: resourceType, isLoading: isLoadingResourceType } = useQuery({
-        queryKey: ["resource-type", id],
-        queryFn: () => ResourceTypesApi.getById(id!),
-        enabled: !!id,
+        queryKey: ["resource-type", resourceTypeId],
+        queryFn: () => ResourceTypesApi.getById(resourceTypeId!),
+        enabled: !!resourceTypeId,
     });
 
     // Populate form when data is loaded
@@ -56,11 +56,11 @@ export default function EditResourceTypePage() {
     }, [resourceType, form]);
 
     const updateMutation = useMutation({
-        mutationFn: (data: ResourceTypeSchema) => ResourceTypesApi.update(id!, data),
+        mutationFn: (data: ResourceTypeSchema) => ResourceTypesApi.update(resourceTypeId!, data),
         onSuccess: () => {
             // Invalidate and refetch both the list and the individual resource type
             queryClient.invalidateQueries({ queryKey: ["resource-types"] });
-            queryClient.invalidateQueries({ queryKey: ["resource-type", id] });
+            queryClient.invalidateQueries({ queryKey: ["resource-type", resourceTypeId] });
         },
     });
 
