@@ -52,6 +52,15 @@ export default function AdminServiceDetailPage() {
                     </CardHeader>
 
                     <CardContent className="space-y-6">
+                        {service.image_url ? (
+                            <div className="flex justify-center border rounded-md p-2">
+                                <img src={service.image_url} alt={service.name} className="w-full h-54 rounded-md object-contain" />
+                            </div>
+                        ) : (
+                            <div className="flex justify-center border rounded-md p-2">
+                                <p className="text-muted-foreground">Tidak ada gambar</p>
+                            </div>
+                        )}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label>Nama Layanan</Label>

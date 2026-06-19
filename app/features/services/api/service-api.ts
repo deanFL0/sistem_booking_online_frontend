@@ -1,6 +1,6 @@
 import { api } from "~/lib/axios"
 import { buildQueryParams } from "~/lib/query-builder"
-import type { ServiceSchema } from "../schema/service-create-schema"
+import type { ServiceSchema } from "../schema/service-schema"
 
 type GetServicesParams = {
     pagination: {
@@ -16,6 +16,23 @@ type GetServicesParams = {
     filters: Record<string, unknown>
 
     includes?: string[]
+}
+
+function buildServiceFormData(data: ServiceSchema) {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description ?? "");
+    formData.append("price", String(data.price));
+    formData.append("pricing_type", data.pricing_type);
+    formData.append("duration", String(data.duration));
+    formData.append("is_active", data.is_active ? "1" : "0");
+
+    if (data.image instanceof File) {
+        formData.append("image", data.image);
+    }
+
+    return formData;
 }
 
 export const serviceApi = {
@@ -69,19 +86,20 @@ export const serviceApi = {
     create: async (data: ServiceSchema) => {
         const response = await api.post(
             "/services",
-            data
+            buildServiceFormData(data)
         );
 
         return response.data;
     },
 
-    update: async (
-        id: string,
-        data: ServiceSchema
-    ) => {
-        const response = await api.put(
+    update: async (id: string, data: ServiceSchema) => {
+        const formData = buildServiceFormData(data);
+
+        formData.append("_method", "PUT");
+
+        const response = await api.post(
             `/services/${id}`,
-            data
+            formData
         );
 
         return response.data;

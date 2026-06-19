@@ -10,10 +10,11 @@ import { Button } from "~/components/ui/button";
 import { AdminPage } from "~/components/admin/admin-page";
 import { FieldGroup } from "~/components/ui/field";
 import { serviceApi } from "~/features/services/api/service-api";
-import { serviceSchema, type ServiceSchema } from "~/features/services/schema/service-create-schema";
+import { serviceSchema, type ServiceSchema } from "~/features/services/schema/service-schema";
 import { FormInputGroup } from "~/components/form-input/form-input-group";
 import { FormTextarea } from "~/components/form-input/form-textarea";
 import { FormSelect } from "~/components/form-input/form-select";
+import { FormImage } from "~/components/form-input/form-image";
 
 type FieldErrorProps = {
     message?: string;
@@ -51,6 +52,7 @@ export default function CreateServicePage() {
         // Create a promise that handles the mutation
         const mutationPromise = mutation.mutateAsync(values);
 
+        console.log(values)
         toast.promise(mutationPromise, {
             loading: "Menyimpan Layanan...",
             success: () => {
@@ -114,6 +116,12 @@ export default function CreateServicePage() {
                             className="space-y-6"
                         >
                             <FieldGroup>
+                                <FormImage
+                                    form={form}
+                                    name="image"
+                                    label="Gambar"
+                                />
+
                                 <FormInputGroup
                                     form={form}
                                     name="name"

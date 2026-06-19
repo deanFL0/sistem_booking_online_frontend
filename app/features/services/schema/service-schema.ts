@@ -7,6 +7,7 @@ export const serviceSchema = z.object({
     pricing_type: z.enum(["one_time", "hourly"]),
     duration: z.number().min(1, "Durasi layanan harus diisi"),
     is_active: z.boolean(),
+    image: z.instanceof(File).optional(),
 });
 
 export type ServiceSchema = z.infer<typeof serviceSchema>;
