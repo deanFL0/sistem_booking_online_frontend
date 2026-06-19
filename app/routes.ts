@@ -5,7 +5,15 @@ export default [
     route("auth/login", "routes/auth/login.tsx"),
     route("auth/register", "routes/auth/register.tsx"),
 
-    // Admin Layout/Dashboard
+    // Public Routes
+    ...prefix("services", [
+        index("routes/services/index.tsx"),
+    ]),
+
+    //-------------------------------------------
+
+    // Admin Routes
+    // Admin Dashboard
     route("admin/dashboard", "routes/admin/admin-dashboard.tsx"),
 
     // Service Routes
