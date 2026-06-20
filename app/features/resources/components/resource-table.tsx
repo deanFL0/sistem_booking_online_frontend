@@ -85,7 +85,7 @@ export function ResourceTable() {
             pagination,
             sorting,
             filters: debouncedFilters,
-            includes: ["resource_type"],
+            includes: ["resource_type", "operational_hours"],
         }),
         [pagination, sorting, debouncedFilters]
     )
@@ -131,6 +131,12 @@ export function ResourceTable() {
                 editLink: (resource: Resource) => `/admin/resources/${resource.id}/edit`,
                 onDelete: (resource: Resource) => handleDelete(resource),
                 deleteConfirmationMessage: (resource: Resource) => `Apakah Anda yakin ingin menghapus sumber daya "${resource.name}"?`,
+            }}
+            getRowClassName={(resource) => {
+                if (resource.operational_hours?.length === 0) {
+                    return "border-l-4 bg-yellow-50/50 shadow-[inset_4px_0_0_0_rgb(239_68_68)]"
+                }
+                return ""
             }}
         />
     )

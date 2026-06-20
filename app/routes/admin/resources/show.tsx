@@ -11,7 +11,7 @@ import { id as idLocale } from "date-fns/locale";
 import { resourceApi } from "~/features/resources/api/resource-api";
 import { OperationalHourTable } from "~/features/resources/components/operational-hour-table";
 import { Button } from "~/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, TriangleAlert } from "lucide-react";
 import { ResAvailOverrideTable } from "~/features/resources/components/res-avail-override-table";
 
 export default function AdminResourceDetailPage() {
@@ -91,6 +91,12 @@ export default function AdminResourceDetailPage() {
 
                         <div className="flex justify-between">
                             <Label>Jam Operasi</Label>
+                            {resource.operational_hours.length === 0 && (
+                                <span className="inline-flex items-center font-medium text-destructive">
+                                    <TriangleAlert />
+                                    Tidak Ada Jam Operasi
+                                </span>
+                            )}
 
                             <Button
                                 render={
