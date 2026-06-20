@@ -5,8 +5,8 @@ const phoneRegex =
 
 export const bookingSchema = z.object({
     service_id: z.string().min(1, "Service wajib dipilih"),
-    customer_name: z.string().min(3, "Nama customer minimal 3 karakter"),
-    customer_email: z.string().email("Email tidak valid"),
+    customer_name: z.string().min(3, "Nama harus memiliki minimal 3 karakter"),
+    customer_email: z.string().email("Format email tidak valid"),
     customer_phone: z
         .string()
         .trim()
