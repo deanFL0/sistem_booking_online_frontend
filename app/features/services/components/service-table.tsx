@@ -33,7 +33,7 @@ export const columns: ColumnDef<Service>[] = [
             ) : (
                 <div className="flex flex-col text-left">
                     {row.original.total_price}
-                    <span className="text-sm text-gray-500">
+                    <span className="text-xs text-gray-500">
                         {row.original.formatted_price}
                     </span>
                 </div>
