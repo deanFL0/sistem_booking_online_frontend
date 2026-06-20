@@ -4,7 +4,6 @@ import { DataTable } from "~/components/data-table/data-table"
 import { DataTableColumnHeader } from "~/components/data-table/data-table-column-header"
 import type { ColumnDef, SortingState } from "@tanstack/react-table"
 import type { Service } from "../types/service"
-import { formatServicePrice } from "~/lib/format-service-price"
 import { useDebouncedValue } from "~/hooks/use-debounce"
 import { toast } from "sonner"
 import { serviceApi } from "../api/service-api"
@@ -22,11 +21,24 @@ export const columns: ColumnDef<Service>[] = [
         },
     },
     {
-        accessorKey: "price",
+        accessorKey: "total_price",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Harga" />
         ),
-        cell: ({ row }) => formatServicePrice(row.original),
+        cell: ({ row }) => {
+            return row.original.pricing_type === "one_time" ? (
+                <div>
+                    {row.original.total_price}
+                </div>
+            ) : (
+                <div className="flex flex-col text-left">
+                    {row.original.total_price}
+                    <span className="text-sm text-gray-500">
+                        {row.original.formatted_price}
+                    </span>
+                </div>
+            )
+        },
         meta: {
             sortable: true,
             filterVariant: "number-range",

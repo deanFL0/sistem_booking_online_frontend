@@ -4,8 +4,6 @@ import { Card, CardContent } from "../../../components/ui/card"
 import { Button } from "../../../components/ui/button"
 import { Link } from "react-router"
 
-import { formatServicePrice } from "~/lib/format-service-price"
-
 interface ServiceCardProps {
     service: Service
 }
