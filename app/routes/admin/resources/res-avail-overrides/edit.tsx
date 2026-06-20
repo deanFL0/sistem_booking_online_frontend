@@ -30,7 +30,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function EditResAvailOverridePage() {
+export default function AdminEditResAvailOverridePage() {
     const navigate = useNavigate();
     const { resourceId, overrideId } = useParams<{ resourceId: string; overrideId: string }>();
     const queryClient = useQueryClient();

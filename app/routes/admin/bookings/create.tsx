@@ -31,7 +31,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateBookingPage() {
+export default function AdminCreateBookingPage() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 

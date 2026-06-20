@@ -29,7 +29,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function EditUserPage() {
+export default function AdminEditUserPage() {
     const navigate = useNavigate();
     const { userId } = useParams<{ userId: string }>();
     const queryClient = useQueryClient();

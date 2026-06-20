@@ -31,7 +31,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateResourcePage() {
+export default function AdminCreateResourcePage() {
     const navigate = useNavigate();
 
     const form = useForm<ResourceSchema>({

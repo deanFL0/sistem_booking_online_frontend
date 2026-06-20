@@ -29,7 +29,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateResAvailOverridesPage() {
+export default function AdminCreateResAvailOverridesPage() {
     const { resourceId, overrideId } = useParams<{ resourceId: string, overrideId: string }>();
     const navigate = useNavigate();
 

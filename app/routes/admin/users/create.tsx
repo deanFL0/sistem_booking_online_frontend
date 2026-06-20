@@ -28,7 +28,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateUserPage() {
+export default function AdminCreateUserPage() {
     const navigate = useNavigate();
 
     const form = useForm<UserSchema>({

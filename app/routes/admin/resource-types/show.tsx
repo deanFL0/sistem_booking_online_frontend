@@ -10,16 +10,16 @@ import { formatDistanceToNow } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import { ResourceTypesApi } from "~/features/resource-types/api/resource-types-api";
 
-export default function AdminServiceDetailPage() {
-    const { serviceId } = useParams<{ serviceId: string }>();
+export default function AdminResourceTypeDetailPage() {
+    const { resourceTypeId } = useParams<{ resourceTypeId: string }>();
 
     const { data: resourceType } = useQuery({
-        queryKey: ["resource-type", serviceId],
+        queryKey: ["resource-type", resourceTypeId],
         queryFn: async () => {
-            const res = await ResourceTypesApi.getById(serviceId!);
+            const res = await ResourceTypesApi.getById(resourceTypeId!);
             return res;
         },
-        enabled: !!serviceId,
+        enabled: !!resourceTypeId,
     });
 
     if (!resourceType) {

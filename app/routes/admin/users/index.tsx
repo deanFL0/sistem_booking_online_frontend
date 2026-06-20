@@ -6,7 +6,7 @@ import { AdminPage } from "~/components/admin/admin-page";
 import { AdminPageHeader } from "~/components/admin/admin-page-header";
 import { UserTable } from "~/features/users/components/user-table";
 
-export default function AdminServicesPage() {
+export default function AdminUsersPage() {
     return (
         <AdminLayout>
             <AdminPage>

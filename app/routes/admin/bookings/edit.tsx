@@ -35,7 +35,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function EditBookingPage() {
+export default function AdminEditBookingPage() {
     const navigate = useNavigate();
     const { bookingId } = useParams<{ bookingId: string }>();
     const queryClient = useQueryClient();

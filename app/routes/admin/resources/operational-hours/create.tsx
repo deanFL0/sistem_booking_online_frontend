@@ -29,7 +29,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateResourcePage() {
+export default function AdminCreateOperationalHoursPage() {
     const { resourceId } = useParams<{ resourceId: string }>();
 
     const navigate = useNavigate();

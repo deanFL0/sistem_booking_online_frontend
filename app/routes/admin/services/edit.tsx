@@ -31,7 +31,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function EditServicePage() {
+export default function AdminEditServicePage() {
     const navigate = useNavigate();
     const { serviceId } = useParams<{ serviceId: string }>();
     const queryClient = useQueryClient();

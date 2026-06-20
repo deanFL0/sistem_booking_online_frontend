@@ -29,7 +29,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateServiceResourceTypePage() {
+export default function AdminCreateServiceResourceTypePage() {
     const { serviceId, resourceTypeId } = useParams<{ serviceId: string, resourceTypeId: string }>();
     const navigate = useNavigate();
 

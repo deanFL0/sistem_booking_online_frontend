@@ -30,7 +30,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function CreateServicePage() {
+export default function AdminCreateServicePage() {
     const navigate = useNavigate();
 
     const form = useForm<ServiceSchema>({

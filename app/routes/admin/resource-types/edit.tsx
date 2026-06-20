@@ -29,7 +29,7 @@ export function FieldError({ message }: FieldErrorProps) {
     );
 }
 
-export default function EditResourceTypePage() {
+export default function AdminEditResourceTypePage() {
     const navigate = useNavigate();
     const { resourceTypeId } = useParams<{ resourceTypeId: string }>();
     const queryClient = useQueryClient();

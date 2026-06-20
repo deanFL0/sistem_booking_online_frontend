@@ -16,7 +16,7 @@ import { useState } from "react";
 import { RescheduleBookingDialog } from "~/features/bookings/components/reschedule-booking-dialog";
 import type { Booking } from "~/features/bookings/type/booking";
 
-export default function BookingDetailPage() {
+export default function AdminBookingDetailPage() {
     const { bookingId } = useParams<{ bookingId: string }>();
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
     const [isOpenRescheduleDialog, setIsOpenRescheduleDialog] = useState(false);
