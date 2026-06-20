@@ -13,6 +13,7 @@ import { useState } from "react"
 import { DeleteConfirmationDialog } from "./delete-confirmation-dialog"
 import { Skeleton } from "../ui/skeleton"
 import { Loader2 } from "lucide-react"
+import { cn } from "~/lib/utils"
 
 declare module "@tanstack/react-table" {
     interface ColumnMeta<
@@ -52,6 +53,7 @@ type Props<TData> = {
     isLoading?: boolean;
     isFetching?: boolean;
     actions?: ActionColumnConfig<TData>;
+    getRowClassName?: (row: TData) => string;
 };
 
 function createNumberColumn<TData>(): ColumnDef<TData> {
@@ -101,6 +103,7 @@ export function DataTable<TData>({
     isLoading,
     isFetching,
     actions,
+    getRowClassName,
 }: Props<TData>) {
     const [deleteDialog, setDeleteDialog] = useState<{
         isOpen: boolean;
@@ -249,7 +252,12 @@ export function DataTable<TData>({
                                     table
                                         .getRowModel()
                                         .rows.map((row) => (
-                                            <TableRow key={row.id}>
+                                            <TableRow
+                                                key={row.id}
+                                                className={cn(
+                                                    getRowClassName?.(row.original)
+                                                )}
+                                            >
                                                 {row
                                                     .getVisibleCells()
                                                     .map((cell) => (

@@ -7,7 +7,6 @@ import { useDebouncedValue } from "~/hooks/use-debounce"
 import { toast } from "sonner"
 import { bookingApi } from "../api/booking-api"
 import type { Booking } from "../type/booking"
-import { includes } from "zod"
 
 export const columns: ColumnDef<Booking>[] = [
     {
@@ -172,28 +171,28 @@ export function BookingTable() {
         <DataTable
             columns={columns}
             data={query.data?.data ?? []}
-
             pageCount={query.data?.meta?.last_page ?? 0}
-
             pagination={pagination}
             onPaginationChange={setPagination}
-
             sorting={sorting}
             onSortingChange={setSorting}
-
             filters={filters}
             onFiltersChange={setFilters}
-
             showNumberColumn={true}
-
             isLoading={query.isLoading}
             isFetching={query.isFetching}
-
             actions={{
                 viewLink: (booking: Booking) => `/admin/bookings/${booking.id}`,
                 editLink: (booking: Booking) => `/admin/bookings/${booking.id}/edit`,
                 onDelete: (booking: Booking) => handleDelete(booking),
                 deleteConfirmationMessage: (booking: Booking) => `Apakah Anda yakin ingin menghapus booking "${booking.booking_code}"?`,
+            }}
+            getRowClassName={(booking) => {
+                if (booking.has_conflict) {
+                    return "border-l-4 bg-yellow-50/50 shadow-[inset_4px_0_0_0_rgb(239_68_68)]";
+                }
+
+                return "";
             }}
         />
     )

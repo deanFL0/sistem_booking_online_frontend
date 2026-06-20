@@ -17,6 +17,8 @@ export interface Booking {
     status: "pending" | "confirmed" | "ongoing" | "completed" | "cancelled" | "no_show";
     completion_notified_at?: string;
     manage_token?: string;
+    has_conflict: boolean;
+    conflict_details: string;
     created_at: string;
     updated_at: string;
 
