@@ -9,7 +9,8 @@ export interface Service {
     formatted_price: string;
     pricing_type: "one_time" | "hourly";
     duration: number;
-    total_price: string;
+    total_price: number;
+    formatted_total_price: string;
     is_active: boolean;
     created_at: string;
     updated_at: string;

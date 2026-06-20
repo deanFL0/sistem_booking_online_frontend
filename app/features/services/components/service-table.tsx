@@ -28,11 +28,11 @@ export const columns: ColumnDef<Service>[] = [
         cell: ({ row }) => {
             return row.original.pricing_type === "one_time" ? (
                 <div>
-                    {row.original.total_price}
+                    {row.original.formatted_total_price}
                 </div>
             ) : (
                 <div className="flex flex-col text-left">
-                    {row.original.total_price}
+                    {row.original.formatted_total_price}
                     <span className="text-xs text-gray-500">
                         {row.original.formatted_price}
                     </span>

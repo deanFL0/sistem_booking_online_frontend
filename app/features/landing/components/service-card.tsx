@@ -34,7 +34,7 @@ export function ServiceCard({
                     </div>
 
                     <p className="font-bold whitespace-nowrap">
-                        {service.total_price}
+                        {service.formatted_total_price}
                     </p>
                 </div>
 

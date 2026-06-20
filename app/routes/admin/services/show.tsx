@@ -82,10 +82,10 @@ export default function AdminServiceDetailPage() {
                             <div className="space-y-2">
                                 <Label>Harga</Label>
                                 {service.pricing_type === "one_time" ? (
-                                    <p>{service.total_price}</p>
+                                    <p>{service.formatted_total_price}</p>
                                 ) : (
                                     <div className="flex flex-col">
-                                        <p>{service.total_price}</p>
+                                        <p>{service.formatted_total_price}</p>
                                         <span className="text-xs text-muted-foreground">{service.formatted_price}</span>
                                     </div>
                                 )}
