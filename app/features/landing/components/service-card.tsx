@@ -43,11 +43,11 @@ export function ServiceCard({
                         {service.duration} menit
                     </p>
 
-                    <Button size="sm" render={<Link to={`/booking?service=${service.id}`} />}>
+                    <Button size="sm" render={<Link to={`/services/${service.id}/book`} />}>
                         Booking
                     </Button>
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     )
 }

@@ -8,6 +8,9 @@ export default [
     // Public Routes
     ...prefix("services", [
         index("routes/services/index.tsx"),
+        ...prefix(":serviceId/", [
+            route("book", "routes/services/booking/create.tsx"),
+        ])
     ]),
 
     //-------------------------------------------
