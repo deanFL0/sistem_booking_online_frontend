@@ -67,6 +67,7 @@ export default function EditServicePage() {
             // Invalidate and refetch both the list and the individual service
             queryClient.invalidateQueries({ queryKey: ["services"] });
             queryClient.invalidateQueries({ queryKey: ["service", serviceId] });
+            queryClient.invalidateQueries({ queryKey: ["service-options"] });
         },
     });
 

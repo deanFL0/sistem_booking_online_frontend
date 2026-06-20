@@ -45,6 +45,9 @@ export default function CreateServicePage() {
             queryClient.invalidateQueries({
                 queryKey: ["services"]
             });
+            queryClient.invalidateQueries({
+                queryKey: ["service-options"]
+            });
         }
     });
 

@@ -61,6 +61,7 @@ export default function EditResourceTypePage() {
             // Invalidate and refetch both the list and the individual resource type
             queryClient.invalidateQueries({ queryKey: ["resource-types"] });
             queryClient.invalidateQueries({ queryKey: ["resource-type", resourceTypeId] });
+            queryClient.invalidateQueries({ queryKey: ["resource-types-options"] });
         },
     });
 

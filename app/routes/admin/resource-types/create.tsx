@@ -43,6 +43,9 @@ export default function CreateResourceTypePage() {
             queryClient.invalidateQueries({
                 queryKey: ["resource-types"]
             });
+            queryClient.invalidateQueries({
+                queryKey: ["resource-types-options"]
+            });
         }
     });
 
