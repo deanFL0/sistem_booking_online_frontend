@@ -127,12 +127,10 @@ export default function Services() {
                 },
                 sorting,
                 filters,
-                includes: ['resourceTypes'], // Add this if you need resource types
             }),
 
         placeholderData: keepPreviousData,
     });
-
 
     return (
         <PublicLayout>

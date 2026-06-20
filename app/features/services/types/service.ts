@@ -4,9 +4,12 @@ export interface Service {
     id: string | number;
     name: string;
     description?: string | null;
+    image_url?: string | null;
     price: number;
+    formatted_price: string;
     pricing_type: "one_time" | "hourly";
     duration: number;
+    total_price: string;
     is_active: boolean;
     created_at: string;
     updated_at: string;

@@ -4,13 +4,11 @@ import { Card, CardContent } from "../../../components/ui/card"
 import { Button } from "../../../components/ui/button"
 import { Link } from "react-router"
 
-import { getServiceImage } from "~/lib/get-service-image"
 import { formatServicePrice } from "~/lib/format-service-price"
 
 interface ServiceCardProps {
     service: Service
 }
-
 export function ServiceCard({
     service,
 }: ServiceCardProps) {
@@ -18,7 +16,7 @@ export function ServiceCard({
         <Card className="overflow-hidden rounded-2xl h-full flex flex-col">
             <div className="aspect-[4/3] shrink-0 overflow-hidden">
                 <img
-                    src={getServiceImage(service.name)}
+                    src={service.image_url ? service.image_url : '/images/service-default.jpg'}
                     alt={service.name}
                     className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                 />
@@ -38,7 +36,7 @@ export function ServiceCard({
                     </div>
 
                     <p className="font-bold whitespace-nowrap">
-                        {formatServicePrice(service)}
+                        {service.total_price}
                     </p>
                 </div>
 

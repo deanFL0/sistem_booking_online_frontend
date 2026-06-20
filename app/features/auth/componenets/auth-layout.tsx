@@ -13,7 +13,7 @@ export function AuthLayout({ title, description, children }: AuthLayoutProps) {
                 {/* Left Side: Barber Shop Cinematic Background */}
                 <div className="relative hidden bg-zinc-900 lg:block">
                     <img
-                        src="/barber-bg.png"
+                        src="/images/auth-bg.jpg"
                         alt="Barber Shop Background"
                         className="absolute inset-0 h-full w-full object-cover"
                     />
