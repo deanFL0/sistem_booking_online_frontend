@@ -14,6 +14,8 @@ type GetBookingsParams = {
     }[]
 
     filters: Record<string, unknown>
+
+    includes?: string[]
 }
 
 export const bookingApi = {
@@ -33,6 +35,16 @@ export const bookingApi = {
         );
 
         return response.data.data;
+    },
+
+    getMyBookings: async (params: GetBookingsParams) => {
+        const query = buildQueryParams(params);
+
+        const response = await api.get(
+            `/my-bookings?${query.toString()}`
+        );
+
+        return response.data;
     },
 
     create: async (data: BookingSchema) => {

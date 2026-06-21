@@ -14,6 +14,7 @@ export interface Booking {
     end_datetime: string;
     duration_minutes: number;
     total_price: number;
+    formatted_total_price: string;
     status: "pending" | "confirmed" | "ongoing" | "completed" | "cancelled" | "no_show";
     completion_notified_at?: string;
     manage_token?: string;
