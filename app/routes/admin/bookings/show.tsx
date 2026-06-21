@@ -16,6 +16,41 @@ import { useState } from "react";
 import { RescheduleBookingDialog } from "~/features/bookings/components/reschedule-booking-dialog";
 import type { Booking } from "~/features/bookings/type/booking";
 
+
+// helper function to safely format dates
+const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+    return date;
+};
+
+// Helper for distance to now
+const formatDistance = (dateString: string | null | undefined) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+    return formatDistanceToNow(date, {
+        addSuffix: true,
+        locale: idLocale,
+    });
+};
+
+// Helper for localized string
+const formatLocalized = (dateString: string | null | undefined) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "-";
+    return date.toLocaleString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+    });
+};
+
 export default function AdminBookingDetailPage() {
     const { bookingId } = useParams<{ bookingId: string }>();
     const [isOpenCancelDialog, setIsOpenCancelDialog] = useState(false);
@@ -96,11 +131,7 @@ export default function AdminBookingDetailPage() {
                             <div className="space-y-2">
                                 <Label>Harga Total</Label>
                                 <p>
-                                    {Intl.NumberFormat("id-ID", {
-                                        style: "currency",
-                                        currency: "IDR",
-                                        maximumFractionDigits: 0,
-                                    }).format(booking.total_price)}
+                                    {booking.formatted_total_price}
                                 </p>
                             </div>
                         </div>
@@ -110,45 +141,17 @@ export default function AdminBookingDetailPage() {
                         <div className="grid grid-cols-3 gap-4">
                             <div className="space-y-2">
                                 <Label>Waktu mulai</Label>
-                                <p>{new Date(booking.start_datetime).toLocaleString("id-ID", {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    timeZoneName: "short",
-                                })}
-                                </p>
+                                <p>{formatLocalized(booking.start_datetime)}</p>
                                 <p className="text-xs text-muted-foreground">
-                                    {formatDistanceToNow(
-                                        new Date(booking.start_datetime),
-                                        {
-                                            addSuffix: true,
-                                            locale: idLocale,
-                                        }
-                                    )}
+                                    {formatDistance(booking.start_datetime)}
                                 </p>
                             </div>
 
                             <div className="space-y-2">
                                 <Label>Waktu selesai</Label>
-                                <p>{new Date(booking.end_datetime).toLocaleString("id-ID", {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    timeZoneName: "short",
-                                })}
-                                </p>
+                                <p>{formatLocalized(booking.end_datetime)}</p>
                                 <p className="text-xs text-muted-foreground">
-                                    {formatDistanceToNow(
-                                        new Date(booking.end_datetime),
-                                        {
-                                            addSuffix: true,
-                                            locale: idLocale,
-                                        }
-                                    )}
+                                    {formatDistance(booking.end_datetime)}
                                 </p>
                             </div>
 
@@ -215,23 +218,9 @@ export default function AdminBookingDetailPage() {
                             <div className="space-y-2">
                                 <Label>Dibuat</Label>
                                 <div>
-                                    <p>{new Date(booking.created_at).toLocaleString("id-ID", {
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        timeZoneName: "short",
-                                    })}
-                                    </p>
+                                    <p>{formatLocalized(booking.created_at)}</p>
                                     <p className="text-xs text-muted-foreground">
-                                        {formatDistanceToNow(
-                                            new Date(booking.created_at),
-                                            {
-                                                addSuffix: true,
-                                                locale: idLocale,
-                                            }
-                                        )}
+                                        {formatDistance(booking.created_at)}
                                     </p>
                                 </div>
                             </div>
@@ -239,23 +228,9 @@ export default function AdminBookingDetailPage() {
                             <div className="space-y-2">
                                 <Label>Terakhir Diperbarui</Label>
                                 <div>
-                                    <p>{new Date(booking.updated_at).toLocaleString("id-ID", {
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        timeZoneName: "short",
-                                    })}
-                                    </p>
+                                    <p>{formatLocalized(booking.updated_at)}</p>
                                     <p className="text-xs text-muted-foreground">
-                                        {formatDistanceToNow(
-                                            new Date(booking.updated_at),
-                                            {
-                                                addSuffix: true,
-                                                locale: idLocale,
-                                            }
-                                        )}
+                                        {formatDistance(booking.updated_at)}
                                     </p>
                                 </div>
                             </div>
