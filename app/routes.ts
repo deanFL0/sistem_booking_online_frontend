@@ -13,6 +13,10 @@ export default [
         ])
     ]),
 
+    ...prefix("my-bookings", [
+        index("routes/bookings/my-bookings.tsx"),
+    ]),
+
     //-------------------------------------------
 
     // Admin Routes
@@ -44,7 +48,7 @@ export default [
         index("routes/admin/resources/index.tsx"),
         route("create", "routes/admin/resources/create.tsx"),
         route(":resourceId", "routes/admin/resources/show.tsx"),
-        route(":id/edit", "routes/admin/resources/edit.tsx"),
+        route(":resourceId/edit", "routes/admin/resources/edit.tsx"),
         // Operational Hours
         ...prefix(":resourceId/operational-hours", [
             route("create", "routes/admin/resources/operational-hours/create.tsx"),
