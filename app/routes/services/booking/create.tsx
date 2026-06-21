@@ -40,7 +40,6 @@ export default function CreateBookingPage() {
     const form = useForm<BookingSchema>({
         resolver: zodResolver(bookingSchema),
         defaultValues: {
-            user_id: user?.id,
             service_id: serviceId,
             customer_name: user?.name,
             customer_email: user?.email,
