@@ -4,6 +4,7 @@ const phoneRegex =
     /^\+?[0-9]\d{1,14}$/;
 
 export const bookingSchema = z.object({
+    user_id: z.number().nullable().optional(),
     service_id: z.string().min(1, "Service wajib dipilih"),
     customer_name: z.string().min(3, "Nama harus memiliki minimal 3 karakter"),
     customer_email: z.string().email("Format email tidak valid"),
