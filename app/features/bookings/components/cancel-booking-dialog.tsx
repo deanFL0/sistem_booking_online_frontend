@@ -46,7 +46,9 @@ export function CancelBookingDialog({ booking }: CancelBookingDialogProps) {
                 }, 1000);
 
                 setOpen(false);
-
+                queryClient.invalidateQueries({ queryKey: ["bookings"] });
+                queryClient.invalidateQueries({ queryKey: ["my-bookings"] });
+                queryClient.invalidateQueries({ queryKey: ["booking", booking.id] });
                 return `Booking ${booking.booking_code} berhasil dibatalkan`;
             },
             error: (error: any) => {
