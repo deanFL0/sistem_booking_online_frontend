@@ -84,7 +84,7 @@ export default function CreateBookingPage() {
             loading: "Menyimpan Booking...",
             success: (data) => {
                 setTimeout(() => {
-                    navigate("/admin/bookings");
+                    navigate("/services");
                 }, 1000);
                 return `Booking ${data.data?.booking_code} berhasil dibuat`;
             },
