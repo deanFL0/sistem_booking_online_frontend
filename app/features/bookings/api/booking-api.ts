@@ -96,7 +96,7 @@ export const bookingApi = {
     // guest booking endpoint
     guestBooking: async (token: string) => {
         const response = await api.get(
-            `/guest-booking/${token}`
+            `/guest-bookings/${token}`
         );
 
         return response.data.data;
@@ -104,7 +104,7 @@ export const bookingApi = {
 
     guestCancel: async (token: string) => {
         const response = await api.post(
-            `/guest-booking/${token}/cancel`
+            `/guest-bookings/${token}/cancel`
         );
 
         return response.data;
@@ -112,7 +112,8 @@ export const bookingApi = {
 
     guestReschedule: async (token: string, data: BookingSchema) => {
         const response = await api.patch(
-            `/guest-booking/${token}/reschedule`
+            `/guest-bookings/${token}/reschedule`,
+            data
         );
 
         return response.data;

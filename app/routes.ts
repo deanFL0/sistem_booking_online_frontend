@@ -15,6 +15,10 @@ export default [
 
     ...prefix("my-bookings", [
         index("routes/bookings/my-bookings.tsx"),
+        route(":bookingId", "routes/bookings/show.tsx"),
+        ...prefix("guest", [
+            route(":token", "routes/guest-bookings/show.tsx"),
+        ])
     ]),
 
     //-------------------------------------------
