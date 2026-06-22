@@ -69,6 +69,8 @@ export function RescheduleBookingDialog({
             loading: "Menjadwalkan ulang Booking...",
             success: () => {
                 onOpenChange(false);
+                queryClient.invalidateQueries({ queryKey: ["my-bookings"] });
+                queryClient.invalidateQueries({ queryKey: ["booking", booking.id] });
                 return `Booking ${booking.booking_code} berhasil dijadwalkan ulang`;
             },
             error: (error: any) => {
