@@ -41,10 +41,6 @@ export function CancelBookingDialog({ booking }: CancelBookingDialogProps) {
         toast.promise(mutationPromise, {
             loading: "Membatalkan Booking...",
             success: () => {
-                setTimeout(() => {
-                    navigate("/admin/bookings");
-                }, 1000);
-
                 setOpen(false);
                 queryClient.invalidateQueries({ queryKey: ["bookings"] });
                 queryClient.invalidateQueries({ queryKey: ["my-bookings"] });
