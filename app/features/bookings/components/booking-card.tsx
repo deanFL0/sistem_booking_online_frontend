@@ -6,6 +6,9 @@ import { Calendar, Clock, MapPin, User, CreditCard, AlertCircle, CheckCircle, XC
 import { Badge } from "~/components/ui/badge";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { CancelBookingDialog } from "./cancel-booking-dialog";
+import { RescheduleBookingDialog } from "./reschedule-booking-dialog";
+import { useState } from "react";
 
 interface BookingCardProps {
     booking: Booking;
@@ -53,6 +56,10 @@ const statusConfig = {
 export function BookingCard({ booking }: BookingCardProps) {
     const status = statusConfig[booking.status] || statusConfig.pending;
     const StatusIcon = status.icon;
+
+    const [isOpenRescheduleDialog, setIsOpenRescheduleDialog] = useState(false);
+    const [rescheduleBooking, setRescheduleBooking] =
+        useState<Booking | null>(null);
 
     const formatDate = (date: string) => {
         return format(new Date(date), "EEEE, d MMMM yyyy", { locale: id });
@@ -153,18 +160,7 @@ export function BookingCard({ booking }: BookingCardProps) {
                     </Button>
 
                     {(booking.status === "pending" || booking.status === "confirmed") && (
-                        <Button
-                            variant="destructive"
-                            size="sm"
-                            className="flex-1 min-w-[150px]"
-                        >
-                            <Link to={`/my-bookings/${booking.id}/cancel`}>
-                                <div className="flex items-center gap-2">
-                                    <XCircle className="h-3.5 w-3.5 mr-1.5" />
-                                    Batalkan
-                                </div>
-                            </Link>
-                        </Button>
+                        <CancelBookingDialog booking={booking} />
                     )}
 
                     {(booking.status === "confirmed" || booking.status === "ongoing") && (
@@ -172,16 +168,26 @@ export function BookingCard({ booking }: BookingCardProps) {
                             variant="outline"
                             size="sm"
                             className="flex-1 min-w-[150px]"
+                            onClick={() => {
+                                setRescheduleBooking(booking);
+                                setIsOpenRescheduleDialog(true);
+                            }}
                         >
-                            <Link to={`/my-bookings/${booking.id}/reschedule`}>
-                                <div className="flex items-center gap-2">
-                                    <Clock className="h-3.5 w-3.5 mr-1.5" />
-                                    Jadwal Ulang
-                                </div>
-                            </Link>
+                            <div className="flex items-center gap-2">
+                                <Clock className="h-3.5 w-3.5 mr-1.5" />
+                                Jadwal Ulang
+                            </div>
                         </Button>
                     )}
                 </div>
+
+                {isOpenRescheduleDialog && rescheduleBooking && (
+                    <RescheduleBookingDialog
+                        booking={rescheduleBooking}
+                        open={isOpenRescheduleDialog}
+                        onOpenChange={setIsOpenRescheduleDialog}
+                    />
+                )}
             </CardContent>
         </Card>
     );
